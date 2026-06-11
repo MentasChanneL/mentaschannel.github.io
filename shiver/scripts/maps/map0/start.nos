@@ -8,7 +8,9 @@ forEach 'i' 'id' 'props' {
     Shiver.placeProp 'var(id)'
     set 'i' var(i) + 1
     World.message 'var(i)/len(props)'
-    wait 1
+    if var(i) % 10 == 0 {
+        wait 1
+    }
 }
 Shiver.removeProp 'parking_2.box1' 0
 Shiver.addZombieSpawn 'pemis1' 1; 2; 3;

@@ -11,11 +11,12 @@ Shiver.spawnLoot 'test' 'box.crafting_table' 247; 57; -20; 0; 0; 0; 1; 1; 1; 0; 
 
 @tick
 Shiver.getPlayers 'players'
-World.message 'Players: var(players)'
 Shiver.trigger 'trigger' 245; 53; -16; 242; 58; -19;
-forEach 'i' 'player' 'trigger' {
-    World.message 'var(player) in trigger'
-}
+#forEach 'i' 'player' 'trigger' {
+#    World.message 'var(player) in trigger'
+#}
+
+World.message 'Players: var(players) | In trigger: len(trigger)'
 
 wait 10
 jump 'tick'

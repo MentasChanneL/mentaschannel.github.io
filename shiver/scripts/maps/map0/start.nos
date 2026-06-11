@@ -6,6 +6,8 @@ Shiver.getSavedProps 'props'
 World.message 'Saved props: len(props) | i=var(i)'
 forEach 'i' 'id' 'props' {
     World.message '1'
+    World.message '1 1 var(id)'
+    World.message '1 1 1 var(id)'
     Shiver.placeProp 'var(id)'
     World.message '2'
     set 'i' var(i) + 1

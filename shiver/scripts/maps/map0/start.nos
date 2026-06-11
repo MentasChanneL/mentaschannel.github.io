@@ -7,7 +7,7 @@ World.message 'Saved props: len(props) | i=var(i)'
 forEach 'i' 'id' 'props' {
     Shiver.placeProp 'var(id)'
     set 'i' var(i) + 1
-    if var(i) % 10 == 0 {
+    if var(i) % 3 == 0 {
         World.message 'var(i)/len(props)'
         wait 1
     }

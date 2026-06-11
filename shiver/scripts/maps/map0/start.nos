@@ -7,5 +7,6 @@ World.message 'hello world'
 World.time 0
 World.weather 'raining'
 World.setBlocks 0; 'glass' 244; 59; -19; 246; 62; -17;
-World.viewDistance 3
 World.sound 'shiver:ambience.saw' 2; 0.5; 244; 59; -19;
+World.viewDistance 3
+World.particle 245; 60; -18; '{"type":"dust","count":50,"spread":{"first":1.0,"second":1.0},"color":-16711681,"size":2.0}'

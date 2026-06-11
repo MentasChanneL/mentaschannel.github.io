@@ -22,11 +22,11 @@ Entity.setModel text(uuid) text(base64 item)
 # Shiver module commands
 Shiver.getPlayers text(variable name)
 Shiver.music text(id)
-Shiver.showHint math(x) math(y) math(z) text(minimessge)
-Shiver.ent text(type) math(x) math(y) math(z) math(yaw) math(pitch)
-Shiver.spawnLoot text(id) math(x) math(y) math(z) ...
+Shiver.showHint math(x) math(y) math(z) math(distance) text(minimessge)
+Shiver.ent text(variable name for uuid) text(type) math(x) math(y) math(z) math(yaw) math(pitch)
+Shiver.spawnLoot text(uuid) text(id) math(x) math(y) math(z) math(yaw) math(pitch) math(roll) math(scaleX) math(scaleY) math(scaleZ) math(offsetX) math(offsetY) math(offsetZ) math(width) math(height)
 Shiver.trigger text(variable name) math(x1) math(y1) math(z1) math(x2) math(y2) math(z2)
 Shiver.addZombieSpawn text(id) math(x) math(y) math(z)
 Shiver.removeZombieSpawn text(id)
 Shiver.clearZombieSpawn
-Shiver.getProp text(id) text(variable name)
+Shiver.getProp text(id) text(variable name for uuid)

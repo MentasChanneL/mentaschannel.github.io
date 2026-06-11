@@ -3,4 +3,4 @@
 #include World
 #include Shiver
 
-print 'hello world'
+World.message 'hello world'

@@ -2,6 +2,7 @@
 World.setGlobal text(name) any(value)
 forEach text(variable-index) text(variable-value) text(variable-list) block(code)
 
+World.message text(minimessage)
 World.time math(time)
 World.weather text(clear/raining/thunder)
 World.viewDistance math(2-32 or -1)

@@ -3,20 +3,17 @@
 #include World
 #include Shiver
 
-World.message 'Start'
+World.message 'start
+Shiver.getSavedProps 'props'
 
-Shiver.showHint 241; 60; -20; 1; '<gold>penis!!'
-Shiver.ent '*' '9' 241; 60; -20; 0; 0;
-Shiver.spawnLoot 'test' 'box.crafting_table' 247; 57; -20; 0; 0; 0; 1; 1; 1; 0; 0; 0; 1; 1;
-
-@tick
-Shiver.getPlayers 'players'
-Shiver.trigger 'trigger' 245; 53; -16; 242; 58; -19;
-forEach 'i' 'player' 'trigger' {
-    World.message 'var(player) in trigger'
+forEach 'i' 'id' 'props' {
+    Shiver.placeProp 'var(id)'
+    set 'i' var(i) + 1
+    World.message 'var(i)/len(props)'
+    wait 1
 }
-
-World.message 'Players: var(players) | In trigger: len(trigger)'
-
-wait 10
-jump 'tick'
+Shiver.removeProp 'parking_2.box1' 0
+Shiver.addZombieSpawn 'pemis1' 1; 2; 3;
+Shiver.addZombieSpawn 'pemis2' 1; 2; 3;
+Shiver.removeZombieSpawn 'pemis2'
+World.message 'end'

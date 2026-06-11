@@ -4,12 +4,18 @@
 World.message 'start'
 Shiver.getSavedProps 'props'
 World.message 'Saved props: len(props) | i=var(i)'
+print '3'
+wait 20
+print '2'
+wait 20
+print '1'
+wait 20
 forEach 'i' 'id' 'props' {
     Shiver.placeProp 'var(id)'
     set 'i' var(i) + 1
     if var(i) % 3 == 0 {
         World.message 'var(i)/len(props)'
-        wait 1
+        wait 2
     }
 }
 Shiver.removeProp 'parking_2.box1' 0

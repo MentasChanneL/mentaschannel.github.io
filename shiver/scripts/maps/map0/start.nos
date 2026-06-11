@@ -10,3 +10,16 @@ World.setBlocks 0; 'glass' 244; 59; -19; 246; 62; -17;
 World.sound 'shiver:ambience.saw' 2; 0.5; 244; 59; -19;
 World.viewDistance 3
 World.particle 245; 60; -18; '{"type":"dust","count":50,"spread":{"first":1.0,"second":1.0}}'
+
+Entity.spawn 'zobi' 245; 63; -18; 'e2NvdW50OjEsaWQ6Im1pbmVjcmFmdDp6b21iaWVfc3Bhd25fZWdnIn0='
+wait 10
+Entity.tp 'var(zobi)' 247; 57; -21; 0; 0;
+wait 20
+Entity.setRotation 'var(zobi)' 90; -90
+wait 20
+Entity.offsetCoord 'var(zobi)' 'y' 5
+wait 20
+Entity.setCoord 'var(zobi)' 'y' 62
+wait 20
+Entity.remove 'var(zobi)'
+World.message 'end'

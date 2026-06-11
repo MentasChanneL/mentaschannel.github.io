@@ -10,12 +10,14 @@ World.particle math(x) math(y) math(z) text(json particle)
 World.sound text(sound) math(volume) math(pitch) math(x) math(y) math(z)
 World.setBlocks math(updates) text(block) math(x1) math(y1) math(z1) math(x2) math(y2) math(z2)
 
-World.spawn text(variable name for uuid) math(x) math(y) math(z) text(base64)
-World.entityRemove text(uuid)
-World.tp text(uuid) math(x) math(y) math(z) math(yaw) math(pitch)
-World.setCoord text(uuid) text(coord) math(value)
-World.offsetCoord text(uuid) text(coord) math(offset)
-
+# Entity module commands
+Entity.spawn text(variable name for uuid) math(x) math(y) math(z) text(base64 item)
+Entity.remove text(uuid)
+Entity.tp text(uuid) math(x) math(y) math(z) math(yaw) math(pitch)
+Entity.setCoord text(uuid) text(coord) math(value)
+Entity.offsetCoord text(uuid) text(coord) math(offset)
+Entity.setRotation text(uuid) math(yaw) math(pitch)
+Entity.setModel text(uuid) text(base64 item)
 
 # Shiver module commands
 Shiver.getPlayers text(variable name)
@@ -27,3 +29,4 @@ Shiver.trigger text(variable name) math(x1) math(y1) math(z1) math(x2) math(y2) 
 Shiver.addZombieSpawn text(id) math(x) math(y) math(z)
 Shiver.removeZombieSpawn text(id)
 Shiver.clearZombieSpawn
+Shiver.getProp text(id) text(variable name)

@@ -3,7 +3,7 @@
 #include World
 #include Shiver
 
-World.message 'start
+World.message 'start'
 Shiver.getSavedProps 'props'
 
 forEach 'i' 'id' 'props' {

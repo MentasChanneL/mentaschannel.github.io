@@ -4,9 +4,9 @@ forEach text(variable-index) text(variable-value) text(variable-list) block(code
 
 World.time math(time)
 World.weather text(clear/raining/thunder)
-World.viewDistance math(2-32)
+World.viewDistance math(2-32 or -1)
 World.particle math(x) math(y) math(z) text(json particle)
-World.sound text(sound) math(volume) math(pitch) math(x) math(y) math(z)
+World.sound text(sound) math(volume) math(pitch) mуath(x) math(y) math(z)
 World.setBlocks math(updates) text(block) math(x1) math(y1) math(z1) math(x2) math(y2) math(z2)
 
 World.spawn text(variable name for uuid) math(x) math(y) math(z) text(base64)

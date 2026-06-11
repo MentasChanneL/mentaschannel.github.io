@@ -1,4 +1,6 @@
 # Shiver map script | By 2M3V
 
 #include World
+#include Shiver
 
+print 'hello world'

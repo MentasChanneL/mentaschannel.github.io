@@ -1,0 +1,167 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "NOS",
+	"patterns": [
+    	{ "include": "#comments" },
+    	{ "include": "#labels" },
+    	{ "include": "#block" },
+		{ "include": "#operations" },
+    	{ "include": "#commands" }
+	],
+	"repository": {
+    	"comments": {
+    		"name": "comment.line.number-sign.nos",
+    		"match": "#.*$"
+    	},
+		"labels": {
+    		"name": "entity.name.label.nos",
+    		"match": "^\\s*@([a-zA-Z_]\\w*)\\b"
+    	},
+    	"block": {
+    	  "patterns": [
+    	    {
+    	      "name": "punctuation.section.block.begin.nos",
+    	      "match": "\\{"
+    	    },
+    	    {
+    	      "name": "punctuation.section.block.end.nos",
+    	      "match": "\\}"
+    	    }
+    	  ]
+    	},
+		"operations": {
+			"patterns": [
+				{
+    	    	  "begin": "^(\\s*)(?=(forEach)\\b)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {"include": "#string"},
+  					{"include": "#block"}
+    	    	  ]
+    	    	}
+			]
+		},
+    	"commands": {
+    	  "patterns": [
+    	    	{
+    	    	  "begin": "^(\\s*)(?=(print|jump|set|wait|if|signal|actionbar|pass)\\b)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {
+    	    	      "include": "#arguments"
+    	    	    }
+    	    	  ]
+    	    	},
+				{
+    	    	  "begin": "^(\\s*)(Sentry\\.[^\\s]+)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {
+    	    	      "include": "#arguments"
+    	    	    }
+    	    	  ]
+    	    	},
+				{
+    	    	  "begin": "^(\\s*)(Immunator\\.[^\\s]+)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {
+    	    	      "include": "#arguments"
+    	    	    }
+    	    	  ]
+    	    	},
+				{
+    	    	  "begin": "^(\\s*)(C4\\.[^\\s]+)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {
+    	    	      "include": "#arguments"
+    	    	    }
+    	    	  ]
+    	    	},
+				{
+    	    	  "begin": "^(\\s*)(Radar\\.[^\\s]+)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {
+    	    	      "include": "#arguments"
+    	    	    }
+    	    	  ]
+    	    	},
+				{
+    	    	  "begin": "^(\\s*)(World\\.[^\\s]+)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {
+    	    	      "include": "#arguments"
+    	    	    }
+    	    	  ]
+    	    	},
+				{
+    	    	  "begin": "^(\\s*)(Shiver\\.[^\\s]+)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {
+    	    	      "include": "#arguments"
+    	    	    }
+    	    	  ]
+    	    	}
+    		]
+    	},
+    	"arguments": {
+    	  "patterns": [
+    	    {
+    	      "include": "#string"
+    	    },
+    	    {
+    	      "include": "#number"
+    	    },
+    	    {
+    	      "include": "#variable"
+    	    },
+    	    {
+    	      "name": "text.argument.nos",
+    	      "match": "[^\\s]+"
+    	    }
+    	  ]
+    	},
+    	"string": {
+    	  "name": "string.quoted.single.nos",
+    	  "begin": "'",
+    	  "end": "'"
+    	},
+    	"number": {
+    	  "name": "constant.numeric.nos",
+    	  "match": "-?\\d+(\\.\\d+)?"
+    	},
+    	"variable": {
+    	  "name": "variable.other.nos",
+    	  "match": "var\\([^)]*\\)"
+    	}
+	},
+	"scopeName": "source.nos"
+}

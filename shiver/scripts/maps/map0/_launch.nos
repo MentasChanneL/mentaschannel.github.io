@@ -1,8 +1,20 @@
-# isOp
 # Shiver map script | REPIS
 
 # Scripts load
 
 loadScript 'maps/common/prepare'
+loadScript 'maps/map0/_join'
 
 # Loading wait
+@scriptsLoading
+wait 2
+getLoadingScriptsAmount 'inLoading'
+if var(inLoading) > 0 {
+    jump 'scriptsLoading'
+}
+
+# Prepare
+setGlobal 'mapTitle' '<white>🌊 Маяк'
+
+# Default prepare
+runInLine 'maps/common/prepare'

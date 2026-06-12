@@ -1,15 +1,10 @@
-# isOp
 # Shiver map script | REPIS
 # Перед вызовом установить следующие глобальные переменные:
 #   mapTitle - Отображаемое имя карты minimessage (🌊 Маяк, ★ Покинутый отель и т.п.)
-#   blackBoxX - X координата в черной коробке под картой, куда телепортируются игроки
-#   blackBoxY - Y координата в черной коробке под картой, куда телепортируются игроки
-#   blackBoxZ - Z координата в черной коробке под картой, куда телепортируются игроки
 
 World.time 1000
 World.weather 'clear'
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
-    Entity.tp 'var(ply)' global(blackBoxX); global(blackBoxY); global(blackBoxZ);
-    Entity.effect 'var(ply)' 'invisibility' -1; 0; 0; 0; 1;
+    Shiver.resetPlayer 'var(ply)'
 }

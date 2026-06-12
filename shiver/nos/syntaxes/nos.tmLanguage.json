@@ -14,8 +14,12 @@
     		"match": "#.*$"
     	},
 		"labels": {
-    		"name": "entity.name.label.nos",
-    		"match": "^\\s*@([a-zA-Z_]\\w*)\\b"
+    		"name": "support.function",
+    	  	"begin": "@",
+    	  	"end": "(?= |$)",
+			"patterns": [
+				{"include": "#commands"}
+			]
     	},
     	"block": {
     	  "patterns": [
@@ -32,7 +36,7 @@
 		"operations": {
 			"patterns": [
 				{
-    	    	  "begin": "^(\\s*)(?=(forEach)\\b)",
+    	    	  "begin": "^(\\s*)(?=(forEach|run|runInLine|loadScript|getLoadingScriptsAmount|cancelScript|message|setGlobal)\\b)",
     	    	  "end": "(?=\\n|$)",
     	    	  "beginCaptures": {
     	    	    "2": { "name": "keyword.control.command.nos" }
@@ -62,7 +66,7 @@
     	    	  "begin": "^(\\s*)(Sentry\\.[^\\s]+)",
     	    	  "end": "(?=\\n|$)",
     	    	  "beginCaptures": {
-    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	    "2": { "name": "support.type" }
     	    	  },
     	    	  "patterns": [
     	    	    {
@@ -74,7 +78,7 @@
     	    	  "begin": "^(\\s*)(Immunator\\.[^\\s]+)",
     	    	  "end": "(?=\\n|$)",
     	    	  "beginCaptures": {
-    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	    "2": { "name": "support.type" }
     	    	  },
     	    	  "patterns": [
     	    	    {
@@ -86,7 +90,7 @@
     	    	  "begin": "^(\\s*)(C4\\.[^\\s]+)",
     	    	  "end": "(?=\\n|$)",
     	    	  "beginCaptures": {
-    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	    "2": { "name": "support.type" }
     	    	  },
     	    	  "patterns": [
     	    	    {
@@ -98,7 +102,7 @@
     	    	  "begin": "^(\\s*)(Radar\\.[^\\s]+)",
     	    	  "end": "(?=\\n|$)",
     	    	  "beginCaptures": {
-    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	    "2": { "name": "support.type" }
     	    	  },
     	    	  "patterns": [
     	    	    {
@@ -110,7 +114,7 @@
     	    	  "begin": "^(\\s*)(World\\.[^\\s]+)",
     	    	  "end": "(?=\\n|$)",
     	    	  "beginCaptures": {
-    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	    "2": { "name": "support.type" }
     	    	  },
     	    	  "patterns": [
     	    	    {
@@ -122,7 +126,19 @@
     	    	  "begin": "^(\\s*)(Shiver\\.[^\\s]+)",
     	    	  "end": "(?=\\n|$)",
     	    	  "beginCaptures": {
-    	    	    "2": { "name": "keyword.control.command.nos" }
+    	    	    "2": { "name": "support.type" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {
+    	    	      "include": "#arguments"
+    	    	    }
+    	    	  ]
+    	    	},
+				{
+    	    	  "begin": "^(\\s*)(Entity\\.[^\\s]+)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "support.type" }
     	    	  },
     	    	  "patterns": [
     	    	    {
@@ -138,10 +154,13 @@
     	      "include": "#string"
     	    },
     	    {
-    	      "include": "#number"
+    	      "include": "#variable"
     	    },
     	    {
-    	      "include": "#variable"
+    	      "include": "#global"
+    	    },
+			{
+    	      "include": "#number"
     	    },
     	    {
     	      "name": "text.argument.nos",
@@ -150,17 +169,22 @@
     	  ]
     	},
     	"string": {
-    	  "name": "string.quoted.single.nos",
+    	  "name": "string",
     	  "begin": "'",
     	  "end": "'"
+    	},
+		"variable": {
+    	  "name": "variable.other.nos",
+		  "begin": "var\\(",
+		  "end": "\\)"
     	},
     	"number": {
     	  "name": "constant.numeric.nos",
     	  "match": "-?\\d+(\\.\\d+)?"
     	},
-    	"variable": {
-    	  "name": "variable.other.nos",
-    	  "match": "var\\([^)]*\\)"
+    	"global": {
+    	  "name": "variable.other.global",
+    	  "match": "global\\([^)]*\\)"
     	}
 	},
 	"scopeName": "source.nos"

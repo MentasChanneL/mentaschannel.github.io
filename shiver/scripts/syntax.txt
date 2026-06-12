@@ -1,8 +1,14 @@
-# World module commands
-World.setGlobal text(name) any(value)
+# Op module commands
+setGlobal text(name) any(value)
 forEach text(variable-index) text(variable-value) text(variable-list) block(code)
-World.message text(minimessage)
+message text(minimessage)
+loadScript text(script path)
+getLoadingScriptsAmount text(variable name)
+runInLine text(script path)
+run text(script path) text(variable for uuid)
+cancelScript text(script uuid)
 
+# World module commands
 World.time math(time)
 World.weather text(clear/raining/thunder)
 World.viewDistance math(2-32 or -1)
@@ -17,7 +23,21 @@ Entity.tp text(uuid) math(x) math(y) math(z) math(yaw) math(pitch)
 Entity.setCoord text(uuid) text(coord) math(value)
 Entity.offsetCoord text(uuid) text(coord) math(offset)
 Entity.setRotation text(uuid) math(yaw) math(pitch)
-Entity.setModel text(uuid) text(base64 item)
+Entity.effect text(uuid) text(type) math(duration) math(amplifier) math(showParticles) math(showIcon) math(override)
+effects {
+    invisibility
+    blindness
+    darkness
+    slowness
+}
+Entity.attribute text(uuid) text(id) math(value)
+Entity.getVelocity text(uuid) text(variable prefix name (e.g. 'vel' -> 'vel.x', 'vel.y', 'vel.z'))
+Entity.setVelocity text(uuid) math(x) math(y) math(z)
+Entity.damage text(uuid) math(amount) text(damager)
+Entity.displaySetScale text(uuid) math(x) math(y) math(z)
+Entity.displaySetOffset text(uuid) math(x) math(y) math(z)
+Entity.displaySetModel text(uuid) text(base64 item)
+Entity.spawnItemDsiplay text(variable name for uuid) math(x) math(y) math(z) math(yaw) math(pitch) text(item base64)
 
 # Shiver module commands
 Shiver.getPlayers text(variable name)
@@ -35,3 +55,8 @@ Shiver.removeZombieSpawn text(id)
 Shiver.clearZombieSpawn
 Shiver.showActionbar math(speed) text(prefix) text(text)
 Shiver.title math(fade in) math(time) math(fade out) text(title minimessage) text(subtitle minimessage)
+Shiver.resetPlayer text(player)
+Shiver.setProgressBar math(progress 0..1) math(count)
+Shiver.setBossbarTitle text(minimessage)
+Shiver.setBossbarEffect text(none/fog/dark_sky/fog_and_dark_sky)
+Shiver.clearMap

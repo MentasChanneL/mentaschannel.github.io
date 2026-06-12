@@ -1,0 +1,8 @@
+# isOp
+# Shiver map script | REPIS
+
+# Scripts load
+
+loadScript 'maps/common/prepare'
+
+# Loading wait

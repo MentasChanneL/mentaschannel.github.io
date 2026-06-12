@@ -15,7 +15,7 @@ forEach 'i' 'id' 'props' {
     set 'i' var(i) + 1
     if var(i) % 3 == 0 {
         World.message 'var(i)/len(props)'
-        wait 2
+        wait 10
     }
 }
 Shiver.removeProp 'parking_2.box1' 0

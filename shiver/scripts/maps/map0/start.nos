@@ -11,7 +11,7 @@ wait 20
 print '1'
 wait 20
 forEach 'i' 'id' 'props' {
-    Shiver.placeProp 'var(id)'
+    #Shiver.placeProp 'var(id)'
     set 'i' var(i) + 1
     if var(i) % 3 == 0 {
         World.message 'var(i)/len(props)'

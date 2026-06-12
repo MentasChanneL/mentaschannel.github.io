@@ -1,0 +1,15 @@
+message '\nstart\n'
+loadScript 'test2'
+
+# Loading wait
+@scriptsLoading
+wait 2
+getLoadingScriptsAmount 'inLoading'
+if var(inLoading) > 0 {
+    message 'wait...'
+    jump 'scriptsLoading'
+}
+
+message 'loaded'
+runInLine 'test2'
+message 'full end'

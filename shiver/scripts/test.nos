@@ -1,15 +1,31 @@
-message '\nstart\n'
-loadScript 'test2'
+# | Produced by the PMC AVANS
 
-# Loading wait
-@scriptsLoading
-wait 2
-getLoadingScriptsAmount 'inLoading'
-if var(inLoading) > 0 {
-    message 'wait...'
-    jump 'scriptsLoading'
+# Initialization
+wait 5
+
+set 'angle' 45
+set 'd' 1
+set 'phase' wrap(var(sentry.init_yaw) + var(angle), 0, 360)
+
+Sentry.moveYaw var(phase)
+Sentry.laser 1
+
+# Tick
+@lifecycle
+
+if var(sentry.laser.is_enemy) {
+  Sentry.aim var(sentry.laser.target)
+  Sentry.fire 1
+  @while if var(sentry.laser.is_enemy) { jump 'while' }
+  Sentry.fire 0
+  Sentry.aim 0
 }
 
-message 'loaded'
-runInLine 'test2'
-message 'full end'
+if abs(wrap((var(phase) - var(sentry.yaw)) + 180, 0, 360) - 180) <= 2 {
+  set 'd' var(d) * -1
+  set 'phase' wrap(var(sentry.init_yaw) + var(angle) * var(d), 0, 360)
+  Sentry.moveYaw var(phase)
+  signal 2
+}
+
+jump lifecycle

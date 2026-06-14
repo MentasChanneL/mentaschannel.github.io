@@ -1,6 +1,10 @@
 # Shiver map script | REPIS
 # Перед вызовом установить следующие глобальные переменные:
-#   mapTitle - Отображаемое имя карты minimessage (🌊 Маяк, ★ Покинутый отель и т.п.)
+#   MAP_TITLE - Отображаемое имя карты minimessage (🌊 Маяк, ★ Покинутый отель и т.п.)
+#   PREPARE_TIME - Время на подготовку в тиках
+#   LOOT_CHANCE - Шанс появление лута
+
+#set 'message_prepare' '⌛ <font:shiver:smol>п<font:minecraft:default>ᴏ<font:shiver:smol>дг<font:minecraft:default>ᴏᴛᴏʙᴋᴀ ᴍ<font:shiver:smol>и<font:minecraft:default>ᴘᴀ'
 
 World.time 1000
 World.weather 'clear'
@@ -8,3 +12,32 @@ Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.resetPlayer 'var(ply)'
 }
+Shiver.title 30; 100; 0; 'global(MAP_TITLE)' ' '
+wait 60
+Shiver.title 0; 100; 0; 'global(MAP_TITLE)' '⌛ Размещение пропов: 0%'
+Shiver.clearMap
+Shiver.getSavedProps 'props'
+forEach 'i' 'id' 'props' {
+    Shiver.placeProp 'var(id)'
+    if (var(i) + 1) % 3 == 0 {
+        set 'process' floor((var(i) / len(props)) * 100)
+        Shiver.title 0; 60; 0; 'global(MAP_TITLE)' '⌛ Размещение пропов: var(process)%'
+        wait 2
+    }
+}
+Shiver.getSavedLootAmount 'loot'
+set 'maxLoot' var(loot)
+@lootSpawn
+if var(loot) > 0 {
+    if var(loot) % 5 == 0 {
+        set 'process' floor(1 - (var(loot) / var(maxLoot)) * 100)
+        Shiver.title 0; 60; 0; 'global(MAP_TITLE)' '⌛ Размещение лута: var(process)%'
+        wait 1
+    }
+    set 'loot' var(loot) - 1
+    if $random < global(LOOT_CHANCE) {
+        Shiver.placeLoot var(loot)
+    }
+    jump 'lootSpawn'
+}
+message '\ncomplete\n'

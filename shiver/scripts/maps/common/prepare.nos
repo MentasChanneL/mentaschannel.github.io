@@ -22,7 +22,7 @@ forEach 'i' 'id' 'props' {
     if (var(i) + 1) % 3 == 0 {
         set 'process' floor(((var(i) + 1) / len(props)) * 100)
         Shiver.title 0; 60; 0; 'global(MAP_TITLE)' '⌛ Размещение пропов: var(process)%'
-        wait 3
+        wait 2
     }
 }
 Shiver.getSavedLoot 'loot'

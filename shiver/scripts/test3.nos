@@ -1,0 +1,15 @@
+
+message '1'
+
+@tick
+Shiver.getPlayers 'players'
+Shiver.trigger 'trigger' 241; 58; 0; 236; 63; 6;
+forEach 'i' 'player' 'trigger' {
+    message 'var(player) тригернуло'
+}
+message 'var(players) and len(trigger)'
+message '1 var(i)'
+wait 5
+jump 'tick'
+
+message '1'

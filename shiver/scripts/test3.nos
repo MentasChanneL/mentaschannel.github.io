@@ -1,3 +1,12 @@
 
 message '1'
-Shiver.showHint 240; 61; 3; 1; 'Test'
+
+@test
+Shiver.getPlayer 'x'
+Shiver.trigger 'trigger' 241; 58; 0; 236; 63; 6;
+forEach 'i' 'x' 'trigger' {
+    message 'var(x) тригернуло'
+}
+wait 5
+jump 'tick'
+

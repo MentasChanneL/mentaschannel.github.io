@@ -10,3 +10,4 @@ forEach 'i' 'x' 'trigger' {
 wait 5
 jump 'tick'
 
+message '1'

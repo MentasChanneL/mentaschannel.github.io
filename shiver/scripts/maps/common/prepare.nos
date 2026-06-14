@@ -11,10 +11,10 @@ World.weather 'clear'
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.resetPlayer 'var(ply)'
+    Entity.effect 'var(ply)' 'invisibility' -1; 0; 0; 0; 1;
 }
-Shiver.title 30; 100; 0; 'global(MAP_TITLE)' ' '
+Shiver.title 30; 120; 0; 'global(MAP_TITLE)' ' '
 wait 60
-Shiver.title 0; 100; 0; 'global(MAP_TITLE)' '⌛ Размещение пропов: 0%'
 Shiver.clearMap
 Shiver.getSavedProps 'props'
 forEach 'i' 'id' 'props' {
@@ -25,19 +25,16 @@ forEach 'i' 'id' 'props' {
         wait 2
     }
 }
-Shiver.getSavedLootAmount 'loot'
-set 'maxLoot' var(loot)
-@lootSpawn
-if var(loot) > 0 {
-    if var(loot) % 5 == 0 {
+Shiver.getSavedLoot 'loot'
+forEach 'i' 'id' 'loot' {
+    if $random < global(LOOT_CHANCE) {
+        Shiver.placeLoot var(loot)
+    }
+    if (var(i) + 1) % 3 == 0 {
         set 'process' floor(1 - (var(loot) / var(maxLoot)) * 100)
         Shiver.title 0; 60; 0; 'global(MAP_TITLE)' '⌛ Размещение лута: var(process)%'
         wait 1
     }
-    set 'loot' var(loot) - 1
-    if $random < global(LOOT_CHANCE) {
-        Shiver.placeLoot var(loot)
-    }
-    jump 'lootSpawn'
 }
+
 message '\ncomplete\n'

@@ -60,6 +60,6 @@ Shiver.setProgressBar math(progress 0..1) math(count)
 Shiver.setBossbarTitle text(minimessage)
 Shiver.setBossbarEffect text(none/fog/dark_sky/fog_and_dark_sky)
 Shiver.clearMap
-Shiver.getSavedLootAmount text(variable name)
-Shiver.placeLoot math(index)
+Shiver.getSavedLoot text(variable name)
+Shiver.placeLoot text(id)
 Shiver.STAGE math(3 - game; 4 - end game)

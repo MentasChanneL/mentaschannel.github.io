@@ -8,7 +8,7 @@ forEach 'i' 'x' 'trigger' {
     message 'var(x) тригернуло'
 }
 message 'var(x) and var(trigger)'
-message 'var(i)'
+message '1 var(i)'
 wait 5
 jump 'tick'
 

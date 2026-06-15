@@ -35,4 +35,4 @@ forEach '*' 'ply' 'players' {
 
 setGlobal 'PREPARE_TIME' 90
 setGlobal 'TICK_HANDLER' 'maps/common/wave_tick'
-run 'maps/common/prepare'
+run 'maps/common/prepare' '*'

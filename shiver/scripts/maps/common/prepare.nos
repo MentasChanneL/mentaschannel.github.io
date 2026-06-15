@@ -17,4 +17,4 @@ if var(time) > 0 {
     jump 'while'
 }
 
-run 'global(TICK_HANDLER)'
+run 'global(TICK_HANDLER)' '*'

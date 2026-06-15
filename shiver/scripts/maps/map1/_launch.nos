@@ -18,10 +18,11 @@ if var(inLoading) > 0 {
 setGlobal 'MAP_TITLE' '<white>🌊 Маяк'
 setGlobal 'PREPARE_TIME' 1800
 setGlobal 'LOOT_CHANCE' 0.7
-Shiver.addZombieSpawn 'default' 218.5; 42; 18.5; 180; 0
 
 # Default
 runInLine 'maps/common/launch'
+
+Shiver.addZombieSpawn 'default' 218.5; 42; 18.5; 180; 0
 
 # Cutscenes
 

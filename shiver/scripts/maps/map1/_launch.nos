@@ -1,7 +1,9 @@
 # Shiver map script | REPIS
 
 # Scripts load
+loadScript 'maps/common/launch'
 loadScript 'maps/common/prepare'
+loadScript 'maps/common/wave_tick'
 loadScript 'maps/map0/_join'
 
 ## Loading wait
@@ -16,6 +18,21 @@ if var(inLoading) > 0 {
 setGlobal 'MAP_TITLE' '<white>🌊 Маяк'
 setGlobal 'PREPARE_TIME' 1800
 setGlobal 'LOOT_CHANCE' 0.7
+Shiver.addZombieSpawn 'default' 218.5; 42; 18.5; 180; 0
 
-# Default prepare
-runInLine 'maps/common/prepare'
+# Default
+runInLine 'maps/common/launch'
+
+# Cutscenes
+
+
+# Spawn
+Shiver.getPlayers 'players'
+forEach '*' 'ply' 'players' {
+    Shiver.resetPlayer 'var(ply)'
+    Entity.tp 'var(ply)' 218; 42; -73; 0; 0;
+}
+
+setGlobal 'PREPARE_TIME' 90
+setGlobal 'TICK_HANDLER' 'maps/common/wave_tick'
+run 'maps/common/prepare'

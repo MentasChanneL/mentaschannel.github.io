@@ -27,11 +27,12 @@ Shiver.addZombieSpawn 'default' 218.5; 42; 18.5; 180; 0
 
 # Cutscenes
 parallel '*' {
-    message 'parallel'
     Shiver.getCameraDuration 'map1.camera1' 'w'
     wait var(w)
-    message 'parallel1'
     World.weather 'thunder'
+    Shiver.getCameraDuration 'map1.camera2' 'w'
+    wait var(w)
+    Entity.lightingbolt 290; 43; -38;
 }
 list 'cameras'
 list.add 'cameras' 'map1.camera1'

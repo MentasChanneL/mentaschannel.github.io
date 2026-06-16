@@ -26,11 +26,27 @@ World.time 13100
 Shiver.addZombieSpawn 'default' 218.5; 42; 18.5; 180; 0
 
 # Cutscenes
-Shiver.getCameraDuration 'map1.camera1' 'duration'
-Shiver.runCamera 'map1.camera1'
-message 'var(duration)'
-
-wait var(duration)
+parallel '*' {
+    Shiver.getCameraDuration 'map1.camera1' 'w'
+    wait var(w)
+    World.weather 'thunder'
+}
+list 'cameras'
+list.add 'cameras' 'map1.camera1'
+list.add 'cameras' 'map1.camera2'
+list.add 'cameras' 'map1.camera4'
+forEach '*' 'camera' 'cameras' {
+    Shiver.spawnCamera 'var(camera)'
+}
+wait 1
+forEach '*' 'camera' 'cameras' {
+    Shiver.getCameraDuration 'var(camera)' 'duration'
+    numList 'frames' 0; var(duration); 1;
+    forEach '*' 'frame' 'frames' {
+        Shiver.cameraFrame 'var(camera)'
+        wait 1
+    }
+}
 
 message '123'
 

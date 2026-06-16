@@ -51,7 +51,7 @@
     	"commands": {
     	  "patterns": [
     	    	{
-    	    	  "begin": "^(\\s*)(?=(print|jump|set|wait|if|signal|actionbar|pass)\\b)",
+    	    	  "begin": "^(\\s*)(?=(print|jump|set|wait|if|signal|actionbar|pass|list|dict|cancelScript|numList|parallel)\\b)",
     	    	  "end": "(?=\\n|$)",
     	    	  "beginCaptures": {
     	    	    "2": { "name": "keyword.control.command.nos" }
@@ -136,6 +136,42 @@
     	    	},
 				{
     	    	  "begin": "^(\\s*)(Entity\\.[^\\s]+)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "support.type" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {
+    	    	      "include": "#arguments"
+    	    	    }
+    	    	  ]
+    	    	},
+				{
+    	    	  "begin": "^(\\s*)(Player\\.[^\\s]+)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "support.type" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {
+    	    	      "include": "#arguments"
+    	    	    }
+    	    	  ]
+    	    	},
+				{
+    	    	  "begin": "^(\\s*)(list\\.[^\\s]+)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "support.type" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {
+    	    	      "include": "#arguments"
+    	    	    }
+    	    	  ]
+    	    	},
+				{
+    	    	  "begin": "^(\\s*)(dict\\.[^\\s]+)",
     	    	  "end": "(?=\\n|$)",
     	    	  "beginCaptures": {
     	    	    "2": { "name": "support.type" }

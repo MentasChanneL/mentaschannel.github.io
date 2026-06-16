@@ -6,6 +6,7 @@
 
 set 'time' global(PREPARE_TIME)
 
+message '123 math(var(time) / global(PREPARE_TIME))'
 @while
 if var(time) > 0 {
     message 'math(var(time) / global(PREPARE_TIME))'

@@ -8,6 +8,7 @@ set 'time' global(PREPARE_TIME)
 
 @while
 if var(time) > 0 {
+    message 'math(var(time) / global(PREPARE_TIME))'
     Shiver.setProgressBar var(time) / global(PREPARE_TIME); 0;
     wait 20
     set 'time' var(time) - 1

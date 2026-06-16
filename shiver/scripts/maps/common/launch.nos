@@ -34,11 +34,9 @@ forEach 'i' 'id' 'loot' {
     }
     if (var(i) + 1) % 3 == 0 {
         Shiver.title 0; 60; 0; 'global(MAP_TITLE)' '⌛ Размещение лута: math(floor(((var(i) + 1) / len(loot)) * 100))%'
-        wait 2
+        wait 3
     }
 }
 Shiver.title 0; 60; 0; 'global(MAP_TITLE)' '⌛ Размещение лута: 100%'
 wait 20
 Shiver.title 0; 60; 0; '' ''
-
-message '\ncomplete\n'

@@ -15,6 +15,7 @@ list.remove text(list-variable name) math(index)
 dict text(variable name)
 dict.set text(dict-variable name) text(key) text(value)
 dict.remove text(dict-variable name) text(key)
+dict.keys text(dict-variable name) text(variable name)
 
 # World module commands
 World.time math(time)
@@ -24,6 +25,7 @@ World.particle math(x) math(y) math(z) text(json particle)
 World.sound text(sound) math(volume) math(pitch) math(x) math(y) math(z)
 World.setBlocks math(updates) text(block) math(x1) math(y1) math(z1) math(x2) math(y2) math(z2)
 World.privateSound text(id) math(volume) math(pitch)
+World.createColor text(varible name) math(r) math(g) math(b)
 
 # Entity module commands
 Entity.spawn text(variable name for uuid) math(x) math(y) math(z) text(base64 item)
@@ -38,6 +40,7 @@ effects {
     blindness
     darkness
     slowness
+    ...
 }
 Entity.attribute text(uuid) text(id) math(value)
 Entity.getVelocity text(uuid) text(variable prefix name (e.g. 'vel' -> 'vel.x', 'vel.y', 'vel.z'))
@@ -47,6 +50,7 @@ Entity.displaySetScale text(uuid) math(x) math(y) math(z)
 Entity.displaySetOffset text(uuid) math(x) math(y) math(z)
 Entity.displaySetModel text(uuid) text(base64 item)
 Entity.spawnItemDsiplay text(variable name for uuid) math(x) math(y) math(z) math(yaw) math(pitch) text(item base64)
+Player.sendBedAnimation text(player)
 
 # Shiver module commands
 Shiver.getPlayers text(variable name)
@@ -73,3 +77,4 @@ Shiver.getSavedLoot text(variable name)
 Shiver.placeLoot text(id)
 Shiver.STAGE math(3 - game; 4 - end game)
 Shiver.spawnWave math(wave)
+Shiver.callJoin text(player)

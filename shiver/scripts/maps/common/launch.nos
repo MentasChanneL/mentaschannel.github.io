@@ -6,6 +6,8 @@
 
 World.time 1000
 World.weather 'clear'
+Shiver.setBossbarEffect 'none'
+Shiver.setBossbarTitle ''
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.resetPlayer 'var(ply)'

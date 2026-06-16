@@ -2,5 +2,5 @@
 # Player join in game event
 # Variables:
 # - player - Player
-# - reason - Player join reason (startRound, byUser, antidot)
+# - reason - Player join reason (byScript, byUser, antidot)
 

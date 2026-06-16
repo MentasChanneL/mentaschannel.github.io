@@ -51,8 +51,6 @@ forEach '*' 'camera' 'cameras' {
     }
 }
 
-message '123'
-
 # Spawn
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {

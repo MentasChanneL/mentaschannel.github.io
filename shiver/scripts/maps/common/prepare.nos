@@ -4,6 +4,8 @@
 #   PREPARE_TIME - Время на подготовку в секундах
 #   TICK_HANDLER - Вызываемый скрипт после подготовки. Например maps/common/wave_tick
 
+setGlobal 'PREPARE_TIME' 15
+
 set 'time' max(global(PREPARE_TIME), 10)
 
 @while
@@ -13,13 +15,15 @@ if var(time) > 0 {
     Shiver.setBossbarTitle '<gradient:#000000:var(color)><strikethrough>          <!strikethrough></gradient><var(color)> Осталось var(time) секунд <gradient:var(color):#000000><strikethrough>          '
     if var(time) < 11 {
         Shiver.setBossbarTitle '<gradient:#211111:#FE1010><strikethrough>          <!strikethrough></gradient><#FF0003> Осталось var(time) секунд <gradient:#FE1010:#211111><strikethrough>          '
+        set 'sound' 'shiver:tick'
+        if var(time) % 2 != 0 {
+            set 'sound' 'shiver:tack'
+        }
+        World.privateSound 'var(sound)' 1; 0.5;
     }
     Shiver.setProgressBar var(time) / global(PREPARE_TIME); 0;
     wait 20
     set 'time' var(time) - 1
-    if var(time) < 11 {
-        World.privateSound 'shiver:tick' 1; 0.5;
-    }
     jump 'while'
 }
 

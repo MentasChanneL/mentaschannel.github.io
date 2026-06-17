@@ -4,6 +4,7 @@
 loadScript 'maps/common/launch'
 loadScript 'maps/common/prepare'
 loadScript 'maps/common/wave_tick'
+loadScript 'maps/common/globals'
 loadScript 'maps/map1/_join'
 
 ## Loading wait
@@ -34,6 +35,20 @@ parallel '*' {
     wait var(w)
     Entity.lightingbolt 290; 43; -38;
 }
+parallel '*' {
+    World.sound 'shiver:ambience.map1heli' 16; 1.1; 242.59; 53.11; -51.84;
+    Entity.spawnItemDsiplay 'helicopter' 145.9; 52.4; -8.8; 180; -5; 'global(EMPTY_ITEMSTACK)'
+    Entity.displaySetScale 'var(helicopter)' 8; 8; 8;
+    Entity.displayRotations 'var(helicopter)' 90; 0; 0; 'set'
+    Entity.displaySetOffset 'var(helicopter)' -120; 40; -150;
+    Entity.displayInterpolation 'var(helicopter)' 10; 100;
+    Entity.itemDisplaySetItem 'var(helicopter)' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDcxLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0='
+    wait 5
+    Entity.displaySetOffset 'var(helicopter)' -120.0; 30.0; 150.0;
+    Entity.displayRotations 'var(helicopter)' 90; 25; 0; 'set'
+    wait 8 * 20
+    Entity.remove 'var(helicopter)'
+}
 list 'cameras'
 list.add 'cameras' 'map1.camera1'
 list.add 'cameras' 'map1.camera2'
@@ -50,6 +65,7 @@ forEach '*' 'camera' 'cameras' {
         wait 1
     }
 }
+World.sound 'shiver:ambience.memory' 1; 1; 203.5; 44.5; -59.5;
 
 # Spawn
 Shiver.getPlayers 'players'
@@ -60,3 +76,10 @@ forEach '*' 'ply' 'players' {
 setGlobal 'PREPARE_TIME' 90
 setGlobal 'TICK_HANDLER' 'maps/common/wave_tick'
 run 'maps/common/prepare' '*'
+
+wait 20
+Shiver.showActionbar global(LORE_SPEED); 'global(LORE_PREFIX)' 'Вертолёт пролетел в сторонну запечатанного тонеля...'
+wait 80
+Shiver.showActionbar global(LORE_SPEED); 'global(LORE_PREFIX)' 'Значит это правда, город выживших существует...'
+wait 60
+Shiver.showActionbar global(LORE_SPEED); 'global(LORE_PREFIX)' 'Но похоже, нам не открыть эти железные двери.'

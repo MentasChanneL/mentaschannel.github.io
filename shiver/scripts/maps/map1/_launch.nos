@@ -78,8 +78,13 @@ setGlobal 'TICK_HANDLER' 'maps/common/wave_tick'
 run 'maps/common/prepare' '*'
 
 wait 20
-Shiver.showActionbar global(LORE_SPEED); 'global(LORE_PREFIX)' 'Вертолёт пролетел в сторонну запечатанного тонеля...'
-wait 80
-Shiver.showActionbar global(LORE_SPEED); 'global(LORE_PREFIX)' 'Значит это правда, город выживших существует...'
-wait 60
-Shiver.showActionbar global(LORE_SPEED); 'global(LORE_PREFIX)' 'Но похоже, нам не открыть эти железные двери.'
+Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Вертолёт пролетел в сторонну запечатанного тонеля...'
+wait var(wait) + 10
+Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Значит это правда, город выживших существует...'
+wait var(wait) + 10
+Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Но похоже, нам не открыть эти железные двери.'
+wait var(wait) + 12
+Entity.lightingbolt 236.83; 57.0; -2.69;
+World.stopSound 'shiver:ambience.memory'
+Shiver.getProp 'big_house.tv' 'tv'
+Entity.itemDisplaySetItem 'var(tv)' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDI0LjBmXX0sIm1pbmVjcmFmdDpjdXN0b21fbmFtZSI6e2JvbGQ6MGIsaXRhbGljOjBiLG9iZnVzY2F0ZWQ6MGIsc3RyaWtldGhyb3VnaDowYix0ZXh0OiLQotC10LvQtdCy0LjQt9C+0YAsINC40L3RgtC10YDRjNC10YAsINC00L7QvCwg0LrQstCw0YDRgtC40YDQsCwg0Y3Qu9C10LrRgtGA0L7QvdC40LrQsCwg0YLQsiwg0YPRgdGC0YDQvtC50YHRgtCy0L4sINC40L3RgtC10YDRjNC10YAiLHVuZGVybGluZWQ6MGJ9fSxjb3VudDoxLGlkOiJtaW5lY3JhZnQ6bGVhdGhlcl9ob3JzZV9hcm1vciJ9'

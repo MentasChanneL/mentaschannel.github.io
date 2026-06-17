@@ -72,6 +72,7 @@ Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.callJoin 'var(ply)'
 }
+Shiver.makeLeader
 
 setGlobal 'PREPARE_TIME' 90
 setGlobal 'TICK_HANDLER' 'maps/common/wave_tick'
@@ -80,11 +81,11 @@ run 'maps/common/prepare' '*'
 
 wait 20
 Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Вертолёт пролетел в сторонну запечатанного тонеля...'
-wait var(wait) + 10
+wait var(wait) + 40
 Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Значит это правда, город выживших существует...'
-wait var(wait) + 10
+wait var(wait) + 40
 Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Но похоже, нам не открыть эти железные двери.'
-wait var(wait) + 12
+wait var(wait) + 30
 Entity.lightingbolt 236.83; 57.0; -2.69;
 World.stopSound 'shiver:ambience.memory'
 Shiver.getProp 'big_house.tv' 'tv'

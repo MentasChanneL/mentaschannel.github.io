@@ -88,3 +88,5 @@ Shiver.callJoin text(player)
 Shiver.spawnCamera text(id)
 Shiver.cameraFrame text(id) math(index)
 Shiver.getCameraDuration text(id) text(varibale name)
+Shiver.makeLeader
+Shiver.giveKitStart text(player)

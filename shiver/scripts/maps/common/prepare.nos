@@ -12,7 +12,7 @@ set 'time' max(global(PREPARE_TIME), 10)
 if var(time) > 0 {
     set 'channel' 204 * (var(time) - 10) / (global(PREPARE_TIME) - 10)
     World.createColor 'color' 204; var(channel); var(channel);
-    Shiver.setBossbarTitle '<gradient:#000000:var(color)><strikethrough>          <!strikethrough></gradient><var(color)> Осталось var(time) секунд <gradient:var(color):#000000><strikethrough>          '
+    Shiver.setBossbarTitle '<gradient:#211111:var(color)><strikethrough>          <!strikethrough></gradient><var(color)> Осталось var(time) секунд <gradient:var(color):#211111><strikethrough>          '
     if var(time) < 11 {
         Shiver.setBossbarTitle '<gradient:#211111:#FE1010><strikethrough>          <!strikethrough></gradient><#FF0003> Осталось var(time) секунд <gradient:#FE1010:#211111><strikethrough>          '
         set 'sound' 'shiver:tick'

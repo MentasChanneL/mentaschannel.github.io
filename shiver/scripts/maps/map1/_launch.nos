@@ -67,7 +67,7 @@ forEach '*' 'camera' 'cameras' {
 }
 World.sound 'shiver:ambience.memory' 1; 1; 203.5; 44.5; -59.5;
 
-# Spawn
+### Spawn
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.callJoin 'var(ply)'
@@ -76,6 +76,7 @@ forEach '*' 'ply' 'players' {
 setGlobal 'PREPARE_TIME' 90
 setGlobal 'TICK_HANDLER' 'maps/common/wave_tick'
 run 'maps/common/prepare' '*'
+###
 
 wait 20
 Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Вертолёт пролетел в сторонну запечатанного тонеля...'

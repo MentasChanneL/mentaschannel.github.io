@@ -4,8 +4,6 @@
 #   MAP_TITLE - Отображаемое имя карты minimessage (🌊 Маяк, ★ Покинутый отель и т.п.)
 #   LOOT_CHANCE - Шанс появление лута
 
-run 'maps/common/globals' '*'
-
 World.time 1000
 World.weather 'clear'
 Shiver.setBossbarEffect 'none'

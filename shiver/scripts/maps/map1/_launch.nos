@@ -20,6 +20,7 @@ setGlobal 'MAP_TITLE' '<white>🌊 Маяк'
 setGlobal 'PREPARE_TIME' 1800
 setGlobal 'LOOT_CHANCE' 0.7
 
+run 'maps/common/globals' '*'
 runInLine 'maps/common/launch'
 
 # Preparing

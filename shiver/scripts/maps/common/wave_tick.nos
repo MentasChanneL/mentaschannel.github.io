@@ -7,7 +7,8 @@
 #   WAVE_MAX_TIME - Максимальное время волны
 #   WAVES_END_SCRIPT - Скрипт для вызова, когда все волны закочатся
 
-copyToLocal 'waves' 'WAVES'
+copyToLocal 'WAVES' 'waves'
+message 'var(waves)'
 forEach 'i' 'wave' 'waves' {
     set 'max_timer' min(global(WAVE_TIME) + global(WAVE_TIME_ADDITION) * var(i), global(WAVE_MAX_TIME))
     set 'timer' var(max_timer)

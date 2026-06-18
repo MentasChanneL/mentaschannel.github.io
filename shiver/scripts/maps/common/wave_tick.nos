@@ -11,6 +11,7 @@ copyToLocal 'WAVES' 'waves'
 forEach 'i' 'wave' 'waves' {
     set 'max_timer' min(global(WAVE_TIME) + global(WAVE_TIME_ADDITION) * var(i), global(WAVE_MAX_TIME))
     set 'timer' var(max_timer)
+    set 'timer' 2
     Shiver.spawnWave 'wave' 'math(var(i) + 1)' var(i) + 1 >= len(waves)
     @timer
     if var(timer) > 0 {
@@ -20,3 +21,4 @@ forEach 'i' 'wave' 'waves' {
         jump 'timer'
     }
 }
+run 'global(WAVES_END_SCRIPT)' '*'

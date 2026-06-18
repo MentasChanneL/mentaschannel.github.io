@@ -36,7 +36,7 @@
 		"operations": {
 			"patterns": [
 				{
-    	    	  "begin": "^(\\s*)(?=(forEach|run|runInLine|loadScript|getLoadingScriptsAmount|cancelScript|message|setGlobal)\\b)",
+    	    	  "begin": "^(\\s*)(?=(forEach|run|runInLine|loadScript|getLoadingScriptsAmount|cancelScript|message|setGlobal|copyToGlobal|copyToLocal)\\b)",
     	    	  "end": "(?=\\n|$)",
     	    	  "beginCaptures": {
     	    	    "2": { "name": "keyword.control.command.nos" }

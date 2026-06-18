@@ -1,5 +1,22 @@
 # Shiver map script | REPIS
 # Скрипт для карт с волнами. Вызвать после подготовки НЕ линейно.
 # Перед вызовом установить глобальные переменные:
-#   WAVE.НОМЕР - мобы (тип_количество тип_количество ...). Например WAVE.1 '0_3 5_1'
+#   WAVES - Список волн, где значения - это словари: ent - количество
+#   WAVE_TIME - Время первой волны в секундах
+#   WAVE_TIME_ADDITION - Добавление секунд ко времени WAVE_TIME(с каждой новой колной)
+#   WAVE_MAX_TIME - Максимальное время волны
+#   WAVES_END_SCRIPT - Скрипт для вызова, когда все волны закочатся
 
+copyToLocal 'waves' 'WAVES'
+forEach 'i' 'wave' 'waves' {
+    set 'max_timer' min(global(WAVE_TIME) + global(WAVE_TIME_ADDITION) * var(i), global(WAVE_MAX_TIME))
+    set 'timer' var(max_timer)
+    Shiver.spawnWave 'wave' 'math(var(i) + 1)' var(i) + 1 >= len(waves)
+    @timer
+    if var(timer) > 0 {
+        Shiver.setProgressBar var(timer) / var(max_timer); var(i) + 1;
+        wait 20
+        set 'timer' var(timer) - 1
+        jump 'timer'
+    }
+}

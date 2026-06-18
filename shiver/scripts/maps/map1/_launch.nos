@@ -5,6 +5,7 @@ loadScript 'maps/common/launch'
 loadScript 'maps/common/prepare'
 loadScript 'maps/common/wave_tick'
 loadScript 'maps/common/globals'
+loadScript 'maps/map1/waves'
 loadScript 'maps/map1/_join'
 
 ## Loading wait
@@ -16,11 +17,13 @@ if var(inLoading) > 0 {
 }
 
 # Default Prepare
+Shiver.music 'shiver:music.theme3'
 setGlobal 'MAP_TITLE' '<white>🌊 Маяк'
 setGlobal 'PREPARE_TIME' 1800
 setGlobal 'LOOT_CHANCE' 0.7
 
 run 'maps/common/globals' '*'
+run 'maps/map1/waves' '*'
 runInLine 'maps/common/launch'
 
 # Preparing
@@ -43,6 +46,7 @@ parallel '*' {
     Entity.displayRotations 'var(helicopter)' 90; 0; 0; 'set'
     Entity.displaySetOffset 'var(helicopter)' -120; 40; -150;
     Entity.displayInterpolation 'var(helicopter)' 10; 100;
+    wait 1
     Entity.itemDisplaySetItem 'var(helicopter)' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDcxLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0='
     wait 5
     Entity.displaySetOffset 'var(helicopter)' -120.0; 30.0; 150.0;

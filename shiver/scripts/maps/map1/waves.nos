@@ -1,0 +1,54 @@
+# Shiver map script | REPIS
+
+setGlobal 'WAVE_TIME' 50
+setGlobal 'WAVE_TIME_ADDITION' 5
+setGlobal 'WAVE_MAX_TIME' 120
+setGlobal 'WAVES_END_SCRIPT' 'maps/map1/victory'
+
+list 'waves'
+
+# 1
+dict 'wave'
+dict.set '0' 3
+list.addVar 'waves' 'wave'
+
+# 2
+dict 'wave'
+dict.set '0' 3
+dict.set '5' 1
+list.addVar 'waves' 'wave'
+
+# 3
+dict 'wave'
+dict.set '0' 4
+dict.set '5' 1
+list.addVar 'waves' 'wave'
+
+# 4
+dict 'wave'
+dict.set '0' 1
+dict.set '5' 2
+dict.set '8' 2
+dict.set '11' 2
+list.addVar 'waves' 'wave'
+
+# 5
+dict 'wave'
+dict.set '0' 3
+dict.set '5' 2
+dict.set '8' 3
+dict.set '11' 2
+list.addVar 'waves' 'wave'
+
+# 6
+dict 'wave'
+dict.set '0' 3
+dict.set '5' 2
+dict.set '8' 1
+dict.set '11' 3
+dict.set '2' 3
+dict.set '7' 1
+dict.set '15' 1
+list.addVar 'waves' 'wave'
+
+copyToGlobal 'waves' 'WAVES'

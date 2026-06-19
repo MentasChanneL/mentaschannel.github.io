@@ -6,9 +6,8 @@
 
 if var(reason) < 3 {
     Player.sendBedAnimation 'var(player)'
-    Entity.tp 'var(player)' 218; 42; -73; 0; 0;
-    Shiver.giveKitStart 'var(player)'
     Shiver.tpPlayerToClone 'var(player)' 218; 42; -75; 0; 0;
+    Shiver.giveKitStart 'var(player)'
 }
 if var(reason) == 3 {
     

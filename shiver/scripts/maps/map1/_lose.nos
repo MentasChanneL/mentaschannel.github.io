@@ -1,5 +1,7 @@
 # Shiver map script | REPIS
 
+setGlobal 'STOP_GAME_PROCESSES' 1
+
 Shiver.getAllPlayers 'players'
 forEach '*' 'pl' 'players' {
     Entity.effect 'var(pl)' 'darkness' 200; 0; 0; 0; 1;

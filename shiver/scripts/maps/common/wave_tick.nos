@@ -14,6 +14,10 @@ forEach 'i' 'wave' 'waves' {
     Shiver.spawnWave 'wave' 'math(var(i) + 1)' var(i) + 1 >= len(waves)
     @timer
     if var(timer) > 0 {
+        if global(STOP_GAME_PROCESSES) {
+            wait 20
+            jump 'timer'
+        }
         Shiver.setProgressBar var(timer) / var(max_timer); var(i) + 1;
         wait 20
         set 'timer' var(timer) - 1

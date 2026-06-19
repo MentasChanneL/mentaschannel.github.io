@@ -96,3 +96,6 @@ Shiver.cameraFrame text(id) math(index)
 Shiver.getCameraDuration text(id) text(varibale name)
 Shiver.makeLeader
 Shiver.giveKitStart text(player)
+Shiver.spawnClones math(x) math(y) math(z) text(variable-dict name, tasks: move {pos: loc, sprint: num}; defend {}) math(radius)
+Shiver.removeClones
+Shiver.tpPlayerToClone text(player) math(default pos x) math(default pos y) math(default pos z) math(default pos yaw) math(default pos pitch)

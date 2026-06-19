@@ -37,6 +37,8 @@ parallel '*' {
     wait var(w)
     World.weather 'thunder'
     Shiver.getCameraDuration 'map1.camera2' 'w'
+    dict 'tasks'
+    Shiver.spawnClones 218.5; 42; -72.5; 'tasks' 4
     wait var(w)
     Entity.lightingbolt 290; 43; -38;
 }
@@ -74,6 +76,7 @@ forEach '*' 'camera' 'cameras' {
 World.sound 'shiver:ambience.memory' 1; 1; 203.5; 44.5; -59.5;
 
 ### Spawn
+Shiver.removeClones
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.callJoin 'var(ply)'

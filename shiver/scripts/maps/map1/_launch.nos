@@ -39,6 +39,11 @@ parallel '*' {
     Shiver.getCameraDuration 'map1.camera2' 'w'
     dict 'tasks'
     Shiver.spawnClones 218.5; 42; -72.5; 'tasks' 4
+    Shiver.getClones 'clones'
+    dict.values 'clones' 'clones_ents'
+    forEach '*' 'ent' 'clones_ents' {
+        Entity.effect 'var(ent)' 'slowness' -1; 127; 0; 0; 1;
+    }
     wait var(w)
     Entity.lightingbolt 290; 43; -38;
 }

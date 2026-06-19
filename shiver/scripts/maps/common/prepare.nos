@@ -8,10 +8,6 @@ set 'time' max(global(PREPARE_TIME), 10)
 
 @while
 if var(time) > 0 {
-    if global(STOP_GAME_PROCESSES) {
-        wait 20
-        jump 'while'
-    }
     set 'channel' 204 * (var(time) - 10) / (global(PREPARE_TIME) - 10)
     World.createColor 'color' 204; var(channel); var(channel);
     Shiver.setBossbarTitle '<gradient:#211111:var(color)><strikethrough>          <!strikethrough></gradient><var(color)> Осталось var(time) секунд <gradient:var(color):#211111><strikethrough>          '

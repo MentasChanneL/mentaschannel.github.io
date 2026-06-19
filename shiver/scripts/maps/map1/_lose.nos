@@ -19,6 +19,9 @@ Shiver.getAllPlayers 'players'
 forEach '*' 'pl' 'players' {
     Entity.tp 'var(pl)' 188.5; 17; -45.5; 0; 90;
     Shiver.resetPlayer 'var(pl)'
+    Entity.effect 'var(pl)' 'invisibility' -1; 0; 0; 0; 1;
+    Entity.effect 'var(pl)' 'weakness' -1; 127; 0; 0; 1;
+    Entity.effect 'var(pl)' 'levitation' -1; 0; 0; 0; 1;
 }
 wait 5
 Shiver.title 10; 60; 20; '' '<#c40000>Живых не осталось...'

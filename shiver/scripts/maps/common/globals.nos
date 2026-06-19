@@ -1,6 +1,8 @@
 # Shiver map script | REPIS
 # Общие глобальные переменные
 
+setGlobal 'GAMESTAGE_END' 4
+
 setGlobal 'LORE_PREFIX' '<color:#dbd5b8>'
 setGlobal 'LORE_SPEED' 1
 setGlobal 'EMPTY_ITEMSTACK' 'e30='

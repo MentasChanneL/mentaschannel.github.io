@@ -65,7 +65,9 @@ Player.sendBedAnimation text(player)
 
 # Shiver module commands
 Shiver.getPlayers text(variable name)
+# Shiver.getAllPlayers text(variable name)
 Shiver.music text(id)
+# Shiver.stopMusic text(player)
 Shiver.showHint math(x) math(y) math(z) math(distance) text(minimessge)
 Shiver.ent text(variable name for uuid) text(type) math(x) math(y) math(z) math(yaw) math(pitch)
 Shiver.spawnLoot text(uuid) text(id) math(x) math(y) math(z) math(yaw) math(pitch) math(roll) math(scaleX) math(scaleY) math(scaleZ) math(offsetX) math(offsetY) math(offsetZ) math(width) math(height)

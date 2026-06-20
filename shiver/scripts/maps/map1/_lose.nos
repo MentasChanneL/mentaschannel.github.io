@@ -16,6 +16,7 @@ forEach '*' 'frame' 'frames' {
     Shiver.title 0; 60; 40; 'global(CINEMATIC_LINES)' ''
     wait 1
 }
+Shiver.title 0; 0; 40; 'global(CINEMATIC_LINES)' ''
 Shiver.getAllPlayers 'players'
 forEach '*' 'pl' 'players' {
     Entity.tp 'var(pl)' 188.5; 17; -45.5; 0; 90;
@@ -25,7 +26,7 @@ forEach '*' 'pl' 'players' {
     Entity.effect 'var(pl)' 'levitation' -1; 0; 0; 0; 1;
 }
 wait 5
-Shiver.title 10; 60; 20; '' '<#c40000>Живых не осталось...'
+Shiver.title 10; 60; 20; 'global(CINEMATIC_LINES)' '<#c40000>Живых не осталось...'
 wait 4 * 20
 
 Shiver.STAGE global(GAMESTAGE_END)

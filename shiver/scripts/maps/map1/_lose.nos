@@ -13,6 +13,7 @@ Shiver.getCameraDuration 'map1.camera3' 'duration'
 numList 'frames' 0; var(duration) - 1; 1;
 forEach '*' 'frame' 'frames' {
     Shiver.cameraFrame 'map1.camera3' var(frame)
+    Shiver.title 0; 60; 40; 'global(CINEMATIC_LINES)' ''
     wait 1
 }
 Shiver.getAllPlayers 'players'

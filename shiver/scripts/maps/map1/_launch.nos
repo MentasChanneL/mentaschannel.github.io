@@ -89,6 +89,8 @@ forEach '*' 'camera' 'cameras' {
     numList 'frames' 0; var(duration) - 1; 1;
     forEach '*' 'frame' 'frames' {
         Shiver.cameraFrame 'var(camera)' var(frame)
+        Shiver.title
+        Shiver.title 0; 60; 40; 'global(CINEMATIC_LINES)' ''
         wait 1
     }
 }

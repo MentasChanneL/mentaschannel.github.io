@@ -5,7 +5,9 @@ loadScript 'maps/common/launch'
 loadScript 'maps/common/prepare'
 loadScript 'maps/common/wave_tick'
 loadScript 'maps/common/globals'
+loadScript 'maps/common/run_cameras'
 loadScript 'maps/map1/waves'
+loadScript 'maps/map1/victory'
 loadScript 'maps/map1/_join'
 loadScript 'maps/map1/_lose'
 
@@ -76,24 +78,14 @@ parallel '*' {
     wait 8 * 20
     Entity.remove 'var(helicopter)'
 }
+
 list 'cameras'
 list.add 'cameras' 'map1.camera1'
 list.add 'cameras' 'map1.camera2'
 list.add 'cameras' 'map1.camera4'
-forEach '*' 'camera' 'cameras' {
-    Shiver.spawnCamera 'var(camera)'
-}
-wait 2
-forEach '*' 'camera' 'cameras' {
-    Shiver.getCameraDuration 'var(camera)' 'duration'
-    numList 'frames' 0; var(duration) - 1; 1;
-    forEach '*' 'frame' 'frames' {
-        Shiver.cameraFrame 'var(camera)' var(frame)
-        Shiver.title
-        Shiver.title 0; 60; 40; 'global(CINEMATIC_LINES)' ''
-        wait 1
-    }
-}
+copyToGlobal 'cameras' 'CAMERAS'
+runInLine 'maps/common/run_cameras'
+
 World.sound 'shiver:ambience.memory' 1; 1; 203.5; 44.5; -59.5;
 
 ### Spawn

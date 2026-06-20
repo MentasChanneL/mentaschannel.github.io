@@ -1,0 +1,20 @@
+# Shiver map script | REPIS
+# Скрипт для запуска цепочки камер
+# Перед вызовом установить следующие глобальные переменные:
+#   CAMERAS - Список камер
+
+copyToLocal 'CAMERAS' 'cameras'
+
+forEach '*' 'camera' 'cameras' {
+    Shiver.spawnCamera 'var(camera)'
+}
+wait 2
+forEach '*' 'camera' 'cameras' {
+    Shiver.getCameraDuration 'var(camera)' 'duration'
+    numList 'frames' 0; var(duration) - 1; 1;
+    forEach '*' 'frame' 'frames' {
+        Shiver.cameraFrame 'var(camera)' var(frame)
+        Shiver.title 0; 60; 40; 'global(CINEMATIC_LINES)' ''
+        wait 1
+    }
+}

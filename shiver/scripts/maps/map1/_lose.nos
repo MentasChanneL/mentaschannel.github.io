@@ -7,15 +7,12 @@ forEach '*' 'pl' 'players' {
     Shiver.title 30; 30; 30; '<color:#000000><font:shiver:hud>0' ''
 }
 World.privateSound 'shiver:ambience.lose' 1; 1;
-Shiver.spawnCamera 'map1.camera3'
-wait 30
-Shiver.getCameraDuration 'map1.camera3' 'duration'
-numList 'frames' 0; var(duration) - 1; 1;
-forEach '*' 'frame' 'frames' {
-    Shiver.cameraFrame 'map1.camera3' var(frame)
-    Shiver.title 0; 60; 40; 'global(CINEMATIC_LINES)' ''
-    wait 1
-}
+wait 28
+list 'cameras'
+list.add 'cameras' 'map1.camera3'
+copyToGlobal 'cameras' 'CAMERAS'
+runInLine 'maps/common/run_cameras'
+
 Shiver.title 0; 0; 40; 'global(CINEMATIC_LINES)' ''
 Shiver.getAllPlayers 'players'
 forEach '*' 'pl' 'players' {

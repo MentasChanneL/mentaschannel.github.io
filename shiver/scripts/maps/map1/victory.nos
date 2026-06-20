@@ -1,1 +1,51 @@
 # Shiver map script | REPIS
+
+Shiver.getPlayers 'players'
+forEach '*' 'ply' 'players' {
+    Shiver.statsAddVictory 'var(ply)'
+    Shiver.rewardCharacter 'var(ply)' 'coach'
+}
+Shiver.getAllPlayers 'players'
+forEach '*' 'ply' 'players' {
+    Shiver.resetPlayer 'var(ply)'
+}
+Shiver.music 'shiver:music.win1'
+World.sound 'shiver:ambience.map1heli' 10; 0.9; 218; 48; -44;
+World.sound 'shiver:ambience.map1heli' 10; 0.9; 218; 48; -44;
+World.sound 'shiver:ambience.map1heli' 10; 0.9; 218; 48; -44;
+dict 'tasks'
+dict 'move'
+dict.set 'move' 'pos' '{"x": 218, "y": 42, "z": -49, "yaw": 0, "pitch": 0}'
+set 'sprint' 1
+dict.setVar 'move' 'sprint' 'sprint'
+dict 'defend'
+dict.setVar 'tasks' 'move' 'move'
+dict.setVar 'tasks' 'defend' 'defend'
+Shiver.spawnClones 187.5; 44.33; -41.5; 'tasks' 3
+
+parallel '*' {
+    Shiver.getCameraDuration 'map1_win1' 'wait'
+    wait var(wait)
+    Shiver.removeClones
+    World.sound 'shiver:ambience.map1heli' 10; 1.1; 219.42; 44.06; -55.57;
+    World.sound 'shiver:ambience.map1heli' 10; 1.1; 219; 54; -70;
+    Shiver.getCameraDuration 'map1_win2' 'wait'
+    wait var(wait)
+    Shiver.title 20; 100; 0; 'global(BLACK_SCREEN)' ''
+}
+
+list 'cameras'
+list.add 'cameras' 'map1_win1'
+list.add 'cameras' 'map1_win2'
+copyToGlobal 'cameras' 'CAMERAS'
+runInLine 'maps/common/run_cameras'
+
+wait 20
+Shiver.title 20; 40; 20; '' '<tr:shiver.message.survivors_saved>'
+Shiver.getAllPlayers 'players'
+forEach '*' 'ply' 'players' {
+    Shiver.resetPlayer 'var(ply)'
+    Entity.tp 'var(ply)' 188.5; 17.0; -45.5; 0; 90;
+}
+wait 60
+Shiver.STAGE global(GAMESTAGE_END)

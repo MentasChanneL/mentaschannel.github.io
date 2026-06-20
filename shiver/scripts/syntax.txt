@@ -101,3 +101,6 @@ Shiver.spawnClones math(x) math(y) math(z) text(variable-dict name, tasks: move 
 Shiver.removeClones
 Shiver.tpPlayerToClone text(player) math(default pos x) math(default pos y) math(default pos z) math(default pos yaw) math(default pos pitch)
 Shiver.getClones text(variable name; dict: player uuid - entity uuid)
+Shiver.statsAddVictory text(player)
+Shiver.rewardCharacter text(player) text(id)
+Shiver.rewardKit text(player) text(id)

@@ -34,6 +34,7 @@ World.stopSound text(sound)
 World.setBlocks math(updates) text(block) math(x1) math(y1) math(z1) math(x2) math(y2) math(z2)
 World.privateSound text(id) math(volume) math(pitch)
 World.createColor text(varible name) math(r) math(g) math(b)
+World.locToLoc math(x1) math(y1) math(z1) math(x2) math(y2) math(z2) text(variable prefix) math(coefficient)
 
 # Entity module commands
 Entity.spawn text(variable name for uuid) math(x) math(y) math(z) text(base64 item)

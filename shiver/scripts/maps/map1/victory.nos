@@ -8,6 +8,8 @@ forEach '*' 'ply' 'players' {
 Shiver.getAllPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.resetPlayer 'var(ply)'
+    Entity.effect 'var(ply)' 'invisibility' -1; 0; 0; 0; 1;
+    Entity.effect 'var(ply)' 'weakness' -1; 127; 0; 0; 1;
 }
 Shiver.music 'shiver:music.win1'
 World.sound 'shiver:ambience.map1heli' 10; 0.9; 218; 48; -44;
@@ -29,9 +31,47 @@ parallel '*' {
     Shiver.removeClones
     World.sound 'shiver:ambience.map1heli' 10; 1.1; 219.42; 44.06; -55.57;
     World.sound 'shiver:ambience.map1heli' 10; 1.1; 219; 54; -70;
-    Shiver.getCameraDuration 'map1_win2' 'wait'
-    wait var(wait)
-    Shiver.title 20; 100; 0; 'global(BLACK_SCREEN)' ''
+}
+
+parallel '*' {
+    Entity.spawnItemDsiplay 'helicopter' 219; 88.5; -32.5; 180; -10; 'global(EMPTY_ITEMSTACK)'
+    Entity.displaySetScale 'var(helicopter)' 8; 8; 8;
+    Entity.displayRotations 'var(helicopter)' 90; 0; 0; 'set'
+    Entity.displayTeleportDuration 'var(helicopter)' 15
+    Entity.itemDisplaySetItem 'var(helicopter)' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDcxLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0='
+    wait 10
+    set 'repeat' 10
+    @repeat1
+    if var(repeat) > 0 {
+        set 't1' 1 - (var(repeat) / 20)
+        World.locToLoc 219; 88.5; -32.5; 218.5; 44.5; -46; 'pos' 2 * var(t1) - pow(var(t1), 2)
+        Entity.tp 'var(helicopter)' var(pos.x); var(pos.y); var(pos.z); 180; 15 - 15 * var(t1);
+        set 'repeat' var(repeat) - 1
+        wait 5
+        jump 'repeat1'
+    }
+    Entity.tp 'var(helicopter)' 218.5; 44.5; -46; 180; 0;
+    wait 20
+    set 'repeat' 20
+    @repeat2
+    if var(repeat) > 0 {
+        set 't1' 1 - (var(repeat) / 20)
+        World.locToLoc 218.5; 44.5; -46; 218.5; 102; -114.5; 'pos' pow(var(t1), 3)
+        Entity.tp 'var(helicopter)' var(pos.x); var(pos.y); var(pos.z); 180; 15 * var(t1);
+        set 'repeat' var(repeat) - 1
+        wait 5
+        jump 'repeat2'
+    }
+    set 'repeat' 20
+    @repeat3
+    if var(repeat) > 0 {
+        set 't1' 1 - (var(repeat) / 20)
+        World.locToLoc 218.5; 102; -114.5; 218; 42; -235; 'pos' 2 * var(t1) - pow(var(t1), 2)
+        Entity.tp 'var(helicopter)' var(pos.x); var(pos.y); var(pos.z); 180; 15 - 15 * var(t1);
+        set 'repeat' var(repeat) - 1
+        wait 5
+        jump 'repeat3'
+    }
 }
 
 list 'cameras'
@@ -40,11 +80,15 @@ list.add 'cameras' 'map1_win2'
 copyToGlobal 'cameras' 'CAMERAS'
 runInLine 'maps/common/run_cameras'
 
+Shiver.title 20; 100; 0; 'global(BLACK_SCREEN)' ''
+
 wait 20
 Shiver.title 20; 40; 20; '' '<tr:shiver.message.survivors_saved>'
 Shiver.getAllPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.resetPlayer 'var(ply)'
+    Entity.effect 'var(ply)' 'invisibility' -1; 0; 0; 0; 1;
+    Entity.effect 'var(ply)' 'weakness' -1; 127; 0; 0; 1;
     Entity.tp 'var(ply)' 188.5; 17.0; -45.5; 0; 90;
 }
 wait 60

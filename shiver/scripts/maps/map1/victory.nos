@@ -80,7 +80,7 @@ list.add 'cameras' 'map1_win2'
 copyToGlobal 'cameras' 'CAMERAS'
 runInLine 'maps/common/run_cameras'
 
-Shiver.title 20; 100; 0; 'global(BLACK_SCREEN)' ''
+Shiver.title 20; 100; 0; '<color:#0000FF><font:shiver:frame>0' ''
 
 wait 20
 Shiver.title 20; 40; 20; '' '<tr:shiver.message.survivors_saved>'

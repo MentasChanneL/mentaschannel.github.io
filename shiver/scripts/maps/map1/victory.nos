@@ -91,5 +91,5 @@ forEach '*' 'ply' 'players' {
     Entity.effect 'var(ply)' 'weakness' -1; 127; 0; 0; 1;
     Entity.tp 'var(ply)' 188.5; 17.0; -45.5; 0; 90;
 }
-wait 60
+wait 80
 Shiver.STAGE global(GAMESTAGE_END)

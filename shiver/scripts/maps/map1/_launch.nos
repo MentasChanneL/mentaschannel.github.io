@@ -102,6 +102,7 @@ Shiver.makeLeader
 setGlobal 'PREPARE_TIME' 90
 setGlobal 'TICK_HANDLER' 'maps/common/wave_tick'
 run 'maps/common/prepare' '*'
+run 'maps/map1/player_tick' '*'
 ###
 
 wait 20

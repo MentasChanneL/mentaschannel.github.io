@@ -6,8 +6,10 @@ loadScript 'maps/common/prepare'
 loadScript 'maps/common/wave_tick'
 loadScript 'maps/common/globals'
 loadScript 'maps/common/run_cameras'
+wait 10
 loadScript 'maps/map1/waves'
 loadScript 'maps/map1/victory'
+loadScript 'maps/map1/player_tick'
 loadScript 'maps/map1/_join'
 loadScript 'maps/map1/_lose'
 

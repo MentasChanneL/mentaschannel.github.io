@@ -170,8 +170,20 @@
     	    	    }
     	    	  ]
     	    	},
-				{
+		{
     	    	  "begin": "^(\\s*)(dict\\.[^\\s]+)",
+    	    	  "end": "(?=\\n|$)",
+    	    	  "beginCaptures": {
+    	    	    "2": { "name": "support.type" }
+    	    	  },
+    	    	  "patterns": [
+    	    	    {
+    	    	      "include": "#arguments"
+    	    	    }
+    	    	  ]
+    	    	},
+		{
+    	    	  "begin": "^(\\s*)(script\\.[^\\s]+)",
     	    	  "end": "(?=\\n|$)",
     	    	  "beginCaptures": {
     	    	    "2": { "name": "support.type" }

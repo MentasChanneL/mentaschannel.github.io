@@ -6,6 +6,7 @@
 
 Shiver.STAGE global(GAMESTAGE_GAME)
 set 'time' max(global(PREPARE_TIME), 10)
+setGlobal 'POINT_BONUS' 0
 
 @while
 if var(time) > 0 {
@@ -26,6 +27,7 @@ if var(time) > 0 {
     jump 'while'
 }
 
+setGlobal 'POINT_BONUS' 1
 run 'global(TICK_HANDLER)' '*'
 Shiver.setBossbarTitle '<gradient:#211111:#FE1010><strikethrough>          <!strikethrough></gradient><#FF0003>  Они уже здесь  <gradient:#FE1010:#211111><strikethrough>          '
 wait 60

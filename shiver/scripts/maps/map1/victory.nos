@@ -1,5 +1,6 @@
 # Shiver map script | REPIS
 
+setGlobal 'POINT_BONUS' 0
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.statsAddVictory 'var(ply)'

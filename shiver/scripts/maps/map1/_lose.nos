@@ -1,5 +1,6 @@
 # Shiver map script | REPIS
 
+setGlobal 'POINT_BONUS' 0
 Shiver.getAllPlayers 'players'
 forEach '*' 'pl' 'players' {
     Entity.effect 'var(pl)' 'darkness' 200; 0; 0; 0; 1;
@@ -23,6 +24,6 @@ forEach '*' 'pl' 'players' {
 }
 wait 5
 Shiver.title 10; 60; 20; '' '<#c40000>Живых не осталось...'
-wait 4 * 20
+wait 5 * 20
 
 Shiver.STAGE global(GAMESTAGE_END)

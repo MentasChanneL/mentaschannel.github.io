@@ -68,6 +68,7 @@ Entity.getPos text(uuid) text(variable prefix)
 Player.sendBedAnimation text(player)
 Player.particle text(player) math(x) math(y) math(z) text(type) math(count) text(offsetH) text(offsetV) text(vector motion)
 Player.privateSound text(player) text(id) math(volume) math(pitch)
+Player.message text(player) text(minimessage)
 
 # Shiver module commands
 Shiver.getPlayers text(variable name)
@@ -110,3 +111,5 @@ Shiver.getClones text(variable name; dict: player uuid - entity uuid)
 Shiver.statsAddVictory text(player)
 Shiver.rewardCharacter text(player) text(id)
 Shiver.rewardKit text(player) text(id)
+Shiver.addPoint text(player) math(amount) math(use bonuse)
+Shiver.addScrap text(player) math(amount)

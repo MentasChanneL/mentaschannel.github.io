@@ -8,3 +8,4 @@ setGlobal 'LORE_PREFIX' '<color:#dbd5b8>'
 setGlobal 'LORE_SPEED' 1
 setGlobal 'EMPTY_ITEMSTACK' 'e30='
 setGlobal 'WAVE' 0
+setGlobal 'WAVE_INCOMING_RUN' 0

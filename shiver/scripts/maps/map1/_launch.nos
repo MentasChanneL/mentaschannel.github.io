@@ -7,9 +7,10 @@ loadScript 'maps/common/wave_tick'
 loadScript 'maps/common/globals'
 loadScript 'maps/common/run_cameras'
 wait 10
+loadScript 'maps/map1/on_wave'
 loadScript 'maps/map1/waves'
 loadScript 'maps/map1/victory'
-loadScript 'maps/map1/player_tick'
+loadScript 'maps/map1/player_fall'
 loadScript 'maps/map1/_join'
 loadScript 'maps/map1/_lose'
 
@@ -22,7 +23,7 @@ if var(inLoading) > 0 {
 }
 
 # Default Prepare
-Shiver.music 'shiver:music.theme3'
+Shiver.music 'shiver:music.theme3' 1; 1;
 setGlobal 'MAP_TITLE' '<white>🌊 Маяк'
 setGlobal 'PREPARE_TIME' 1800
 setGlobal 'LOOT_CHANCE' 0.7

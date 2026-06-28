@@ -6,12 +6,17 @@
 #   WAVE_TIME_ADDITION - Добавление секунд ко времени WAVE_TIME(с каждой новой колной)
 #   WAVE_MAX_TIME - Максимальное время волны
 #   WAVES_END_SCRIPT - Скрипт для вызова, когда все волны закочатся
+#   (Необяз.) WAVE_INCOMMIN_RUN - Скрипт для вызова в начале волны
 
 copyToLocal 'WAVES' 'waves'
 forEach 'i' 'wave' 'waves' {
+    setGlobal 'WAVE' 'math(var(i) + 1)'
+    if global(WAVE_INCOMMIN_RUN) != 0 {
+        run 'WAVE_INCOMING_RUN' '*'
+    }
     set 'max_timer' min(global(WAVE_TIME) + global(WAVE_TIME_ADDITION) * var(i), global(WAVE_MAX_TIME))
     set 'timer' var(max_timer)
-    Shiver.spawnWave 'wave' 'math(var(i) + 1)' var(i) + 1 >= len(waves)
+    Shiver.spawnWave 'wave' 'global(WAVE)' var(i) + 1 >= len(waves)
     @timer
     if var(timer) > 0 {
         Shiver.setProgressBar var(timer) / var(max_timer); var(i) + 1;

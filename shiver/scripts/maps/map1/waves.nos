@@ -4,6 +4,7 @@ setGlobal 'WAVE_TIME' 50
 setGlobal 'WAVE_TIME_ADDITION' 5
 setGlobal 'WAVE_MAX_TIME' 120
 setGlobal 'WAVES_END_SCRIPT' 'maps/map1/victory'
+setGlobal 'WAVE_INCOMING_RUN' 'maps/map1/on_wave'
 
 list 'waves'
 

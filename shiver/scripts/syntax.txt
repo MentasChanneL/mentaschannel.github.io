@@ -72,7 +72,7 @@ Player.privateSound text(player) text(id) math(volume) math(pitch)
 # Shiver module commands
 Shiver.getPlayers text(variable name)
 Shiver.getAllPlayers text(variable name)
-Shiver.music text(id)
+Shiver.music text(id) math(volume) math(pitch)
 Shiver.stopMusic text(player)
 Shiver.showHint math(x) math(y) math(z) math(distance) text(minimessge)
 Shiver.ent text(variable name for uuid) text(type) math(x) math(y) math(z) math(yaw) math(pitch)

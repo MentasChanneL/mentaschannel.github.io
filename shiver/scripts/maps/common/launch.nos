@@ -4,7 +4,7 @@
 #   MAP_TITLE - Отображаемое имя карты minimessage (🌊 Маяк, ★ Покинутый отель и т.п.)
 #   LOOT_CHANCE - Шанс появление лута
 
-World.time 1000
+World.time 13000
 World.weather 'clear'
 Shiver.setBossbarEffect 'none'
 Shiver.setBossbarTitle ''

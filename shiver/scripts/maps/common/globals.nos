@@ -1,6 +1,7 @@
 # Shiver map script | REPIS
 # Общие глобальные переменные
 setGlobal 'GAMESTAGE_END' 4
+setGlobal 'GAMESTAGE_GAME' 3
 
 setGlobal 'CINEMATIC_LINES' '<color:#000033><font:shiver:frame>0'
 setGlobal 'BLACK_SCREEN' '<color:#000000><font:shiver:hud>0'

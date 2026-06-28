@@ -4,6 +4,7 @@
 #   PREPARE_TIME - Время на подготовку в секундах
 #   TICK_HANDLER - Вызываемый скрипт после подготовки. Например maps/common/wave_tick
 
+Shiver.STAGE global(GAMESTAGE_GAME)
 set 'time' max(global(PREPARE_TIME), 10)
 
 @while

@@ -18,7 +18,7 @@ forEach 'i' 'wave' 'waves' {
     set 'timer' var(max_timer)
     Shiver.spawnWave 'wave' 'global(WAVE)' global(WAVE) >= len(waves)
     setGlobal 'POINT_BONUS' 'math( min(max(global(WAVE) / 5, 1), 3) )'
-    if global(WAVE) > 0 {
+    if global(WAVE) > 1 {
         set 'bonus' global(WAVE) < 7 ? global(WAVE) * 20 : global(WAVE) * 33
         Shiver.getPlayers 'players'
         forEach '*' 'ply' 'players' {

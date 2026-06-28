@@ -11,7 +11,7 @@ forEach '*' 'ply' 'players' {
     Entity.effect 'var(ply)' 'invisibility' -1; 0; 0; 0; 1;
     Entity.effect 'var(ply)' 'weakness' -1; 127; 0; 0; 1;
 }
-Shiver.music 'shiver:music.win1'
+Shiver.music 'shiver:music.win1' 1; 1;
 World.sound 'shiver:ambience.map1heli' 10; 0.9; 218; 48; -44;
 World.sound 'shiver:ambience.map1heli' 10; 0.9; 218; 48; -44;
 World.sound 'shiver:ambience.map1heli' 10; 0.9; 218; 48; -44;

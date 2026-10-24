@@ -8,7 +8,7 @@ Shiver.STAGE global(GAMESTAGE_GAME)
 set 'time' max(global(PREPARE_TIME), 10)
 setGlobal 'POINT_BONUS' 0
 
-@while
+@prepareTimer
 if var(time) > 0 {
     set 'channel' 204 * (var(time) - 10) / (global(PREPARE_TIME) - 10)
     World.createColor 'color' 204; var(channel); var(channel);
@@ -24,7 +24,7 @@ if var(time) > 0 {
     Shiver.setProgressBar var(time) / global(PREPARE_TIME); 0;
     wait 20
     set 'time' var(time) - 1
-    jump 'while'
+    jump 'prepareTimer'
 }
 
 setGlobal 'POINT_BONUS' 1

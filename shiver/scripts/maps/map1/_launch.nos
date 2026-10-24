@@ -38,7 +38,7 @@ Shiver.addZombieSpawn 'default' 218.5; 42; 18.5; 180; 0
 
 # Cutscenes
 parallel '*' {
-    World.setBlocks 0; 'light' 218; 46; -75; 218; 46; -75;
+    World.setBlocks 1; 'light' 218; 46; -75; 218; 46; -75;
     Shiver.getProp 'tonel.light' 'lamp'
     set 'off' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMTQ2LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0='
     set 'on' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMTQ3LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0='
@@ -56,15 +56,14 @@ parallel '*' {
     wait var(w)
     Entity.lightingbolt 290; 43; -38;
     wait 40
-    World.setBlocks 0; 'air' 218; 46; -75; 218; 46; -75;
+    World.setBlocks 1; 'air' 218; 46; -75; 218; 46; -75;
     Entity.itemDisplaySetItem 'var(lamp)' 'var(off)'
     wait 10
-    World.setBlocks 0; 'light' 218; 46; -75; 218; 46; -75;
+    World.setBlocks 1; 'light' 218; 46; -75; 218; 46; -75;
     Entity.itemDisplaySetItem 'var(lamp)' 'var(on)'
     wait 5
-    World.setBlocks 0; 'air' 218; 46; -75; 218; 46; -75;
+    World.setBlocks 1; 'air' 218; 46; -75; 218; 46; -75;
     Entity.itemDisplaySetItem 'var(lamp)' 'var(off)'
-
 }
 parallel '*' {
     World.sound 'shiver:ambience.map1heli' 16; 1.1; 242.59; 53.11; -51.84;
@@ -78,7 +77,7 @@ parallel '*' {
     wait 5
     Entity.displaySetOffset 'var(helicopter)' -120.0; 30.0; 150.0;
     Entity.displayRotations 'var(helicopter)' 90; 25; 0; 'set'
-    wait 8 * 20
+    wait 6 * 20
     Entity.remove 'var(helicopter)'
 }
 

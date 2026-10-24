@@ -5,16 +5,26 @@
 
 copyToLocal 'CAMERAS' 'cameras'
 
+if len(cameras) == 0 { jump 'endcam' }
+
 forEach '*' 'camera' 'cameras' {
     Shiver.spawnCamera 'var(camera)'
 }
 wait 2
-forEach '*' 'camera' 'cameras' {
+set 'cam' 0
+set 'clen' len(cameras)
+# почему не forEach? потому что forEach говно ёбаное и не подходит для
+# операций каждый тик. С forEach - 10-12 MSPT, с прыжками - 4-5 MSPT
+@wcam
+    list.get 'cameras' var(cam); 'camera'
     Shiver.getCameraDuration 'var(camera)' 'duration'
-    numList 'frames' 0; var(duration) - 1; 1;
-    forEach '*' 'frame' 'frames' {
-        Shiver.cameraFrame 'var(camera)' var(frame)
-        Shiver.title 0; 60; 40; 'global(CINEMATIC_LINES)' ''
+    Shiver.title 0; var(duration) + 40; 40; 'global(CINEMATIC_LINES)' ''
+    set 'i' 0
+    @wframe
+        Shiver.cameraFrame 'var(camera)' var(i)
         wait 1
-    }
-}
+        set 'i' var(i) + 1
+        if var(i) < var(duration) { jump 'wframe' }
+   set 'cam' var(cam) + 1
+   if var(cam) < var(clen) { jump 'wcam' }
+@endcam pass

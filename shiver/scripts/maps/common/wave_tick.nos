@@ -6,17 +6,19 @@
 #   WAVE_TIME_ADDITION - Добавление секунд ко времени WAVE_TIME(с каждой новой колной)
 #   WAVE_MAX_TIME - Максимальное время волны
 #   WAVES_END_SCRIPT - Скрипт для вызова, когда все волны закочатся
-#   (Необяз.) WAVE_INCOMMIN_RUN - Скрипт для вызова в начале волны
+#   (Необяз.) WAVE_INCOMIN_RUN - Скрипт для вызова в начале волны
 
 copyToLocal 'WAVES' 'waves'
-forEach 'i' 'wave' 'waves' {
+set 'i' 0
+set 'amount' len(waves)
+@forWave
     setGlobal 'WAVE' 'math(var(i) + 1)'
-    if global(WAVE_INCOMMIN_RUN) != 0 {
+    if global(WAVE_INCOMIN_RUN) != 0 {
         run 'WAVE_INCOMING_RUN' '*'
     }
     set 'max_timer' min(global(WAVE_TIME) + global(WAVE_TIME_ADDITION) * var(i), global(WAVE_MAX_TIME))
     set 'timer' var(max_timer)
-    Shiver.spawnWave 'wave' 'global(WAVE)' global(WAVE) >= len(waves)
+    Shiver.spawnWave 'wave' 'global(WAVE)' global(WAVE) >= var(amount)
     setGlobal 'POINT_BONUS' 'math( min(max(global(WAVE) / 5, 1), 3) )'
     if global(WAVE) > 1 {
         set 'bonus' global(WAVE) < 7 ? global(WAVE) * 20 : global(WAVE) * 33
@@ -33,5 +35,6 @@ forEach 'i' 'wave' 'waves' {
         set 'timer' var(timer) - 1
         jump 'timer'
     }
-}
+    set 'i' var(i) + 1
+    if var(i) < var(amount) { jump 'forWave' }
 run 'global(WAVES_END_SCRIPT)' '*'

@@ -94,7 +94,7 @@ Shiver.setBossbarTitle text(minimessage)
 Shiver.setBossbarEffect text(none/fog/dark_sky/fog_and_dark_sky)
 Shiver.clearMap
 Shiver.getSavedLoot text(variable name)
-Shiver.placeLoot text(id)
+Shiver.placeLoot text(variable name - dict)
 Shiver.STAGE math(3 - game; 4 - end game)
 Shiver.spawnWave text(variable-dict name, key: ent, value: amount) text(wave number) math(is last wave)
 Shiver.callJoin text(player)

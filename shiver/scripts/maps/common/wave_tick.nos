@@ -12,6 +12,7 @@ copyToLocal 'WAVES' 'waves'
 set 'i' 0
 set 'amount' len(waves)
 @forWave
+    list.get 'waves' var(i); 'wave'
     setGlobal 'WAVE' 'math(var(i) + 1)'
     if global(WAVE_INCOMIN_RUN) != 0 {
         run 'WAVE_INCOMING_RUN' '*'

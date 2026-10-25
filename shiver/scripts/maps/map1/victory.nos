@@ -28,7 +28,7 @@ Shiver.spawnClones 187.5; 44.33; -41.5; 'tasks' 3
 
 parallel '*' {
     Shiver.getCameraDuration 'map1_win1' 'wait'
-    wait var(wait)
+    wait var(wait) + 2
     Shiver.removeClones
     World.sound 'shiver:ambience.map1heli' 10; 1.1; 219.42; 44.06; -55.57;
     World.sound 'shiver:ambience.map1heli' 10; 1.1; 219; 54; -70;
@@ -83,8 +83,7 @@ runInLine 'maps/common/run_cameras'
 
 Shiver.title 20; 100; 0; '<color:#0000FF><font:shiver:frame>0' ''
 
-wait 20
-Shiver.title 20; 40; 20; '' '<tr:shiver.message.survivors_saved>'
+wait 21
 Shiver.getAllPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.resetPlayer 'var(ply)'
@@ -92,5 +91,7 @@ forEach '*' 'ply' 'players' {
     Entity.effect 'var(ply)' 'weakness' -1; 127; 0; 0; 1;
     Entity.tp 'var(ply)' 188.5; 17.0; -45.5; 0; 90;
 }
-wait 80
+wait 4
+Shiver.title 20; 40; 20; '' '<tr:shiver.message.survivors_saved>'
+wait 75
 Shiver.STAGE global(GAMESTAGE_END)

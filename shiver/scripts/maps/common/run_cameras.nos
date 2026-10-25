@@ -13,22 +13,10 @@ forEach '*' 'camera' 'cameras' {
 wait 2
 set 'cam' 0
 set 'clen' len(cameras)
-# почему не forEach? потому что forEach говно ёбаное и не подходит для
-# операций каждый тик. С forEach - 10-12 MSPT, с прыжками - 4-5 MSPT
 @wcam
     list.get 'cameras' var(cam); 'camera'
     Shiver.getCameraDuration 'var(camera)' 'duration'
     Shiver.title 0; var(duration) + 40; 40; 'global(CINEMATIC_LINES)' ''
-    jump 'new'
-
-    set 'i' 0
-    @wframe
-        #Shiver.cameraFrame 'var(camera)' var(i)
-        wait 1
-        set 'i' var(i) + 1
-        if var(i) < var(duration) { jump 'wframe' }
-    
-    @new
     Shiver.startCamera 'var(camera)' 0
     wait var(duration)
     set 'cam' var(cam) + 1

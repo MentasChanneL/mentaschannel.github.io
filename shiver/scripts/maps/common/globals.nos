@@ -7,6 +7,11 @@ setGlobal 'GAMESTAGE_GAME' 3
 # Используется при погодтовке мира и в катсценах
 setGlobal 'GAMESTAGE_CUTSCENE' 2
 
+# Стата побед
+setGlobal 'STAT_WINS' 'wins'
+# Стата игр
+setGlobal 'STAT_GAMES' 'games'
+
 setGlobal 'POINT_BONUS' 1
 
 setGlobal 'CINEMATIC_LINES' '<color:#000033><font:shiver:frame>0'

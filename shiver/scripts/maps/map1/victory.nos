@@ -3,7 +3,7 @@
 setGlobal 'POINT_BONUS' 0
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
-    Shiver.statsAddVictory 'var(ply)'
+    Shiver.addStats 'var(ply)' 'global(STAT_WINS)' 1
     Shiver.rewardCharacter 'var(ply)' 'coach'
 }
 Shiver.getAllPlayers 'players'

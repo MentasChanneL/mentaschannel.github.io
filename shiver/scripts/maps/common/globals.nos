@@ -1,7 +1,11 @@
 # Shiver map script | REPIS
 # Общие глобальные переменные
+# Завершает раунд, игроков выбрасывает в меню
 setGlobal 'GAMESTAGE_END' 4
+# В этой стадии тикает игрок
 setGlobal 'GAMESTAGE_GAME' 3
+# Используется при погодтовке мира и в катсценах
+setGlobal 'GAMESTAGE_CUTSCENE' 2
 
 setGlobal 'POINT_BONUS' 1
 

@@ -4,11 +4,25 @@
 # - player - Player
 # - reason - Player join reason (1 - by User, 2 - by Script, 3 - antidot)
 
+if var(reason) == 1 {
+    Shiver.getSTAGE 'stage'
+    if var(stage) == global(GAMESTAGE_CUTSCENE) {
+        Shiver.resetPlayer 'var(ply)'
+        Entity.effect 'var(player)' 'invisibility' -1; 0; 0; 0; 1;
+        Entity.effect 'var(player)' 'weakness' -1; 127; 0; 0; 1;
+        Entity.effect 'var(player)' 'levitation' -1; 0; 0; 0; 1;
+        jump 'return'
+    }
+}
+
 if var(reason) < 3 {
     Player.sendBedAnimation 'var(player)'
     Shiver.tpPlayerToClone 'var(player)' 218; 42; -75; 0; 0;
     Shiver.giveKitStart 'var(player)'
+    jump 'return'
 }
 if var(reason) == 3 {
     
 }
+@return
+    pass

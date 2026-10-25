@@ -19,13 +19,19 @@ set 'clen' len(cameras)
     list.get 'cameras' var(cam); 'camera'
     Shiver.getCameraDuration 'var(camera)' 'duration'
     Shiver.title 0; var(duration) + 40; 40; 'global(CINEMATIC_LINES)' ''
+    jump 'new'
+
     set 'i' 0
     @wframe
-        Shiver.cameraFrame 'var(camera)' var(i)
+        #Shiver.cameraFrame 'var(camera)' var(i)
         wait 1
         set 'i' var(i) + 1
         if var(i) < var(duration) { jump 'wframe' }
-   set 'cam' var(cam) + 1
-   if var(cam) < var(clen) { jump 'wcam' }
+    
+    @new
+    Shiver.startCamera 'var(camera)' 0
+    wait var(duration)
+    set 'cam' var(cam) + 1
+    if var(cam) < var(clen) { jump 'wcam' }
 Shiver.respawnSpectators
 @endcam pass

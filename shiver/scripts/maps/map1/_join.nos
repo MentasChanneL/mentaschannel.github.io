@@ -13,6 +13,7 @@ if var(reason) == 1 {
         Entity.effect 'var(player)' 'levitation' -1; 0; 0; 0; 1;
         jump 'return'
     }
+    message '<#D8D6D6>+ var(player)'
 }
 
 if var(reason) < 3 {

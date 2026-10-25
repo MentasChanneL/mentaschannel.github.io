@@ -101,7 +101,7 @@ Shiver.spawnWave text(variable-dict name, key: ent, value: amount) text(wave num
 Shiver.callJoin text(player)
 Shiver.callDeath text(player) math(use voice)
 Shiver.spawnCamera text(id)
-Shiver.cameraFrame text(id) math(index)
+Shiver.startCamera text(id) math(start index)
 Shiver.getCameraDuration text(id) text(varibale name)
 Shiver.makeLeader
 Shiver.giveKitStart text(player)

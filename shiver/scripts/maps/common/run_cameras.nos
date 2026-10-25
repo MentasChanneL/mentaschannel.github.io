@@ -27,4 +27,5 @@ set 'clen' len(cameras)
         if var(i) < var(duration) { jump 'wframe' }
    set 'cam' var(cam) + 1
    if var(cam) < var(clen) { jump 'wcam' }
+Shiver.respawnSpectators
 @endcam pass

@@ -1,6 +1,5 @@
 # Shiver map script | REPIS
 
-Shiver.STAGE global(GAMESTAGE_CUTSCENE)
 setGlobal 'POINT_BONUS' 0
 Shiver.getAllPlayers 'players'
 forEach '*' 'pl' 'players' {

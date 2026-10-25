@@ -115,3 +115,4 @@ Shiver.rewardKit text(player) text(id)
 Shiver.addPoint text(player) math(amount) math(use bonuse)
 Shiver.addScrap text(player) math(amount)
 Shiver.openJoin math(1 - open, else close)
+Shiver.respawnSpectators

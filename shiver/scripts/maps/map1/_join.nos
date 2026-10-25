@@ -18,7 +18,6 @@ if var(reason) == 1 {
 
 if var(reason) < 3 {
     Player.sendBedAnimation 'var(player)'
-    Shiver.addStats 'var(player)' 'global(STAT_GAMES)' 1
     Shiver.tpPlayerToClone 'var(player)' 218; 42; -75; 0; 0;
     Shiver.giveKitStart 'var(player)'
     jump 'return'

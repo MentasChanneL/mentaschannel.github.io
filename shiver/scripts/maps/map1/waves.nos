@@ -52,4 +52,98 @@ dict.set 'wave' '7' 1
 dict.set 'wave' '15' 1
 list.addVar 'waves' 'wave'
 
+# 7
+dict 'wave'
+dict.set 'wave' '2' 4
+dict.set 'wave' '5' 3
+dict.set 'wave' '0' 4
+dict.set 'wave' '7' 1
+dict.set 'wave' '8' 2
+list.addVar 'waves' 'wave'
+
+# 8
+dict 'wave'
+dict.set 'wave' '2' 2
+dict.set 'wave' '5' 3
+dict.set 'wave' '7' 2
+dict.set 'wave' '4' 3
+dict.set 'wave' '1' 1
+dict.set 'wave' '15' 1
+list.addVar 'waves' 'wave'
+
+# 9
+dict 'wave'
+dict.set 'wave' '2' 5
+dict.set 'wave' '5' 4
+dict.set 'wave' '8' 3
+dict.set 'wave' '4' 4
+dict.set 'wave' '15' 1
+list.addVar 'waves' 'wave'
+
+# 10
+dict 'wave'
+dict.set 'wave' '9' 1
+dict.set 'wave' '10' 2
+dict.set 'wave' '13' 4
+dict.set 'wave' '5' 3
+dict.set 'wave' '15' 1
+list.addVar 'waves' 'wave'
+
+# 11
+dict 'wave'
+dict.set 'wave' '14' 4
+dict.set 'wave' '10' 2
+dict.set 'wave' '1' 1
+dict.set 'wave' '4' 4
+dict.set 'wave' '2' 6
+dict.set 'wave' '5' 3
+dict.set 'wave' '15' 1
+list.addVar 'waves' 'wave'
+
+# 12
+dict 'wave'
+dict.set 'wave' '8' 4
+dict.set 'wave' '10' 2
+dict.set 'wave' '4' 4
+dict.set 'wave' '2' 4
+dict.set 'wave' '17' 2
+dict.set 'wave' '5' 4
+dict.set 'wave' '15' 1
+list.addVar 'waves' 'wave'
+
+# 13
+dict 'wave'
+dict.set 'wave' '14' 4
+dict.set 'wave' '8' 1
+dict.set 'wave' '1' 1
+dict.set 'wave' '12' 2
+dict.set 'wave' '10' 2
+dict.set 'wave' '4' 4
+dict.set 'wave' '13' 4
+dict.set 'wave' '17' 3
+dict.set 'wave' '5' 5
+dict.set 'wave' '15' 1
+list.addVar 'waves' 'wave'
+
+# 14
+dict 'wave'
+dict.set 'wave' '9' 1
+dict.set 'wave' '13' 6
+dict.set 'wave' '12' 4
+dict.set 'wave' '14' 6
+dict.set 'wave' '15' 1
+dict.set 'wave' '17' 4
+dict.set 'wave' '5' 4
+list.addVar 'waves' 'wave'
+
+# 15
+dict 'wave'
+dict.set 'wave' '4' 7
+dict.set 'wave' '13' 4
+dict.set 'wave' '12' 4
+dict.set 'wave' '14' 8
+dict.set 'wave' '17' 4
+dict.set 'wave' '5' 7
+list.addVar 'waves' 'wave'
+
 copyToGlobal 'waves' 'WAVES'

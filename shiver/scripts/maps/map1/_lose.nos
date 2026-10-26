@@ -17,7 +17,7 @@ runInLine 'maps/common/run_cameras'
 Shiver.getAllPlayers 'players'
 forEach '*' 'pl' 'players' {
     Entity.tp 'var(pl)' 196.5; 50; -106.5; 0; 90;
-    Shiver.resetPlayer 'var(pl)'
+    Entity.effect 'var(pl)' 'invisibility' -1; 0; 0; 0; 1;
     Entity.effect 'var(pl)' 'blindness' -1; 0; 0; 0; 1;
     Player.gamemode 'var(pl)' 'spectator'
 }

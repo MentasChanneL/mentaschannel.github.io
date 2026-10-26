@@ -11,6 +11,7 @@ if var(reason) == 1 {
         Entity.effect 'var(player)' 'invisibility' -1; 0; 0; 0; 1;
         Entity.effect 'var(player)' 'weakness' -1; 127; 0; 0; 1;
         Entity.effect 'var(player)' 'levitation' -1; 0; 0; 0; 1;
+        Player.gamemode 'var(player)' 'spectator'
         jump 'return'
     }
     message '<#D8D6D6>+ var(player)'

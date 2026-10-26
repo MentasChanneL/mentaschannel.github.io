@@ -35,7 +35,7 @@ parallel '*' {
 }
 
 parallel '*' {
-    Entity.spawnItemDsiplay 'helicopter' 219; 88.5; -32.5; 180; -10; 'global(EMPTY_ITEMSTACK)'
+    Entity.spawnItemDisplay 'helicopter' 219; 88.5; -32.5; 180; -10; 'global(EMPTY_ITEMSTACK)'
     Entity.displaySetScale 'var(helicopter)' 8; 8; 8;
     Entity.displayRotations 'var(helicopter)' 90; 0; 0; 'set'
     Entity.displayTeleportDuration 'var(helicopter)' 15

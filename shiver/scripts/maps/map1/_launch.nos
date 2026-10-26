@@ -67,7 +67,7 @@ parallel '*' {
 }
 parallel '*' {
     World.sound 'shiver:ambience.map1heli' 16; 1.1; 242.59; 53.11; -51.84;
-    Entity.spawnItemDsiplay 'helicopter' 145.9; 52.4; -8.8; 180; -5; 'global(EMPTY_ITEMSTACK)'
+    Entity.spawnItemDisplay 'helicopter' 145.9; 52.4; -8.8; 180; -5; 'global(EMPTY_ITEMSTACK)'
     Entity.displaySetScale 'var(helicopter)' 8; 8; 8;
     Entity.displayRotations 'var(helicopter)' 90; 0; 0; 'set'
     Entity.displaySetOffset 'var(helicopter)' -120; 40; -150;

@@ -7,7 +7,7 @@
 if var(reason) == 1 {
     Shiver.getSTAGE 'stage'
     if var(stage) == global(GAMESTAGE_CUTSCENE) {
-        Shiver.resetPlayer 'var(ply)'
+        Shiver.resetPlayer 'var(player)'
         Entity.effect 'var(player)' 'invisibility' -1; 0; 0; 0; 1;
         Entity.effect 'var(player)' 'blindness' -1; 0; 0; 0; 1;
         Player.gamemode 'var(player)' 'spectator'
@@ -19,6 +19,7 @@ if var(reason) == 1 {
 if var(reason) < 3 {
     Player.sendBedAnimation 'var(player)'
     Shiver.tpPlayerToClone 'var(player)' 218; 42; -75; 0; 0;
+    Shiver.resetPlayer 'var(player)'
     Shiver.giveKitStart 'var(player)'
     jump 'return'
 }

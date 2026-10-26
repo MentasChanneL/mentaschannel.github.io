@@ -13,6 +13,7 @@ list 'cameras'
 list.add 'cameras' 'map1.camera3'
 copyToGlobal 'cameras' 'CAMERAS'
 runInLine 'maps/common/run_cameras'
+wait 1
 
 Shiver.getAllPlayers 'players'
 forEach '*' 'pl' 'players' {

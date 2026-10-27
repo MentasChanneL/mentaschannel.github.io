@@ -70,6 +70,7 @@ Player.particle text(player) math(x) math(y) math(z) text(type) math(count) text
 Player.privateSound text(player) text(id) math(volume) math(pitch)
 Player.message text(player) text(minimessage)
 Player.gamemode text(player) text(game mode)
+Player.disableMove text(player) math(ticks)
 
 # Shiver module commands
 Shiver.getPlayers text(variable name)

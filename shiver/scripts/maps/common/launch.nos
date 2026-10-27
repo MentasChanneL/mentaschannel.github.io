@@ -11,9 +11,9 @@ Shiver.setBossbarTitle ''
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.resetPlayer 'var(ply)'
-    Entity.effect 'var(ply)' 'invisibility' -1; 0; 0; 0; 1;
     Entity.effect 'var(ply)' 'blindness' -1; 0; 0; 0; 1;
     Player.gamemode 'var(ply)' 'spectator'
+    Player.disableMove 'var(ply)' 999999
 }
 Shiver.title 30; 120; 0; 'global(MAP_TITLE)' ' '
 wait 60

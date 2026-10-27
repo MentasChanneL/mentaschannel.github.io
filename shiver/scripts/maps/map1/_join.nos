@@ -11,6 +11,7 @@ if var(reason) == 1 {
         Entity.effect 'var(player)' 'invisibility' -1; 0; 0; 0; 1;
         Entity.effect 'var(player)' 'blindness' -1; 0; 0; 0; 1;
         Player.gamemode 'var(player)' 'spectator'
+        Player.disableMove 'var(ply)' 999999
         jump 'return'
     }
     message '<#D8D6D6>+ var(player)'
@@ -21,6 +22,7 @@ if var(reason) < 3 {
     Shiver.tpPlayerToClone 'var(player)' 218; 42; -75; 0; 0;
     Shiver.resetPlayer 'var(player)'
     Shiver.giveKitStart 'var(player)'
+    Player.disableMove 'var(player)' 0
     jump 'return'
 }
 if var(reason) == 3 {

@@ -5,7 +5,7 @@ Shiver.getAllPlayers 'players'
 forEach '*' 'pl' 'players' {
     Entity.effect 'var(pl)' 'darkness' 200; 0; 0; 0; 1;
     Shiver.stopMusic 'var(pl)'
-    Shiver.title 30; 30; 30; '<color:#000000><font:shiver:hud>0' ''
+    Shiver.title 30; 60; 30; '<color:#000000><font:shiver:hud>0' ''
 }
 World.privateSound 'shiver:ambience.lose' 1; 1;
 wait 28
@@ -13,7 +13,7 @@ list 'cameras'
 list.add 'cameras' 'map1.camera3'
 copyToGlobal 'cameras' 'CAMERAS'
 runInLine 'maps/common/run_cameras'
-wait 1
+wait 4
 
 Shiver.getAllPlayers 'players'
 forEach '*' 'pl' 'players' {

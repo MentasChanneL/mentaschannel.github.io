@@ -21,10 +21,11 @@ if var(reason) < 3 {
     Player.sendBedAnimation 'var(player)'
     Shiver.tpPlayerToClone 'var(player)' 218; 42; -75; 0; 0;
     Shiver.resetPlayer 'var(player)'
-    Shiver.giveKitStart 'var(player)'
+    Shiver.addItem 'var(player)' 'item.kit_selection'
     Player.disableMove 'var(player)' 0
     jump 'return'
 }
+
 if var(reason) == 3 {
     
 }

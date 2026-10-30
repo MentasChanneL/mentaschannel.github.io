@@ -9,11 +9,6 @@ set 'time' max(global(PREPARE_TIME), 10)
 # Убираем любой заработок поинтов
 setGlobal 'POINT_BONUS' 0
 
-Shiver.getPlayers 'players'
-forEach '*' 'ply' 'players' {
-    Player.addItem 'var(ply)' 'item.kit_selection'
-}
-
 @prepareTimer
 if var(time) > 0 {
     set 'channel' 204 * (var(time) - 10) / (global(PREPARE_TIME) - 10)
@@ -36,7 +31,7 @@ Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     # Добавляем к статистике игр, только если игрок дожил до начала игры
     Shiver.addStats 'var(ply)' 'global(STAT_GAMES)' 1
-    Player.removeItem 'var(ply)' 'item.kit_selection'
+    Shiver.removeItem 'var(ply)' 'item.kit_selection'
 }
 # Возвращаем заработок поинтов
 setGlobal 'POINT_BONUS' 1

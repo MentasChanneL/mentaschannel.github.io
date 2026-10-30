@@ -71,8 +71,6 @@ Player.privateSound text(player) text(id) math(volume) math(pitch)
 Player.message text(player) text(minimessage)
 Player.gamemode text(player) text(game mode)
 Player.disableMove text(player) math(ticks)
-Player.addItem text(player) text(item id)
-Player.removeItem text(player) text(item id)
 
 # Shiver module commands
 Shiver.getPlayers text(variable name)
@@ -108,7 +106,6 @@ Shiver.spawnCamera text(id)
 Shiver.startCamera text(id) math(start index)
 Shiver.getCameraDuration text(id) text(varibale name)
 Shiver.makeLeader
-Shiver.giveKitStart text(player)
 Shiver.spawnClones math(x) math(y) math(z) text(variable-dict name, tasks: move {pos: loc, sprint: num}; defend {}) math(radius)
 Shiver.removeClones
 Shiver.tpPlayerToClone text(player) math(default pos x) math(default pos y) math(default pos z) math(default pos yaw) math(default pos pitch)
@@ -120,3 +117,5 @@ Shiver.addPoint text(player) math(amount) math(use bonuse)
 Shiver.addScrap text(player) math(amount)
 Shiver.openJoin math(1 - open, else close)
 Shiver.respawnSpectators
+Shiver.addItem text(player) text(item id)
+Shiver.removeItem text(player) text(item id)

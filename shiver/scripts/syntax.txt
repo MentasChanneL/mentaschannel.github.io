@@ -71,6 +71,8 @@ Player.privateSound text(player) text(id) math(volume) math(pitch)
 Player.message text(player) text(minimessage)
 Player.gamemode text(player) text(game mode)
 Player.disableMove text(player) math(ticks)
+Player.addItem text(player) text(item id)
+Player.removeItem text(player) text(item id)
 
 # Shiver module commands
 Shiver.getPlayers text(variable name)

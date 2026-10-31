@@ -10,7 +10,7 @@ wait 10
 loadScript 'maps/map1/on_wave'
 loadScript 'maps/map1/waves'
 loadScript 'maps/map1/victory'
-loadScript 'maps/map1/player_fall'
+# loadScript 'maps/map1/player_fall'
 loadScript 'maps/map1/_join'
 loadScript 'maps/map1/_lose'
 
@@ -35,6 +35,28 @@ runInLine 'maps/common/launch'
 # Preparing
 World.time 13100
 Shiver.addZombieSpawn 'default' 218.5; 42; 18.5; 180; 0
+Shiver.spawnTrigger 'waterHurt' 'global(TEAM_SURVIVORS)' 3 119; 0; -112; 267; 38; 64; {
+    if !global(var(target).ifFalled) {
+        setGlobal 'var(target).ifFalled' 1
+        set 'ply' 'var(target)'
+        Player.privateSound 'var(ply)' 'minecraft:item.elytra.flying' 1; 2;
+        Entity.effect 'var(ply)' 'slow_falling' -1; 0; 0; 0; 1;
+        Entity.effect 'var(ply)' 'slowness' -1; 4; 0; 0; 1;
+        Entity.effect 'var(ply)' 'darkness' -1; 4; 0; 0; 1;
+        Entity.effect 'var(ply)' 'resistance' -1; 127; 0; 0; 1;
+        Entity.getPos 'var(ply)' 'fallPos'
+        wait 20
+        Shiver.resetPlayer 'var(ply)'
+        Entity.tp 'var(ply)' 174.5; 44; -93.5; 0; 90
+        Entity.effect 'var(ply)' 'invisibility' -1; 0; 0; 0; 1;
+        Entity.effect 'var(ply)' 'weakness' -1; 127; 0; 0; 1;
+        Entity.effect 'var(ply)' 'levitation' -1; 0; 0; 0; 1;
+        wait 100
+        World.sound 'shiver:classic_death' 10; 0.5; var(fallPos.x); var(fallPos.y); var(fallPos.z);
+        Entity.tp 'var(ply)' 227; 68; -33.85; 134; 31;
+        Shiver.callDeath 'var(ply)' 0;
+    }
+}
 
 # Cutscenes
 parallel '*' {

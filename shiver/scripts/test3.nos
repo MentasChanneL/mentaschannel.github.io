@@ -1,7 +1,6 @@
 message 'start'
 
 Shiver.spawnTrigger 'test' 'global(TEAM_SURVIVORS)' 0; 227; 45; -43; 233; 42; -55; {
-    message 'var(target)'
     Entity.setVelocity 'var(target)' 0; 1; 0;
 }
 

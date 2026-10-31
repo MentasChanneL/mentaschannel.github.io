@@ -7,6 +7,10 @@ setGlobal 'GAMESTAGE_GAME' 3
 # Используется при погодтовке мира и в катсценах
 setGlobal 'GAMESTAGE_CUTSCENE' 2
 
+setGlobal 'TEAM_SURVIVORS' 'In_Game'
+setGlobal 'TEAM_SPECTATORS' 'In_Spectators'
+setGlobal 'TEAM_ZOMBIES' 'zombies'
+
 # Стата побед
 setGlobal 'STAT_WINS' 'wins'
 # Стата игр

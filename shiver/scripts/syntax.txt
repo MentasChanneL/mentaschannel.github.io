@@ -86,7 +86,6 @@ types {
     1 - once for each target (target)
     2 - tick (targets)
     3 - tick for each target (target)
-    4 - only if not collide (targets)
 }
 Shiver.removeTrigger text(id)
 Shiver.getProp text(id) text(variable name for uuid)

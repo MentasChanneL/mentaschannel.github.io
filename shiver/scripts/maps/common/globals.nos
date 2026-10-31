@@ -9,7 +9,7 @@ setGlobal 'GAMESTAGE_CUTSCENE' 2
 
 setGlobal 'TEAM_SURVIVORS' 'In_Game'
 setGlobal 'TEAM_SPECTATORS' 'In_Spectators'
-setGlobal 'TEAM_ZOMBIES' 'zombies'
+setGlobal 'TEAM_ZOMBIES' 'ENEMIES'
 
 # Стата побед
 setGlobal 'STAT_WINS' 'wins'

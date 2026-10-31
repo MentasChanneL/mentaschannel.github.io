@@ -4,6 +4,8 @@
 # - player - Player
 # - reason - Player join reason (1 - by User, 2 - by Script, 3 - antidot)
 
+setGlobal 'var(player).ifFalled' 0
+
 if var(reason) == 1 {
     Shiver.getSTAGE 'stage'
     if var(stage) == global(GAMESTAGE_CUTSCENE) {

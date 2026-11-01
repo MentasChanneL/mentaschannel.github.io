@@ -24,6 +24,9 @@ parallel text(variable name for uuid) block(code)
 copyToGlobal text(variable name) text(global variable name)
 copyToLocal text(global variable name) text(variable name)
 script.setVar text(script uuid) text(name) text(value)
+hexToDec text(hex) text(variable name for result)
+decToHex math(int) text(variable name for result)
+String.sub math(startIndex) math(endIndex) text(text) text(variable name for result)
 
 # World module commands
 World.time math(time)
@@ -124,5 +127,6 @@ Shiver.addPoint text(player) math(amount) math(use bonuse)
 Shiver.addScrap text(player) math(amount)
 Shiver.openJoin math(1 - open, else close)
 Shiver.respawnSpectators
-Shiver.addItem text(player) text(item id)
+Shiver.addItem text(player) text(item id) text(components - json)
 Shiver.removeItem text(player) text(item id)
+Shiver.getPlayerRate text(player) text(variable name rate) text(variable name level) text(variable name rate to new level) text(variable name color)

@@ -23,7 +23,16 @@ if var(reason) < 3 {
     Player.sendBedAnimation 'var(player)'
     Shiver.tpPlayerToClone 'var(player)' 218; 42; -75; 0; 0;
     Shiver.resetPlayer 'var(player)'
-    Shiver.addItem 'var(player)' 'item.kit_selection'
+
+    # Выдача рюкзака цвета его рейтинга
+    Shiver.getPlayerRate 'var(player)' '*' '*' '*' 'color'
+    if len(color) > 6 {
+        # Вырезаем # из цвета
+        String.sub 1; len(color); 'var(color)' 'color'
+    }
+    hexToDec 'var(color)' 'color'
+    Shiver.addItem 'var(player)' 'item.kit_selection' '{"minecraft:dyed_color": var(color)}'
+
     Player.disableMove 'var(player)' 0
     jump 'return'
 }

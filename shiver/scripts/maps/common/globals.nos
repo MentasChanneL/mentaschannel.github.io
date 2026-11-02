@@ -16,6 +16,9 @@ setGlobal 'STAT_WINS' 'wins'
 # Стата игр
 setGlobal 'STAT_GAMES' 'games'
 
+# Пропуск этапов командой .skip
+setGlobal 'SKIPED' 0
+
 setGlobal 'POINT_BONUS' 1
 
 setGlobal 'CINEMATIC_LINES' '<color:#000033><font:shiver:frame>0'

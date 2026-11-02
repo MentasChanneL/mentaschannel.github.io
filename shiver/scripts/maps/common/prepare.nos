@@ -25,8 +25,14 @@ if var(time) > 0 {
     Shiver.setProgressBar var(time) / global(PREPARE_TIME); 0;
     wait 20
     set 'time' var(time) - 1
+    # Проверка на .skip
+    if global(SKIPED) {
+        setGlobal 'SKIPED' 0
+        jump 'endTimer'
+    }
     jump 'prepareTimer'
 }
+@endTimer
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     # Добавляем к статистике игр, только если игрок дожил до начала игры

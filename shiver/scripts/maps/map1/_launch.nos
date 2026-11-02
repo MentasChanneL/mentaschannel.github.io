@@ -23,8 +23,7 @@ if var(inLoading) > 0 {
 }
 
 # Default Prepare
-Shiver.music 'shiver:music.theme3' 1; 1;
-setGlobal 'MAP_TITLE' '<white>🌊 Маяк'
+setGlobal 'MAP_TITLE' '<white>🌊 <tr:shiver.map.map1>'
 setGlobal 'PREPARE_TIME' 1800
 setGlobal 'LOOT_CHANCE' 0.7
 
@@ -33,6 +32,7 @@ run 'maps/map1/waves' '*'
 runInLine 'maps/common/launch'
 
 # Preparing
+Shiver.music 'shiver:music.theme3' 1; 1;
 World.time 13100
 Shiver.addZombieSpawn 'default' 218.5; 42; 18.5; 180; 0
 Shiver.spawnTrigger 'waterHurt' 'global(TEAM_SURVIVORS)' 3; 119; 0; -112; 267; 38; 64; {

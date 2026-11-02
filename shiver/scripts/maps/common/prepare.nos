@@ -13,9 +13,9 @@ setGlobal 'POINT_BONUS' 0
 if var(time) > 0 {
     set 'channel' 204 * (var(time) - 10) / (global(PREPARE_TIME) - 10)
     World.createColor 'color' 204; var(channel); var(channel);
-    Shiver.setBossbarTitle '<gradient:#211111:var(color)><strikethrough>          <!strikethrough></gradient><var(color)> Осталось var(time) секунд <gradient:var(color):#211111><strikethrough>          '
+    Shiver.setBossbarTitle '<gradient:#211111:var(color)><strikethrough>          <!strikethrough></gradient><var(color)> <tr:shiver.message.preparing.timer:"var(time)"> <gradient:var(color):#211111><strikethrough>          '
     if var(time) < 11 {
-        Shiver.setBossbarTitle '<gradient:#211111:#FE1010><strikethrough>          <!strikethrough></gradient><#FF0003> Осталось var(time) секунд <gradient:#FE1010:#211111><strikethrough>          '
+        Shiver.setBossbarTitle '<gradient:#211111:#FE1010><strikethrough>          <!strikethrough></gradient><#FF0003> <tr:shiver.message.preparing.timer:"var(time)"> <gradient:#FE1010:#211111><strikethrough>          '
         set 'sound' 'shiver:tick'
         if var(time) % 2 != 0 {
             set 'sound' 'shiver:tack'
@@ -44,6 +44,6 @@ setGlobal 'POINT_BONUS' 1
 # Закрываем вход для игроков из меню
 Shiver.openJoin 0
 run 'global(TICK_HANDLER)' '*'
-Shiver.setBossbarTitle '<gradient:#211111:#FE1010><strikethrough>          <!strikethrough></gradient><#FF0003>  Они уже здесь  <gradient:#FE1010:#211111><strikethrough>          '
+Shiver.setBossbarTitle '<gradient:#211111:#FE1010><strikethrough>          <!strikethrough></gradient><#FF0003>  <tr:shiver.message.preparing.they_are_here>  <gradient:#FE1010:#211111><strikethrough>          '
 wait 60
 Shiver.setBossbarTitle ''

@@ -35,6 +35,8 @@ forEach '*' 'ply' 'players' {
 }
 # Возвращаем заработок поинтов
 setGlobal 'POINT_BONUS' 1
+# Закрываем вход для игроков из меню
+Shiver.openJoin 0
 run 'global(TICK_HANDLER)' '*'
 Shiver.setBossbarTitle '<gradient:#211111:#FE1010><strikethrough>          <!strikethrough></gradient><#FF0003>  Они уже здесь  <gradient:#FE1010:#211111><strikethrough>          '
 wait 60

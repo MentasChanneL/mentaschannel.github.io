@@ -7,12 +7,11 @@ loadScript 'maps/common/wave_tick'
 loadScript 'maps/common/globals'
 loadScript 'maps/common/run_cameras'
 wait 10
-loadScript 'maps/map1/on_wave'
-loadScript 'maps/map1/waves'
-loadScript 'maps/map1/victory'
-# loadScript 'maps/map1/player_fall'
-loadScript 'maps/map1/_join'
-loadScript 'maps/map1/_lose'
+loadScript 'maps/global(MAP)/on_wave'
+loadScript 'maps/global(MAP)/waves'
+loadScript 'maps/global(MAP)/victory'
+loadScript 'maps/global(MAP)/_join'
+loadScript 'maps/global(MAP)/_lose'
 
 ## Loading wait
 @scriptsLoading
@@ -23,17 +22,16 @@ if var(inLoading) > 0 {
 }
 
 # Default Prepare
-setGlobal 'MAP_TITLE' '<white>🌊 <tr:shiver.map.map1>'
-setGlobal 'PREPARE_TIME' 1800
+setGlobal 'MAP_TITLE' '<white>🌊 <tr:shiver.map.global(MAP)>'
 setGlobal 'LOOT_CHANCE' 0.7
+World.time 13100
 
 run 'maps/common/globals' '*'
-run 'maps/map1/waves' '*'
+run 'maps/global(MAP)/waves' '*'
 runInLine 'maps/common/launch'
 
 # Preparing
 Shiver.music 'shiver:music.theme3' 1; 1;
-World.time 13100
 Shiver.addZombieSpawn 'default' 218.5; 42; 18.5; 180; 0
 Shiver.spawnTrigger 'waterHurt' 'global(TEAM_SURVIVORS)' 3; 119; 0; -112; 267; 38; 64; {
     if !global(var(target).ifFalled) {
@@ -123,7 +121,6 @@ forEach '*' 'ply' 'players' {
 setGlobal 'PREPARE_TIME' 90
 setGlobal 'TICK_HANDLER' 'maps/common/wave_tick'
 run 'maps/common/prepare' '*'
-run 'maps/map1/player_tick' '*'
 wait 10
 Shiver.makeLeader
 ###

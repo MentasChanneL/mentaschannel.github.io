@@ -1,0 +1,5 @@
+# Shiver map script | REPIS
+
+if global(WAVE) == 8 {
+    Shiver.music 'shiver:music.theme10' 1; 1;
+}

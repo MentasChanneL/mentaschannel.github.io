@@ -38,6 +38,10 @@ World.stopSound text(sound)
 World.setBlocks math(updates) text(block) math(x1) math(y1) math(z1) math(x2) math(y2) math(z2)
 World.privateSound text(id) math(volume) math(pitch)
 World.createColor text(varible name) math(r) math(g) math(b)
+World.cloneBlocks
+   math(x1) math(y1) math(z1)  math(x2) math(y2) math(z2)
+   math(paste x) math(paste y) math(paste z)
+   text(ignore air true/false) text(clone entity true/false)
 World.locToLoc math(x1) math(y1) math(z1) math(x2) math(y2) math(z2) text(variable prefix) math(coefficient)
 
 # Entity module commands
@@ -130,3 +134,7 @@ Shiver.respawnSpectators
 Shiver.addItem text(player) text(item id) text(components - json)
 Shiver.removeItem text(player) text(item id)
 Shiver.getPlayerRate text(player) text(variable name rate) text(variable name level) text(variable name rate to new level) text(variable name color)
+Shiver.addClickableBlocks text(id) text(team) math(swingHand) math(x1) math(y1) math(z1) math(x2) math(y2) math(z2) block(on click, vars: player, block, blockX, blockY, blockZ, yaw, pitch, face, faceX, faceY, faceZ)
+Shiver.disableClickableBlocks text(id) math(ticks)
+Shiver.removeClickableBlocks text(id)
+Shiver.removeZombies

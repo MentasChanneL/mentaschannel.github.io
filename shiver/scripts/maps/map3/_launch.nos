@@ -1,0 +1,78 @@
+# Shiver map script | REPIS
+
+# Scripts load
+loadScript 'maps/common/globals'
+loadScript 'maps/common/launch'
+loadScript 'maps/common/prepare'
+loadScript 'maps/common/wave_tick'
+loadScript 'maps/common/run_cameras'
+wait 10
+loadScript 'maps/global(MAP)/on_wave'
+loadScript 'maps/global(MAP)/waves'
+loadScript 'maps/global(MAP)/victory'
+loadScript 'maps/global(MAP)/_join'
+loadScript 'maps/global(MAP)/_lose'
+
+## Loading wait
+@scriptsLoading
+getLoadingScriptsAmount 'inLoading'
+if var(inLoading) > 0 {
+    wait 3
+    jump 'scriptsLoading'
+}
+
+# Default Prepare
+setGlobal 'MAP_TITLE' '<white>🌊 <tr:shiver.map.global(MAP)>'
+setGlobal 'LOOT_CHANCE' 0.7
+World.time 12800
+
+run 'maps/common/globals' '*'
+run 'maps/global(MAP)/waves' '*'
+runInLine 'maps/common/launch'
+
+# Preparing
+Shiver.music 'shiver:music.theme9' 1; 1;
+Shiver.addZombieSpawn 'metro' 241.5; 17; 217.5; 0; 0;
+Shiver.addZombieSpawn 'city' 306; 23; 297.5; 160; 0;
+
+# Cutscenes
+dict 'tasks'
+dict 'move'
+dict.set 'move' 'pos' '{"x": 196, "y": 23, "z": 250, "yaw": 0, "pitch": 0}'
+set 'sprint' 0
+dict.setVar 'move' 'sprint' 'sprint'
+dict.setVar 'tasks' 'move' 'move'
+Shiver.spawnClones 196; 23; 298.5; 'tasks' 3.5
+Shiver.getClones 'clones'
+dict.values 'clones' 'clones_ents'
+forEach '*' 'ent' 'clones_ents' {
+    Entity.effect 'var(ent)' 'slowness' 80; 127; 0; 0; 1;
+}
+
+list 'cameras'
+list.add 'cameras' 'map3start1'
+list.add 'cameras' 'map3start2'
+copyToGlobal 'cameras' 'CAMERAS'
+runInLine 'maps/common/run_cameras'
+
+### Spawn
+Shiver.STAGE global(GAMESTAGE_GAME)
+Shiver.title 0; 20; 20; 'global(CINEMATIC_LINES)' ''
+Shiver.removeClones
+Shiver.getPlayers 'players'
+forEach '*' 'ply' 'players' {
+    Shiver.callJoin 'var(ply)'
+}
+setGlobal 'PREPARE_TIME' 120
+setGlobal 'TICK_HANDLER' 'maps/common/wave_tick'
+run 'maps/common/prepare' '*'
+wait 10
+Shiver.makeLeader
+###
+
+wait 20
+Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Почти вышли из города, уже виднеется отель.'
+wait var(wait) + 40
+Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Обшарим эту местность и выдвигаемся.'
+wait var(wait) + 40
+Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Надеюсь за нами не было хвоста...'

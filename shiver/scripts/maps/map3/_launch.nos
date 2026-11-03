@@ -34,8 +34,10 @@ runInLine 'maps/common/launch'
 Shiver.music 'shiver:music.theme9' 1; 1;
 Shiver.addZombieSpawn 'metro' 241.5; 17; 217.5; 0; 0;
 Shiver.addZombieSpawn 'city' 306; 23; 297.5; 160; 0;
-Shiver.spawnTrigger 'victims' 'global(TEAM_SURVIVORS)' 0; 185; 23; 293; 183; 28; 295; {
+Shiver.spawnTrigger 'victim1' 'global(TEAM_SURVIVORS)' 0; 185; 23; 293; 183; 28; 295; {
    Shiver.ent '*' '6' 179.5; 26; 295.5; -45; 0;
+}
+Shiver.spawnTrigger 'victim2' 'global(TEAM_SURVIVORS)' 0;  185; 26; 296; 180; 29; 299; {
    Shiver.ent '*' '6' 181.5; 26.5; 301.5; -45; 0;
 }
 

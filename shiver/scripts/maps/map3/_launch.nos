@@ -50,7 +50,7 @@ Shiver.spawnClones 196; 23; 298.5; 'tasks' 3.5
 Shiver.getClones 'clones'
 dict.values 'clones' 'clones_ents'
 forEach '*' 'ent' 'clones_ents' {
-    Entity.effect 'var(ent)' 'slowness' 80; 127; 0; 0; 1;
+    Entity.effect 'var(ent)' 'slowness' 70; 127; 0; 0; 1;
 }
 
 list 'cameras'

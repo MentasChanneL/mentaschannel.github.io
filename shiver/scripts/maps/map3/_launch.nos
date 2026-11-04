@@ -77,7 +77,7 @@ Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.callJoin 'var(ply)'
 }
-setGlobal 'PREPARE_TIME' 120
+setGlobal 'PREPARE_TIME' 150
 setGlobal 'TICK_HANDLER' 'maps/common/wave_tick'
 run 'maps/common/prepare' '*'
 wait 10

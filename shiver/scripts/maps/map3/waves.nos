@@ -23,16 +23,15 @@ list.addVar 'waves' 'wave'
 
 # 3
 dict 'wave'
-dict.set 'wave' '0' 4
+dict.set 'wave' '0' 3
 dict.set 'wave' '2' 2
-dict.set 'wave' '5' 2
-dict.set 'wave' '15' 1
+dict.set 'wave' '5' 1
 dict.set 'wave' '11' 3
 list.addVar 'waves' 'wave'
 
 # 4
 dict 'wave'
-dict.set 'wave' '0' 3
+dict.set 'wave' '0' 1
 dict.set 'wave' '5' 2
 dict.set 'wave' '8' 2
 dict.set 'wave' '11' 2
@@ -43,9 +42,10 @@ list.addVar 'waves' 'wave'
 dict 'wave'
 dict.set 'wave' '7' 2
 dict.set 'wave' '5' 2
-dict.set 'wave' '8' 3
+dict.set 'wave' '8' 2
 dict.set 'wave' '11' 2
 dict.set 'wave' '2' 2
+dict.set 'wave' '15' 1
 list.addVar 'waves' 'wave'
 
 # 6

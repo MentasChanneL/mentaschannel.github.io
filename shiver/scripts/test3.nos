@@ -1,7 +1,7 @@
 message 'start'
 
-Shiver.spawnTrigger 'test' 'global(TEAM_SURVIVORS)' 0; 227; 45; -43; 233; 42; -55; {
-    Entity.setVelocity 'var(target)' 0; 1; 0;
+parallel '*' ['hello'] {
+    message 'var(arg.0)'
 }
 
 message 'end'

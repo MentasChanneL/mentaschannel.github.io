@@ -42,7 +42,7 @@ if var(inLoading) > 0 {
 if var(arg.0) == 1 {
     runInLine 'maps/global(MAP)/waves' []
 }
-runInLine 'maps/common/globals' '*' []
+runInLine 'maps/common/globals' []
 World.time 12000
 World.weather 'clear'
 Shiver.setBossbarEffect 'none'

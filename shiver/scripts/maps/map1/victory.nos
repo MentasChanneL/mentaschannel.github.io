@@ -1,6 +1,6 @@
 # Shiver map script | REPIS
 
-run 'maps/common/victory' [
+run 'maps/common/victory' '*' [
     ['map1_win1'; 'map1_win2'];
     1;
     'coach';

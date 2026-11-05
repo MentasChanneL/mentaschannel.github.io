@@ -15,7 +15,7 @@ set 'amount' len(waves)
     list.get 'waves' var(i); 'wave'
     setGlobal 'WAVE' 'math(var(i) + 1)'
     if global(WAVE_INCOMIN_RUN) != 0 {
-        run 'WAVE_INCOMING_RUN' '*'
+        run 'WAVE_INCOMING_RUN' '*' []
     }
     set 'max_timer' min(global(WAVE_TIME) + global(WAVE_TIME_ADDITION) * var(i), global(WAVE_MAX_TIME))
     set 'timer' var(max_timer)

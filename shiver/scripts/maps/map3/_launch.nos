@@ -1,37 +1,16 @@
 # Shiver map script | REPIS
+# Загрузочный скрипт карты Маяк
 
-# Scripts load
-loadScript 'maps/common/globals'
-loadScript 'maps/common/launch'
-loadScript 'maps/common/prepare'
-loadScript 'maps/common/wave_tick'
-loadScript 'maps/common/run_cameras'
-wait 10
-loadScript 'maps/global(MAP)/on_wave'
-loadScript 'maps/global(MAP)/waves'
-loadScript 'maps/global(MAP)/victory'
-loadScript 'maps/global(MAP)/_join'
-loadScript 'maps/global(MAP)/_lose'
-
-## Loading wait
-@scriptsLoading
-getLoadingScriptsAmount 'inLoading'
-if var(inLoading) > 0 {
-    wait 3
-    jump 'scriptsLoading'
-}
-
-# Default Prepare
-setGlobal 'MAP_TITLE' '<white>🌊 <tr:shiver.map.global(MAP)>'
-setGlobal 'LOOT_CHANCE' 0.7
+# Запуск, настройка
+runInLine 'maps/common/_load' [1]
+setGlobal 'MAP_TITLE' '<white>☷ <tr:shiver.map.global(MAP)>'
+setGlobal 'LOOT_CHANCE' 0.6
+setGlobal 'PREPARE_TIME' 150
+setGlobal 'TICK_HANDLER' 'maps/common/wave_tick'
 World.time 12800
-
-run 'maps/common/globals' '*'
-run 'maps/global(MAP)/waves' '*'
-runInLine 'maps/common/launch'
-
-# Preparing
+runInLine 'maps/common/launch' []
 Shiver.music 'shiver:music.theme9' 1; 1;
+
 Shiver.addZombieSpawn 'metro' 241.5; 17; 217.5; 0; 0;
 Shiver.addZombieSpawn 'city' 306; 23; 297.5; 160; 0;
 Shiver.spawnTrigger 'victim1' 'global(TEAM_SURVIVORS)' 0; 185; 23; 293; 183; 28; 295; {
@@ -49,7 +28,9 @@ Shiver.spawnTrigger 'jumper' 'global(TEAM_SURVIVORS)' 0; 260; 30; 275; 259; 33; 
     jump 'tick'
 }
 
-# Cutscenes
+###########################################################
+##                      Катсцены                         ##
+###########################################################
 dict 'tasks'
 dict 'move'
 dict.set 'move' 'pos' '{"x": 196, "y": 23, "z": 250, "yaw": 0, "pitch": 0}'
@@ -63,25 +44,14 @@ forEach '*' 'ent' 'clones_ents' {
     Entity.effect 'var(ent)' 'slowness' 70; 127; 0; 0; 1;
 }
 
-list 'cameras'
-list.add 'cameras' 'map3start1'
-list.add 'cameras' 'map3start2'
-copyToGlobal 'cameras' 'CAMERAS'
-runInLine 'maps/common/run_cameras'
+runInLine 'maps/common/run_cameras' [[
+    'map3start1';
+    'map3start2'
+]]
+###########################################################
 
-### Spawn
-Shiver.STAGE global(GAMESTAGE_GAME)
-Shiver.title 0; 20; 20; 'global(CINEMATIC_LINES)' ''
-Shiver.removeClones
-Shiver.getPlayers 'players'
-forEach '*' 'ply' 'players' {
-    Shiver.callJoin 'var(ply)'
-}
-setGlobal 'PREPARE_TIME' 150
-setGlobal 'TICK_HANDLER' 'maps/common/wave_tick'
-run 'maps/common/prepare' '*'
-wait 10
-Shiver.makeLeader
+### Спавн игроков
+run 'maps/common/initialize_players' '*' [1]
 ###
 
 wait 20

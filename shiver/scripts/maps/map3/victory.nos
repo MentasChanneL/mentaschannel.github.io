@@ -1,17 +1,12 @@
 # Shiver map script | REPIS
 
-setGlobal 'POINT_BONUS' 0
-Shiver.getPlayers 'players'
-forEach '*' 'ply' 'players' {
-    Shiver.addStats 'var(ply)' 'global(STAT_WINS)' 1
-    Shiver.rewardKit 'var(ply)' 'kit.engi'
-}
-Shiver.getAllPlayers 'players'
-forEach '*' 'ply' 'players' {
-    Shiver.resetPlayer 'var(ply)'
-    Entity.effect 'var(ply)' 'invisibility' -1; 0; 0; 0; 1;
-    Entity.effect 'var(ply)' 'weakness' -1; 127; 0; 0; 1;
-}
+run 'maps/common/victory' '*' [
+    ['map3win'];
+    2;
+    'kit.engi';
+    268.5; 5; 293.5;
+]
+
 Shiver.music 'shiver:music.theme11' 1; 1;
 dict 'tasks'
 dict 'move'
@@ -23,23 +18,3 @@ dict.setVar 'tasks' 'move' 'move'
 dict.setVar 'tasks' 'defend' 'defend'
 Shiver.spawnClones 227.5; 24.5; 247; 'tasks' 3
 Shiver.removeZombies
-
-list 'cameras'
-list.add 'cameras' 'map3win'
-copyToGlobal 'cameras' 'CAMERAS'
-runInLine 'maps/common/run_cameras'
-
-Shiver.title 20; 100; 0; '<color:#3300FF><font:shiver:frame>0' ''
-
-wait 21
-Shiver.getAllPlayers 'players'
-forEach '*' 'ply' 'players' {
-    Shiver.resetPlayer 'var(ply)'
-    Entity.effect 'var(ply)' 'invisibility' -1; 0; 0; 0; 1;
-    Entity.effect 'var(ply)' 'weakness' -1; 127; 0; 0; 1;
-    Entity.tp 'var(ply)' 188.5; 17.0; -45.5; 0; 90;
-}
-wait 4
-Shiver.title 20; 40; 20; '' '<tr:shiver.message.survivors_saved>'
-wait 75
-Shiver.STAGE global(GAMESTAGE_END)

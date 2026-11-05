@@ -4,7 +4,7 @@ run 'maps/common/victory' '*' [
     ['map3win'];
     2;
     'kit.engi';
-    268.5; 5; 293.5;
+    268.5; 5; 293.5
 ]
 
 Shiver.music 'shiver:music.theme11' 1; 1;

@@ -4,7 +4,7 @@ run 'maps/common/victory' '*' [
     ['map1_win1'; 'map1_win2'];
     1;
     'coach';
-    188.5; 17.0; -45.5;
+    188.5; 17.0; -45.5
 ]
 
 Shiver.music 'shiver:music.win1' 1; 1;

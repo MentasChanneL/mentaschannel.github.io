@@ -8,5 +8,4 @@ run 'maps/common/lose' '*' [
 ]
 
 wait 30
-World.privateSound 'shiver:ambience.lose' 1; 1;
 Entity.lightingbolt 307.5; 23; 298.5;

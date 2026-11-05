@@ -1,5 +1,7 @@
-message '1'
-message '2'
-message '3'
-wait 20
-message '20 end'
+message 'var(arg.0) var(arg.1)'
+
+parallel '*' ['hello'] {
+    message 'var(arg.0)'
+}
+
+message 'end var(arg.0) var(arg.1)'

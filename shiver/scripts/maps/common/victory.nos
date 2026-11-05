@@ -1,0 +1,44 @@
+# Shiver map script | REPIS
+# Общий скрипт для победы
+# Добавляет победу в статистику и раздает награды
+# Аргументы:
+# 0 - Список камер
+# 1 - Тип награды: 1 - персонаж, 2 - кит
+# 2 - Айди награды
+# 3 - X координата черной команаты
+# 4 - Y координата черной команаты
+# 5 - Z координата черной команаты
+
+Shiver.getPlayers 'players'
+forEach '*' 'ply' 'players' {
+    Shiver.addStats 'var(ply)' 'global(STAT_WINS)' 1
+    if var(arg.1) == 1 {
+        Shiver.rewardCharacter 'var(ply)' 'var(arg.2)'
+    }
+    if var(arg.1) == 2 {
+        Shiver.rewardKit 'var(ply)' 'var(arg.2)'
+    }
+}
+Shiver.getAllPlayers 'players'
+forEach '*' 'ply' 'players' {
+    Shiver.resetPlayer 'var(ply)'
+    Entity.effect 'var(ply)' 'invisibility' -1; 0; 0; 0; 1;
+    Entity.effect 'var(ply)' 'weakness' -1; 127; 0; 0; 1;
+}
+
+runInLine 'maps/common/run_cameras' [*arg.0]
+
+Shiver.title 20; 100; 0; '<color:#3300FF><font:shiver:frame>0' ''
+
+wait 21
+Shiver.getAllPlayers 'players'
+forEach '*' 'ply' 'players' {
+    Shiver.resetPlayer 'var(ply)'
+    Entity.effect 'var(ply)' 'invisibility' -1; 0; 0; 0; 1;
+    Entity.effect 'var(ply)' 'weakness' -1; 127; 0; 0; 1;
+    Entity.tp 'var(ply)' *arg.3; *arg.4; *arg.5; 0; 90;
+}
+wait 4
+Shiver.title 20; 40; 20; '' '<tr:shiver.message.survivors_saved>'
+wait 75
+Shiver.STAGE global(GAMESTAGE_END)

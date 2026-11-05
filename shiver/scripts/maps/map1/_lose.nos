@@ -1,28 +1,6 @@
 # Shiver map script | REPIS
 
-setGlobal 'POINT_BONUS' 0
-Shiver.getAllPlayers 'players'
-forEach '*' 'pl' 'players' {
-    Entity.effect 'var(pl)' 'darkness' 200; 0; 0; 0; 1;
-    Shiver.stopMusic 'var(pl)'
-    Shiver.title 30; 30; 30; '<color:#000000><font:shiver:hud>0' ''
-}
-World.privateSound 'shiver:ambience.lose' 1; 1;
-wait 28
-list 'cameras'
-list.add 'cameras' 'map1.camera3'
-copyToGlobal 'cameras' 'CAMERAS'
-runInLine 'maps/common/run_cameras'
-
-Shiver.getAllPlayers 'players'
-forEach '*' 'pl' 'players' {
-    Entity.tp 'var(pl)' 196.5; 50; -106.5; 0; 90;
-    Entity.effect 'var(pl)' 'blindness' -1; 0; 0; 0; 1;
-    Player.gamemode 'var(pl)' 'spectator'
-    Player.disableMove 'var(pl)' 999999
-}
-wait 5
-Shiver.title 10; 60; 20; '' '<#c40000><tr:shiver.message.lose>'
-wait 5 * 20
-
-Shiver.STAGE global(GAMESTAGE_END)
+run 'maps/common/lose' '*' [
+    ['map1.camera3'];
+    196.5; 50; -106.5
+]

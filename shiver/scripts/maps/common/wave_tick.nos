@@ -44,4 +44,4 @@ set 'amount' len(waves)
     @endTimer
     set 'i' var(i) + 1
     if var(i) < var(amount) { jump 'forWave' }
-run 'global(WAVES_END_SCRIPT)' '*'
+run 'global(WAVES_END_SCRIPT)' '*' []

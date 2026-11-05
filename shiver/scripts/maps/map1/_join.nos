@@ -6,38 +6,9 @@
 
 setGlobal 'var(player).ifFalled' 0
 
-if var(reason) == 1 {
-    Shiver.getSTAGE 'stage'
-    if var(stage) == global(GAMESTAGE_CUTSCENE) {
-        Shiver.resetPlayer 'var(player)'
-        Entity.effect 'var(player)' 'invisibility' -1; 0; 0; 0; 1;
-        Entity.effect 'var(player)' 'blindness' -1; 0; 0; 0; 1;
-        Player.gamemode 'var(player)' 'spectator'
-        Player.disableMove 'var(ply)' 999999
-        jump 'return'
-    }
-    message '<#D8D6D6>+ var(player)'
-}
-
-if var(reason) < 3 {
-    Player.sendBedAnimation 'var(player)'
-    Shiver.tpPlayerToClone 'var(player)' 218; 42; -75; 0; 0;
-    Shiver.resetPlayer 'var(player)'
-
-    # Выдача рюкзака цвета его рейтинга
-    Shiver.getPlayerRate 'var(player)' '*' '*' '*' 'color'
-    if len(color) > 6 {
-        # Вырезаем # из цвета
-        String.sub 1; len(color); 'var(color)' 'color'
-    }
-    hexToDec 'var(color)' 'color'
-    Shiver.addItem 'var(player)' 'item.kit_selection' '{"minecraft:dyed_color": var(color)}'
-
-    Player.disableMove 'var(player)' 0
-    jump 'return'
-}
-
-if var(reason) == 3 {
-    
-}
-@return pass
+runInLine 'maps/common/player_join' [
+    'var(player)';
+    var(reason);
+    1;
+    218; 42; -75; 0; 0;
+]

@@ -1,0 +1,50 @@
+# Shiver map script | REPIS
+# Общий скрипт на вход игрока
+# Аргументы:
+# 0 - Игрок
+# 1 - Причина (1 - by User, 2 - by Script, 3 - antidot)
+# 2 - Выдать кит старт 0/1
+# 3 - X координата места спавна, если клон не найден
+# 4 - Y координата места спавна, если клон не найден
+# 5 - Z координата места спавна, если клон не найден
+# 6 - Yaw координата места спавна, если клон не найден
+# 7 - Pitch координата места спавна, если клон не найден
+
+set 'player' 'var(arg.0)'
+set 'reason' var(arg.1)
+
+if var(reason) == 1 {
+    Shiver.getSTAGE 'stage'
+    if var(stage) == global(GAMESTAGE_CUTSCENE) {
+        Shiver.resetPlayer 'var(player)'
+        Entity.effect 'var(player)' 'invisibility' -1; 0; 0; 0; 1;
+        Entity.effect 'var(player)' 'blindness' -1; 0; 0; 0; 1;
+        Player.gamemode 'var(player)' 'spectator'
+        Player.disableMove 'var(ply)' 999999
+        jump 'return'
+    }
+    message '<#D8D6D6>+ var(player)'
+}
+
+if var(reason) < 3 {
+    Player.sendBedAnimation 'var(player)'
+    Shiver.tpPlayerToClone 'var(player)' var(arg.3); var(arg.4); var(arg.5); var(arg.6); var(arg.7);
+    Shiver.resetPlayer 'var(player)'
+    # Выдача рюкзака цвета его рейтинга
+    if var(arg.2) > 0 {
+        Shiver.getPlayerRate 'var(player)' '*' '*' '*' 'color'
+        if len(color) > 6 {
+            # Вырезаем # из цвета
+            String.sub 1; len(color); 'var(color)' 'color'
+        }
+        hexToDec 'var(color)' 'color'
+        Shiver.addItem 'var(player)' 'item.kit_selection' '{"minecraft:dyed_color": var(color)}'
+    }
+    Player.disableMove 'var(player)' 0
+    jump 'return'
+}
+
+if var(reason) == 3 {
+    
+}
+@return pass

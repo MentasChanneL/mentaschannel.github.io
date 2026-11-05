@@ -1,0 +1,32 @@
+# Shiver map script | REPIS
+# Общий скрипт проигрыша
+# Аргументы:
+# 0 - список камер
+# 1 - X координата черной комнаты
+# 2 - Y координата черной комнаты
+# 3 - Z координата черной комнаты
+
+setGlobal 'POINT_BONUS' 0
+Shiver.getAllPlayers 'players'
+forEach '*' 'pl' 'players' {
+    Entity.effect 'var(pl)' 'darkness' 200; 0; 0; 0; 1;
+    Shiver.stopMusic 'var(pl)'
+    Shiver.title 30; 30; 30; '<color:#000000><font:shiver:hud>0' ''
+}
+World.privateSound 'shiver:ambience.lose' 1; 1;
+wait 28
+runInLine 'maps/common/run_cameras' [*arg.0]
+
+Shiver.getAllPlayers 'players'
+forEach '*' 'pl' 'players' {
+    Entity.tp 'var(pl)' var(arg.1); var(arg.2); var(arg.3); 0; 90;
+    Entity.effect 'var(pl)' 'blindness' -1; 0; 0; 0; 1;
+    Player.gamemode 'var(pl)' 'spectator'
+    Player.disableMove 'var(pl)' 999999
+}
+Shiver.clearMap
+wait 5
+Shiver.title 10; 60; 20; '' '<#c40000><tr:shiver.message.lose>'
+wait 5 * 20
+
+Shiver.STAGE global(GAMESTAGE_END)

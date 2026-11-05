@@ -1,0 +1,49 @@
+# Shiver map script | REPIS
+# Загрузчик скриптов и инитиализатор игры
+# Загружает общие и указанные скрипты. Запускать линейно.
+# Этот скрипт загружается с запуском режима, поэтому загружать его в начале игры не нужно
+# Аргументы:
+# 0 - 1 - является картой на волны, 2 - является картой на прохождения
+
+if var(arg.0) == 0 {
+    message '<red>[Load] Тип карты не указан в аргументе'
+}
+
+loadScript 'maps/common/launch'
+loadScript 'maps/common/prepare'
+loadScript 'maps/common/wave_tick'
+loadScript 'maps/common/globals'
+loadScript 'maps/common/run_cameras'
+loadScript 'maps/common/initialize_players'
+loadScript 'maps/common/player_join'
+
+wait 10
+loadScript 'maps/common/lose'
+loadScript 'maps/common/victory'
+loadScript 'maps/global(MAP)/_join'
+loadScript 'maps/global(MAP)/_lose'
+loadScript 'maps/global(MAP)/victory'
+
+if var(arg.0) == 1 {
+    loadScript 'maps/global(MAP)/on_wave'
+    loadScript 'maps/global(MAP)/waves'
+}
+
+## Loading wait
+@scriptsLoading
+getLoadingScriptsAmount 'inLoading'
+if var(inLoading) > 0 {
+    wait 3
+    jump 'scriptsLoading'
+}
+## ---------------
+
+# Стандартные значения и начальные значения
+if var(arg.0) == 1 {
+    runInLine 'maps/global(MAP)/waves' []
+}
+runInLine 'maps/common/globals' '*' []
+World.time 12000
+World.weather 'clear'
+Shiver.setBossbarEffect 'none'
+Shiver.setBossbarTitle ''

@@ -1,0 +1,19 @@
+# Shiver map script | REPIS
+# Общий скрипт завершения всех катсцен и спавн игроков
+# Аргументы:
+# 0 - Объявить лидеров: 1 - да, 0 - нет (по умолч.)
+# 1 - Скрит подготовки игры. Если не указанно, то maps/common/prepare
+
+Shiver.STAGE global(GAMESTAGE_GAME)
+Shiver.title 0; 20; 20; 'global(CINEMATIC_LINES)' ''
+Shiver.removeClones
+Shiver.getPlayers 'players'
+forEach '*' 'ply' 'players' {
+    Shiver.callJoin 'var(ply)'
+}
+if var(arg.1) == 0 {
+    set 'arg.1' 'maps/common/prepare'
+}
+run 'var(arg.1)' '*' []
+wait 10
+if var(arg.0) > 0 { Shiver.makeLeader }

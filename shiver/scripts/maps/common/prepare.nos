@@ -43,7 +43,7 @@ forEach '*' 'ply' 'players' {
 setGlobal 'POINT_BONUS' 1
 # Закрываем вход для игроков из меню
 Shiver.openJoin 0
-run 'global(TICK_HANDLER)' '*'
+run 'global(TICK_HANDLER)' '*' []
 Shiver.setBossbarTitle '<gradient:#211111:#FE1010><strikethrough>          <!strikethrough></gradient><#FF0003>  <tr:shiver.message.preparing.they_are_here>  <gradient:#FE1010:#211111><strikethrough>          '
 wait 60
 Shiver.setBossbarTitle ''

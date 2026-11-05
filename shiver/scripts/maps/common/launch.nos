@@ -4,9 +4,6 @@
 #   MAP_TITLE - Отображаемое имя карты minimessage (🌊 Маяк, ★ Покинутый отель и т.п.)
 #   LOOT_CHANCE - Шанс появление лута
 
-World.weather 'clear'
-Shiver.setBossbarEffect 'none'
-Shiver.setBossbarTitle ''
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.resetPlayer 'var(ply)'

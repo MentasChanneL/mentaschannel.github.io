@@ -1,4 +1,8 @@
 # Op module commands
+set text(name) any(value)
+if math(condition) block(code)
+wait math(ticks)
+jump text(label)
 setGlobal text(name) any(value)
 forEach text(variable-index) text(variable-value) text(variable-list) block(code)
 message text(minimessage)

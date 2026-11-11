@@ -29,5 +29,21 @@ setGlobal 'EMPTY_ITEMSTACK' 'e30='
 
 setGlobal 'MAP_TITLE' '[MISSING NAME]'
 setGlobal 'LOOT_CHANCE' 0.5
+
 setGlobal 'WAVE' 0
 setGlobal 'WAVE_INCOMING_RUN' 0
+
+setGlobal 'MIN_ZOMBIE_COUNT' 3
+setGlobal 'MAX_ZOMBIE_COUNT' 15
+setGlobal 'ZOMBIE_PER_PLAYER' 0.5
+setGlobal 'ZOMBIE_TYPES_OBJECTIVE' ['0']
+setGlobal 'ZOMBIE_SPAWN' []
+setGlobal 'PAUSE_OBJECTIVE' 0
+setGlobal 'STOP_OBJECTIVE' 0
+setGlobal 'MAX_MUTATION_OBJECTIVE' 350
+setGlobal 'MUTATION_OBJECTIVE' 0
+
+# Автоматические глобальные переменные
+# MAP - текущая карта (map1, map2 и тд)
+# ENEMIES_COUNT - количество врагов
+# SURVIVORS_COUNT - количество выживших

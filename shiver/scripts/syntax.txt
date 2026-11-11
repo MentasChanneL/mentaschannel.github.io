@@ -1,4 +1,5 @@
 # Op module commands
+pass
 set text(name) any(value)
 if math(condition) block(code)
 wait math(ticks)

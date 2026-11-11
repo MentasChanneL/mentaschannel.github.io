@@ -1,0 +1,77 @@
+# Shiver map script | REPIS
+# Загрузочный скрипт карты Маяк
+
+# Запуск, настройка
+runInLine 'maps/common/_load' [1]
+setGlobal 'MAP_TITLE' '<white>⛏ <tr:shiver.map.global(MAP)>'
+setGlobal 'LOOT_CHANCE' 0.7
+setGlobal 'PREPARE_TIME' 90
+setGlobal 'TICK_HANDLER' 'maps/common/objective_tick'
+setGlobal 'MAX_MUTATION_OBJECTIVE' 400
+
+World.time 16000
+runInLine 'maps/common/launch' []
+Shiver.music 'shiver:music.theme6' 1; 1;
+
+###########################################################
+##                      Катсцены                         ##
+###########################################################
+
+parallel '*' [] {
+    dict 'tasks'
+    dict 'move'
+    dict.set 'move' 'pos' '{"x": 310.5, "y": 1.5, "z": -18.5, "yaw": 0, "pitch": 0}'
+    dict.set 'move' 'sprint' 1
+    dict.setVar 'tasks' 'move' 'move'
+    Shiver.spawnClones 310.5; 1.5; -94.5; 'tasks' 2
+    list 'types'
+    list.add 'types' '14'
+    list.add 'types' '2'
+    list.add 'types' '4'
+    set 'i' 10
+    @for
+    list.get 'types' floor(len(types) * $random); 'type'
+    Shiver.ent '*' 'var(type)' 310.5 + ($random * 4 - 2); 1.5; -121.5 + ($random * 4 - 2); 0; 0;
+    set 'i' var(i) - 1
+    if var(i) > 0 { jump 'for' }
+    wait 132
+    wait 40
+    Shiver.getProp 'stage0.c4' 'c4'
+    Entity.getPos 'var(c4)' 'c4_'
+    World.sound 'shiver:weapon.c4' 2; 1; var(c4_x); var(c4_y); var(c4_z);
+    Entity.itemDisplaySetItem 'var(c4)' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzY1LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpjbGF5X2JhbGwifQ=='
+    wait 20
+    World.sound 'shiver:weapon.c4.explode' 4; 0.8; var(c4_x); var(c4_y); var(c4_z);
+    World.sound 'shiver:weapon.c4.explode' 0.7; 0.8; var(c4_x); var(c4_y); var(c4_z);
+    World.sound 'minecraft:entity.generic.explode' 1; 1; var(c4_x); var(c4_y); var(c4_z);
+    World.sound 'minecraft:entity.generic.explode' 0.7; 1; var(c4_x); var(c4_y); var(c4_z);
+    World.sound 'shiver:ambience.obval' 4; 1.1; var(c4_x); var(c4_y); var(c4_z);
+    Entity.remove 'var(c4)'
+    Shiver.removeZombies
+}
+
+
+runInLine 'maps/common/run_cameras' [[
+    'map2_start1';
+    'map2_start2';
+    'map2_start3';
+    'map2_start4'
+]]
+Shiver.title 0; 20; 20; 'global(BLACK_SCREEN)' ''
+###########################################################
+
+### Спавн игроков
+run 'maps/common/initialize_players' '*' [1]
+###
+
+wait 20
+Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Замечательно, мы тут завалены до конца жизни!'
+wait var(wait) + 40
+Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'У этой шахты должен быть второй выход, но...'
+wait var(wait) + 40
+Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Скорее всего он тоже завален. Нужно найти взрывчатку.'
+wait var(wait) + 30
+Entity.lightingbolt 236.83; 57.0; -2.69;
+World.stopSound 'shiver:ambience.memory'
+Shiver.getProp 'big_house.tv' 'tv'
+Entity.itemDisplaySetItem 'var(tv)' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDI0LjBmXX0sIm1pbmVjcmFmdDpjdXN0b21fbmFtZSI6e2JvbGQ6MGIsaXRhbGljOjBiLG9iZnVzY2F0ZWQ6MGIsc3RyaWtldGhyb3VnaDowYix0ZXh0OiLQotC10LvQtdCy0LjQt9C+0YAsINC40L3RgtC10YDRjNC10YAsINC00L7QvCwg0LrQstCw0YDRgtC40YDQsCwg0Y3Qu9C10LrRgtGA0L7QvdC40LrQsCwg0YLQsiwg0YPRgdGC0YDQvtC50YHRgtCy0L4sINC40L3RgtC10YDRjNC10YAiLHVuZGVybGluZWQ6MGJ9fSxjb3VudDoxLGlkOiJtaW5lY3JhZnQ6bGVhdGhlcl9ob3JzZV9hcm1vciJ9'

@@ -4,7 +4,7 @@ run 'maps/common/victory' '*' [
     ['map1_win1'; 'map1_win2'];
     1;
     'coach';
-    188.5; 17.0; -45.5
+    196.5; 50; -106.5
 ]
 
 Shiver.music 'shiver:music.win1' 1; 1;
@@ -47,7 +47,7 @@ parallel '*' [] {
         jump 'repeat1'
     }
     Entity.tp 'var(helicopter)' 218.5; 44.5; -46; 180; 0;
-    wait 20
+    wait 25
     set 'repeat' 20
     @repeat2
     if var(repeat) > 0 {

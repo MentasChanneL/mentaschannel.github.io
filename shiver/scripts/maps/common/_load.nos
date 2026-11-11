@@ -11,7 +11,6 @@ if var(arg.0) == 0 {
 
 loadScript 'maps/common/launch'
 loadScript 'maps/common/prepare'
-loadScript 'maps/common/wave_tick'
 loadScript 'maps/common/globals'
 loadScript 'maps/common/run_cameras'
 loadScript 'maps/common/initialize_players'
@@ -25,8 +24,13 @@ loadScript 'maps/global(MAP)/_lose'
 loadScript 'maps/global(MAP)/victory'
 
 if var(arg.0) == 1 {
+    loadScript 'maps/common/wave_tick'
     loadScript 'maps/global(MAP)/on_wave'
     loadScript 'maps/global(MAP)/waves'
+}
+
+if var(arg.0) == 2 {
+    loadScript 'maps/common/objective_tick'
 }
 
 ## Loading wait

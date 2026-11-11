@@ -2,7 +2,7 @@
 # Загрузочный скрипт карты Маяк
 
 # Запуск, настройка
-runInLine 'maps/common/_load' [1]
+runInLine 'maps/common/_load' [2]
 setGlobal 'MAP_TITLE' '<white>⛏ <tr:shiver.map.global(MAP)>'
 setGlobal 'LOOT_CHANCE' 0.7
 setGlobal 'PREPARE_TIME' 90
@@ -37,15 +37,15 @@ parallel '*' [] {
     wait 132
     wait 40
     Shiver.getProp 'stage0.c4' 'c4'
-    Entity.getPos 'var(c4)' 'c4_'
-    World.sound 'shiver:weapon.c4' 2; 1; var(c4_x); var(c4_y); var(c4_z);
+    Entity.getPos 'var(c4)' 'c4'
+    World.sound 'shiver:weapon.c4' 2; 1; var(c4.x); var(c4.y); var(c4.z);
     Entity.itemDisplaySetItem 'var(c4)' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzY1LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpjbGF5X2JhbGwifQ=='
     wait 20
-    World.sound 'shiver:weapon.c4.explode' 4; 0.8; var(c4_x); var(c4_y); var(c4_z);
-    World.sound 'shiver:weapon.c4.explode' 0.7; 0.8; var(c4_x); var(c4_y); var(c4_z);
-    World.sound 'minecraft:entity.generic.explode' 1; 1; var(c4_x); var(c4_y); var(c4_z);
-    World.sound 'minecraft:entity.generic.explode' 0.7; 1; var(c4_x); var(c4_y); var(c4_z);
-    World.sound 'shiver:ambience.obval' 4; 1.1; var(c4_x); var(c4_y); var(c4_z);
+    World.sound 'shiver:weapon.c4.explode' 4; 0.8; var(c4.x); var(c4.y); var(c4.z);
+    World.sound 'shiver:weapon.c4.explode' 0.7; 0.8; var(c4.x); var(c4.y); var(c4.z);
+    World.sound 'minecraft:entity.generic.explode' 1; 1; var(c4.x); var(c4.y); var(c4.z);
+    World.sound 'minecraft:entity.generic.explode' 0.7; 1; var(c4.x); var(c4.y); var(c4.z);
+    World.sound 'shiver:ambience.obval' 4; 1.1; var(c4.x); var(c4.y); var(c4.z);
     Entity.remove 'var(c4)'
     Shiver.removeZombies
 }

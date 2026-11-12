@@ -26,7 +26,9 @@ if global(PAUSE_OBJECTIVE) {
 if global(MUTATION_OBJECTIVE) < global(MAX_MUTATION_OBJECTIVE) {
     setGlobal 'MUTATION_OBJECTIVE' global(MUTATION_OBJECTIVE) + 1
     set 'mutationProcent' floor((global(MUTATION_OBJECTIVE) / global(MAX_MUTATION_OBJECTIVE)) * 100)
-    Shiver.setBossbarTitle '<font:shiver:smol>0<font:minecraft:default><tr:shiver.gui.zombie_resistence:"var(mutationProcent)%">'
+    set 'channel' 204 * (var(mutationProcent) / 100)
+    World.createColor 'color' 204; var(channel); var(channel);
+    Shiver.setBossbarTitle '<var(color)><font:shiver:smol>0<font:minecraft:default> <tr:shiver.gui.zombie_resistence:"var(mutationProcent)%">'
 }
 
 if global(MUTATION_OBJECTIVE) > global(MAX_MUTATION_OBJECTIVE) && global(MAX_MUTATION_OBJECTIVE) < 0 {

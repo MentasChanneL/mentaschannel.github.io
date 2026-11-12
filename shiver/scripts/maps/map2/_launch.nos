@@ -8,6 +8,8 @@ setGlobal 'LOOT_CHANCE' 0.7
 setGlobal 'PREPARE_TIME' 90
 setGlobal 'TICK_HANDLER' 'maps/common/objective_tick'
 setGlobal 'MAX_MUTATION_OBJECTIVE' 400
+setGlobal 'ZOMBIE_SPAWN' [300.5; 9; 9.5; 0; 0]
+setGlobal 'ZOMBIE_TYPES_OBJECTIVE' [17]
 
 World.time 16000
 runInLine 'maps/common/launch' []

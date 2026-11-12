@@ -91,7 +91,7 @@ World.sound 'shiver:ambience.memory' 1; 1; 203.5; 44.5; -59.5;
 ###########################################################
 
 ### Спавн игроков
-run 'maps/common/initialize_players' '*' [1]
+run 'maps/common/initialize_players' '*' [1; 0; 1]
 ###
 
 wait 20

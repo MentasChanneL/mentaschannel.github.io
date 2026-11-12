@@ -51,7 +51,7 @@ runInLine 'maps/common/run_cameras' [[
 ###########################################################
 
 ### Спавн игроков
-run 'maps/common/initialize_players' '*' [1]
+run 'maps/common/initialize_players' '*' [1; 0; 1]
 ###
 
 wait 20

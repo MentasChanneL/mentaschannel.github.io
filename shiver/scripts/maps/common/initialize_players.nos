@@ -3,9 +3,15 @@
 # Аргументы:
 # 0 - Объявить лидеров: 1 - да, 0 - нет (по умолч.)
 # 1 - Скрит подготовки игры. Если не указанно, то maps/common/prepare
+# 2 - Эффект экрана: 1 - киношные линии, 2 - открывающийся экран
 
 Shiver.STAGE global(GAMESTAGE_GAME)
-Shiver.title 0; 20; 20; 'global(CINEMATIC_LINES)' ''
+if var(arg.2) == 1 {
+    Shiver.title 0; 20; 20; 'global(CINEMATIC_LINES)' ''
+}
+if var(arg.2) == 2 {
+    Shiver.title 0; 20; 20; 'global(OPENING_SCREEN)' ''
+}
 Shiver.removeClones
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {

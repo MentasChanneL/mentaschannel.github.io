@@ -22,6 +22,7 @@ setGlobal 'SKIPED' 0
 setGlobal 'POINT_BONUS' 1
 
 setGlobal 'CINEMATIC_LINES' '<color:#000033><font:shiver:frame>0'
+setGlobal 'OPENING_SCREEN' '<color:#0000FF><font:shiver:frame>0'
 setGlobal 'BLACK_SCREEN' '<color:#000000><font:shiver:hud>0'
 setGlobal 'LORE_PREFIX' '<color:#dbd5b8>'
 setGlobal 'LORE_SPEED' 1

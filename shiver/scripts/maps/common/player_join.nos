@@ -4,11 +4,12 @@
 # 0 - Игрок
 # 1 - Причина (1 - by User, 2 - by Script, 3 - antidot)
 # 2 - Выдать кит старт 0/1
-# 3 - X координата места спавна, если клон не найден
-# 4 - Y координата места спавна, если клон не найден
-# 5 - Z координата места спавна, если клон не найден
-# 6 - Yaw координата места спавна, если клон не найден
-# 7 - Pitch координата места спавна, если клон не найден
+# 3 - Спавн от клонов 0/1
+# 4 - X координата места спавна, если клон не найден
+# 5 - Y координата места спавна, если клон не найден
+# 6 - Z координата места спавна, если клон не найден
+# 7 - Yaw координата места спавна, если клон не найден
+# 8 - Pitch координата места спавна, если клон не найден
 
 set 'player' 'var(arg.0)'
 set 'reason' var(arg.1)
@@ -28,7 +29,12 @@ if var(reason) == 1 {
 
 if var(reason) < 3 {
     Player.sendBedAnimation 'var(player)'
-    Shiver.tpPlayerToClone 'var(player)' var(arg.3); var(arg.4); var(arg.5); var(arg.6); var(arg.7);
+    if var(arg.3) {
+        Shiver.tpPlayerToClone 'var(player)' var(arg.4); var(arg.5); var(arg.6); var(arg.7); var(arg.8);
+    }
+    if !var(arg.3) {
+        Entity.tp 'var(player)' var(arg.4); var(arg.5); var(arg.6); var(arg.7); var(arg.8);
+    }
     Shiver.resetPlayer 'var(player)'
     # Выдача рюкзака цвета его рейтинга
     if var(arg.2) > 0 {

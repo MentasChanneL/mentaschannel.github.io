@@ -8,5 +8,6 @@ runInLine 'maps/common/player_join' [
     'var(player)';
     var(reason);
     1;
+    1;
     196; 23; 298.5; 180; 0
 ]

@@ -10,23 +10,23 @@ list 'waves'
 
 # 1
 dict 'wave'
-dict.set 'wave' '0' 3
+dict.set 'wave' '0' 2
 dict.set 'wave' '2' 2
 list.addVar 'waves' 'wave'
 
 # 2
 dict 'wave'
-dict.set 'wave' '0' 3
+dict.set 'wave' '0' 2
 dict.set 'wave' '2' 2
 dict.set 'wave' '5' 1
 list.addVar 'waves' 'wave'
 
 # 3
 dict 'wave'
-dict.set 'wave' '0' 3
+dict.set 'wave' '0' 2
 dict.set 'wave' '2' 2
 dict.set 'wave' '5' 1
-dict.set 'wave' '11' 3
+dict.set 'wave' '11' 2
 list.addVar 'waves' 'wave'
 
 # 4

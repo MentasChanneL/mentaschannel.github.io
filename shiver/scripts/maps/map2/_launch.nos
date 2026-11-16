@@ -37,13 +37,22 @@ parallel '*' [] {
     set 'i' var(i) - 1
     if var(i) > 0 { jump 'for' }
     wait 132
+    Shiver.Shiver.getClones 'clones'
+    dict.values 'clones' 'clones'
+    forEach '*' 'ent' 'clones' {
+        Entity.tp 'var(ent)' 310.5; 1.5; -37.5; 0; 0;
+    }
     wait 40
     World.particle 0; 0; 0; 'json particle'
     Shiver.getProp 'stage0.c4' 'c4'
     Entity.getPos 'var(c4)' 'c4'
     World.sound 'shiver:weapon.c4' 2; 1; var(c4.x); var(c4.y); var(c4.z);
+    World.particle 308.5; 2.5; -30.5; '{"type":"flash"}'
     Entity.itemDisplaySetItem 'var(c4)' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzY1LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpjbGF5X2JhbGwifQ=='
     wait 20
+    World.particle 310; 2.5; -30; '{"type":"explosion_emitter","count":5,"spread":{"first":2.0,"second":2.0}}'
+    World.particle 310; 2.5; -30; '{"type":"campfire_cosy_smoke","count":100,"spread":{"first":4.0,"second":4.0},"motion":{"x":0.0,"y":0.01,"z":0.0}}'
+    World.particle 310; 2.5; -30; '{"type":"lava","count":100,"spread":{"first":4.0,"second":4.0}}'
     World.sound 'shiver:weapon.c4.explode' 4; 0.8; var(c4.x); var(c4.y); var(c4.z);
     World.sound 'shiver:weapon.c4.explode' 0.7; 0.8; var(c4.x); var(c4.y); var(c4.z);
     World.sound 'minecraft:entity.generic.explode' 1; 1; var(c4.x); var(c4.y); var(c4.z);

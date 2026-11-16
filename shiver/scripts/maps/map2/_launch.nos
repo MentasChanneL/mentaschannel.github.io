@@ -29,6 +29,8 @@ parallel '*' [] {
     dict.set 'move' 'sprint' 1
     dict.setVar 'tasks' 'move' 'move'
     Shiver.spawnClones 310.5; 1.5; -94.5; 'tasks' 2
+    Shiver.getCameraDuration 'map2_start1' 'wait'
+    wait var(wait) - 5
     list 'types'
     list.add 'types' '14'
     list.add 'types' '2'
@@ -40,7 +42,8 @@ parallel '*' [] {
         Entity.moveTo 'var(ent)' 'pathfinding' [[310.5; 1.5; -67.5]]
         set 'i' var(i) - 1
     if var(i) > 0 { jump 'for' }
-    wait 132
+    Shiver.getCameraDuration 'map2_start2' 'wait'
+    wait var(wait) + 1
     Shiver.getClones 'clones'
     dict.values 'clones' 'clones'
     forEach '*' 'ent' 'clones' {

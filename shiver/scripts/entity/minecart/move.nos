@@ -5,16 +5,16 @@
 # 1 - смещение
 
 if var(arg.1) > 0 {
-    if !(global(MINECART[var(arg.0)].canMove) > 0) {
+    if !(global(MINECART.var(arg.0).canMove) > 0) {
         jump 'return'
     }
     message 'move'
 }
 
 Entity.getPos 'var(arg.0)' 'pos'
-set 'size' global(MINECART[var(arg.0)].hitboxSize) / 2
+set 'size' global(MINECART.var(arg.0).hitboxSize) / 2
 
-Shiver.spawnTrigger 'minecart.var(arg.0)' 'global(MINECART[var(arg.0)].team' 2;
+Shiver.spawnTrigger 'minecart.var(arg.0)' 'global(MINECART.var(arg.0).team)' 2;
 (var(pos.x) + var(size) + 1); (var(pos.y) + var(size) + 1); (var(pos.z) + var(size) + 1);
 (var(pos.x) - var(size) - 1); (var(pos.y) - var(size) - 1); (var(pos.z) - var(size) - 1);
 [*arg.0] {

@@ -96,10 +96,10 @@ Shiver.ent text(variable name for uuid) text(type) math(x) math(y) math(z) math(
 Shiver.spawnLoot text(uuid) text(id) math(x) math(y) math(z) math(yaw) math(pitch) math(roll) math(scaleX) math(scaleY) math(scaleZ) math(offsetX) math(offsetY) math(offsetZ) math(width) math(height)
 Shiver.spawnTrigger text(id) text(team) math(type) math(x1) math(y1) math(z1) math(x2) math(y2) math(z2) list(arguments) block(code)
 types {
-    0 - once (target)
-    1 - once for each target (target)
-    2 - tick (targets)
-    3 - tick for each target (target)
+    0 - once (name, target)
+    1 - once for each target (name, target)
+    2 - tick (name, targets)
+    3 - tick for each target (name, target)
 }
 Shiver.removeTrigger text(id)
 Shiver.getProp text(id) text(variable name for uuid)

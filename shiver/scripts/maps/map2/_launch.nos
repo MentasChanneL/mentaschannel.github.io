@@ -4,6 +4,7 @@
 # Запуск, настройка
 loadScript 'maps/map2/start'
 loadScript 'entity/minecart/spawn'
+loadScript 'entity/minecart/move'
 runInLine 'maps/common/_load' [2]
 setGlobal 'MAP_TITLE' '<white>⛏ <tr:shiver.map.global(MAP)>'
 setGlobal 'LOOT_CHANCE' 0.7

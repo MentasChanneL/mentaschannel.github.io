@@ -12,7 +12,7 @@ runInLine 'maps/common/launch' []
 Shiver.music 'shiver:music.theme3' 1; 1;
 
 Shiver.addZombieSpawn 'default' 218.5; 42; 18.5; 180; 0
-Shiver.spawnTrigger 'waterHurt' 'global(TEAM_SURVIVORS)' 3; 119; 0; -112; 267; 38; 64; {
+Shiver.spawnTrigger 'waterHurt' 'global(TEAM_SURVIVORS)' 3; 119; 0; -112; 267; 38; 64; [] {
     if !global(var(target).ifFalled) {
         setGlobal 'var(target).ifFalled' 1
         set 'ply' 'var(target)'

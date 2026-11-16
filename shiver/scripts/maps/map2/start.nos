@@ -1,0 +1,6 @@
+# Shiver map script | REPIS
+# Начало игры шахты
+
+message 'start mine'
+setGlobal 'MINECART[global(MINECRAFT)].canMove' 1 
+run 'maps/common/objective_tick' '*' []

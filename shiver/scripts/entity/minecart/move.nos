@@ -8,15 +8,25 @@ if var(arg.1) > 0 {
     if !(global(MINECART.var(arg.0).canMove) > 0) {
         jump 'return'
     }
-    message 'move'
+    copyToLocal 'MINECART.var(arg.0).direction' 'direction'
+    list.get 'direction' 0; 'x'
+    list.get 'direction' 1; 'y'
+    list.get 'direction' 2; 'z'
+    Entity.getPos 'var(arg.0)' 'pos'
+    Entity.tp 'var(arg.0)'
+        math(var(pos.x) + var(x) * global(MINECART.var(arg.0).speed));
+        math(var(pos.y) + var(y) * global(MINECART.var(arg.0).speed));
+        math(var(pos.z) + var(z) * global(MINECART.var(arg.0).speed));
+        var(pos.yaw); var(pos.pitch);
 }
 
+wait global(MINECART.var(arg.0).tickDelta)
 Entity.getPos 'var(arg.0)' 'pos'
 set 'size' global(MINECART.var(arg.0).hitboxSize) / 2
 
-Shiver.spawnTrigger 'minecart.var(arg.0)' 'global(MINECART.var(arg.0).team)' 2;
-(var(pos.x) + var(size) + 1); (var(pos.y) + var(size) + 1); (var(pos.z) + var(size) + 1);
-(var(pos.x) - var(size) - 1); (var(pos.y) - var(size) - 1); (var(pos.z) - var(size) - 1);
+Shiver.spawnTrigger 'minecart.var(arg.0)' 'global(MINECART.var(arg.0).team)' 0;
+(var(pos.x) + var(size) + 1.5); (var(pos.y) + var(size) + 1.5); (var(pos.z) + var(size) + 1.5);
+(var(pos.x) - var(size) - 1.5); (var(pos.y) - var(size) - 1.5); (var(pos.z) - var(size) - 1.5);
 [*arg.0] {
     runInLine 'entity/minecart/move' [*arg.0; 1]
 }

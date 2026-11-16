@@ -11,6 +11,9 @@
 # 6 - размер хитбокса
 # 7 - включить движение
 # 8 - команда
+# 9 - tick интервал
+# 10 - скорость
+# 11 - начальное направление [x, y, z]
 
 list.get 'arg.0' 0; 'pos_x'
 list.get 'arg.0' 1; 'pos_y'
@@ -18,10 +21,14 @@ list.get 'arg.0' 2; 'pos_z'
 list.get 'arg.0' 3; 'yaw'
 list.get 'arg.0' 4; 'pitch'
 Entity.spawnItemDisplay 'model' var(pos_x); var(pos_y); var(pos_z); var(yaw); var(pitch); 'var(arg.2)'
+Entity.displayTeleportDuration 'var(model)' var(arg.9);
 copyToGlobal 'model' 'MINECART'
 copyToGlobal 'arg.1' 'MINECART.var(model).triggers'
 copyToGlobal 'arg.7' 'MINECART.var(model).canMove'
 copyToGlobal 'arg.8' 'MINECART.var(model).team'
+copyToGlobal 'arg.9' 'MINECART.var(model).tickDelta'
+copyToGlobal 'arg.10' 'MINECART.var(model).speed'
+copyToGlobal 'arg.11' 'MINECART.var(model).direction'
 list.get 'arg.3' 0; 'x'
 list.get 'arg.3' 1; 'y'
 list.get 'arg.3' 2; 'z'
@@ -34,7 +41,7 @@ list.get 'arg.5' 0; 'yaw'
 list.get 'arg.5' 1; 'pitch'
 list.get 'arg.5' 2; 'roll'
 Entity.displayRotations 'var(model)' var(yaw); var(pitch); var(roll); 'set'
-Entity.spawn 'hitbox' var(pos_x); var(pos_y); var(pos_z); 'e2NvdW50OjEsaWQ6Im1pbmVjcmFmdDpzaHVsa2VyX3NwYXduX2VnZyJ9'
+Entity.spawn 'hitbox' var(pos_x); var(pos_y); var(pos_z); 'e2lkOiJwaWdfc3Bhd25fZWdnIiwgQ291bnQ6MSwgY29tcG9uZW50czp7bWluZWNyYWZ0OmVudGl0eV9kYXRhOntpZDoic2h1bGtlciIsIFNpbGVudDoxYiwgSW52dWxuZXJhYmxlOjFifX19'
 copyToGlobal 'hitbox' 'MINECART.var(model).hitbox'
 copyToGlobal 'arg.6' 'MINECART.var(model).hitboxSize'
 Entity.attribute 'var(hitbox)' 'id' var(arg.6);

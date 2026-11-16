@@ -35,9 +35,10 @@ parallel '*' [] {
     list.add 'types' '4'
     set 'i' 10
     @for
-    list.get 'types' floor(len(types) * $random); 'type'
-    Shiver.ent '*' 'var(type)' 310.5 + ($random * 4 - 2); 1.5; -121.5 + ($random * 4 - 2); 0; 0;
-    set 'i' var(i) - 1
+        list.get 'types' floor(len(types) * $random); 'type'
+        Shiver.ent 'ent' 'var(type)' 310.5 + ($random * 4 - 2); 1.5; -121.5 + ($random * 4 - 2); 0; 0;
+        Entity.moveTo 'var(ent)' 'pathfinding' [[310.5; 1.5; -67.5]]
+        set 'i' var(i) - 1
     if var(i) > 0 { jump 'for' }
     wait 132
     Shiver.getClones 'clones'
@@ -71,8 +72,10 @@ parallel '*' [] {
         [1; 1; 1];
         [180; 0; 0];
         1;
-        1;
-        global(TEAM_SURVIVORS)
+        0;
+        'global(TEAM_SURVIVORS)';
+        5;
+        0.5
     ]
 }
 

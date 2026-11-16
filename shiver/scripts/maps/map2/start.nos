@@ -2,5 +2,5 @@
 # Начало игры шахты
 
 message 'start mine'
-setGlobal 'MINECART[global(MINECRAFT)].canMove' 1 
+setGlobal 'MINECART.global(MINECART).canMove' 1 
 run 'maps/common/objective_tick' '*' []

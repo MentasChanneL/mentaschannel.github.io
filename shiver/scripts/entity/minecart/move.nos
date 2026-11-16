@@ -18,10 +18,11 @@ if var(arg.1) > 0 {
         math(var(pos.y) + var(y) * global(MINECART.var(arg.0).speed));
         math(var(pos.z) + var(z) * global(MINECART.var(arg.0).speed));
         var(pos.yaw); var(pos.pitch);
+    
 }
 
 @trigger
-wait global(MINECART.var(arg.0).tickDelta)
+wait global(MINECART.var(arg.0).tickDelta) - 1
 Entity.getPos 'var(arg.0)' 'pos'
 set 'size' global(MINECART.var(arg.0).hitboxSize) / 2
 

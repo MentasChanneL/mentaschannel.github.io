@@ -50,7 +50,7 @@ Entity.tp 'var(arg.0)'
     global(MINECART.var(arg.0).aY) * var(nextU3) + global(MINECART.var(arg.0).bY) * var(nextU2) + global(MINECART.var(arg.0).cY) * var(nextProgress) + global(MINECART.var(arg.0).dY);
     global(MINECART.var(arg.0).aZ) * var(nextU3) + global(MINECART.var(arg.0).bZ) * var(nextU2) + global(MINECART.var(arg.0).cZ) * var(nextProgress) + global(MINECART.var(arg.0).dZ);
     var(nextYaw); var(nextPitch);
-setGlobals ['MINECART.var(arg.0).lastYaw'; var(nextYaw)]
+copyToGlobal 'nextYaw' 'MINECART.var(arg.0).lastYaw'
 jump 'afterYaw'
 
 @keepYaw
@@ -68,7 +68,7 @@ if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLas
 jump 'trigger'
 
 @saveProgress
-setGlobals ['MINECART.var(arg.0).routeProgress'; var(nextProgress)]
+copyToGlobal 'nextProgress' 'MINECART.var(arg.0).routeProgress'
 jump 'trigger'
 
 @legacyMove
@@ -167,21 +167,19 @@ setVars [
     'dZ'; var(p1z)
 ]
 
-setGlobals [
-    'MINECART.var(arg.0).aX'; var(aX);
-    'MINECART.var(arg.0).bX'; var(bX);
-    'MINECART.var(arg.0).cX'; var(cX);
-    'MINECART.var(arg.0).dX'; var(dX);
-    'MINECART.var(arg.0).aY'; var(aY);
-    'MINECART.var(arg.0).bY'; var(bY);
-    'MINECART.var(arg.0).cY'; var(cY);
-    'MINECART.var(arg.0).dY'; var(dY);
-    'MINECART.var(arg.0).aZ'; var(aZ);
-    'MINECART.var(arg.0).bZ'; var(bZ);
-    'MINECART.var(arg.0).cZ'; var(cZ);
-    'MINECART.var(arg.0).dZ'; var(dZ);
-    'MINECART.var(arg.0).cacheIndex'; global(MINECART.var(arg.0).routeIndex)
-]
+copyToGlobal 'aX' 'MINECART.var(arg.0).aX'
+copyToGlobal 'bX' 'MINECART.var(arg.0).bX'
+copyToGlobal 'cX' 'MINECART.var(arg.0).cX'
+copyToGlobal 'dX' 'MINECART.var(arg.0).dX'
+copyToGlobal 'aY' 'MINECART.var(arg.0).aY'
+copyToGlobal 'bY' 'MINECART.var(arg.0).bY'
+copyToGlobal 'cY' 'MINECART.var(arg.0).cY'
+copyToGlobal 'dY' 'MINECART.var(arg.0).dY'
+copyToGlobal 'aZ' 'MINECART.var(arg.0).aZ'
+copyToGlobal 'bZ' 'MINECART.var(arg.0).bZ'
+copyToGlobal 'cZ' 'MINECART.var(arg.0).cZ'
+copyToGlobal 'dZ' 'MINECART.var(arg.0).dZ'
+setGlobal 'MINECART.var(arg.0).cacheIndex' global(MINECART.var(arg.0).routeIndex)
 jump 'var(back)'
 
 @trigger

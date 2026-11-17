@@ -214,5 +214,5 @@ Shiver.spawnTrigger 'minecart.var(arg.0)' 'global(MINECART.var(arg.0).team)' 0;
     (var(pos.x) + var(size) + 1); (var(pos.y) + var(size) + 1); (var(pos.z) + var(size) + 1);
     (var(pos.x) - var(size) - 1); (var(pos.y) - var(size) - 1); (var(pos.z) - var(size) - 1);
     [*arg.0] {
-        runInLine 'entity/minecart/move' [*arg.0; 1]
+        run 'entity/minecart/move' '*' [*arg.0; 1]
     }

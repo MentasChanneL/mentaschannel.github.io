@@ -19,9 +19,11 @@ jump 'buildCache'
 @loadCoefficients
 
 set 'u2' global(MINECART.var(arg.0).routeProgress) * global(MINECART.var(arg.0).routeProgress)
-set 'tangentX' 3 * global(MINECART.var(arg.0).aX) * var(u2) + 2 * global(MINECART.var(arg.0).bX) * global(MINECART.var(arg.0).routeProgress) + global(MINECART.var(arg.0).cX)
-set 'tangentY' 3 * global(MINECART.var(arg.0).aY) * var(u2) + 2 * global(MINECART.var(arg.0).bY) * global(MINECART.var(arg.0).routeProgress) + global(MINECART.var(arg.0).cY)
-set 'tangentZ' 3 * global(MINECART.var(arg.0).aZ) * var(u2) + 2 * global(MINECART.var(arg.0).bZ) * global(MINECART.var(arg.0).routeProgress) + global(MINECART.var(arg.0).cZ)
+setVars [
+    'tangentX'; 3 * global(MINECART.var(arg.0).aX) * var(u2) + 2 * global(MINECART.var(arg.0).bX) * global(MINECART.var(arg.0).routeProgress) + global(MINECART.var(arg.0).cX);
+    'tangentY'; 3 * global(MINECART.var(arg.0).aY) * var(u2) + 2 * global(MINECART.var(arg.0).bY) * global(MINECART.var(arg.0).routeProgress) + global(MINECART.var(arg.0).cY);
+    'tangentZ'; 3 * global(MINECART.var(arg.0).aZ) * var(u2) + 2 * global(MINECART.var(arg.0).bZ) * global(MINECART.var(arg.0).routeProgress) + global(MINECART.var(arg.0).cZ)
+]
 set 'tangentLength' sqrt(var(tangentX) * var(tangentX) + var(tangentY) * var(tangentY) + var(tangentZ) * var(tangentZ))
 if var(tangentLength) <= 0.001 {
     setGlobal 'MINECART.var(arg.0).canMove' 0
@@ -29,11 +31,15 @@ if var(tangentLength) <= 0.001 {
 }
 
 set 'nextProgress' min(1, global(MINECART.var(arg.0).routeProgress) + global(MINECART.var(arg.0).speed) / var(tangentLength))
-set 'nextU2' var(nextProgress) * var(nextProgress)
-set 'nextU3' var(nextU2) * var(nextProgress)
-set 'nextTX' 3 * global(MINECART.var(arg.0).aX) * var(nextU2) + 2 * global(MINECART.var(arg.0).bX) * var(nextProgress) + global(MINECART.var(arg.0).cX)
-set 'nextTY' 3 * global(MINECART.var(arg.0).aY) * var(nextU2) + 2 * global(MINECART.var(arg.0).bY) * var(nextProgress) + global(MINECART.var(arg.0).cY)
-set 'nextTZ' 3 * global(MINECART.var(arg.0).aZ) * var(nextU2) + 2 * global(MINECART.var(arg.0).bZ) * var(nextProgress) + global(MINECART.var(arg.0).cZ)
+setVars [
+    'nextU2'; var(nextProgress) * var(nextProgress);
+    'nextU3'; var(nextProgress) * var(nextProgress) * var(nextProgress)
+]
+setVars [
+    'nextTX'; 3 * global(MINECART.var(arg.0).aX) * var(nextU2) + 2 * global(MINECART.var(arg.0).bX) * var(nextProgress) + global(MINECART.var(arg.0).cX);
+    'nextTY'; 3 * global(MINECART.var(arg.0).aY) * var(nextU2) + 2 * global(MINECART.var(arg.0).bY) * var(nextProgress) + global(MINECART.var(arg.0).cY);
+    'nextTZ'; 3 * global(MINECART.var(arg.0).aZ) * var(nextU2) + 2 * global(MINECART.var(arg.0).bZ) * var(nextProgress) + global(MINECART.var(arg.0).cZ)
+]
 set 'horizontal' sqrt(var(nextTX) * var(nextTX) + var(nextTZ) * var(nextTZ))
 
 set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 57.29577951308232
@@ -78,10 +84,12 @@ jump 'trigger'
 
 @buildCache
 copyToLocal 'MINECART.var(arg.0).route' 'route'
-set 'i0' max(global(MINECART.var(arg.0).routeIndex) - 1, 0)
-set 'i1' global(MINECART.var(arg.0).routeIndex)
-set 'i2' global(MINECART.var(arg.0).routeIndex) + 1
-set 'i3' min(global(MINECART.var(arg.0).routeIndex) + 2, global(MINECART.var(arg.0).routeLastIndex))
+setVars [
+    'i0'; max(global(MINECART.var(arg.0).routeIndex) - 1, 0);
+    'i1'; global(MINECART.var(arg.0).routeIndex);
+    'i2'; global(MINECART.var(arg.0).routeIndex) + 1;
+    'i3'; min(global(MINECART.var(arg.0).routeIndex) + 2, global(MINECART.var(arg.0).routeLastIndex))
+]
 list.get 'route' var(i0); 'p0'
 list.get 'route' var(i1); 'p1'
 list.get 'route' var(i2); 'p2'
@@ -92,42 +100,51 @@ list.unpack 'p2' ['p2x'; 'p2y'; 'p2z']
 list.unpack 'p3' ['p3x'; 'p3y'; 'p3z']
 
 if global(MINECART.var(arg.0).routeIndex) != 0 { jump 'buildP0Done' }
-set 'p0x' 2 * var(p1x) - var(p2x)
-set 'p0y' 2 * var(p1y) - var(p2y)
-set 'p0z' 2 * var(p1z) - var(p2z)
+setVars [
+    'p0x'; 2 * var(p1x) - var(p2x);
+    'p0y'; 2 * var(p1y) - var(p2y);
+    'p0z'; 2 * var(p1z) - var(p2z)
+]
 @buildP0Done
 
 if global(MINECART.var(arg.0).routeIndex) < global(MINECART.var(arg.0).routeLastIndex) - 1 { jump 'buildP3Done' }
-set 'p3x' 2 * var(p2x) - var(p1x)
-set 'p3y' 2 * var(p2y) - var(p1y)
-set 'p3z' 2 * var(p2z) - var(p1z)
+setVars [
+    'p3x'; 2 * var(p2x) - var(p1x);
+    'p3y'; 2 * var(p2y) - var(p1y);
+    'p3z'; 2 * var(p2z) - var(p1z)
+]
 @buildP3Done
 
-set 'dist01' sqrt((var(p1x) - var(p0x)) * (var(p1x) - var(p0x)) + (var(p1y) - var(p0y)) * (var(p1y) - var(p0y)) + (var(p1z) - var(p0z)) * (var(p1z) - var(p0z)))
-set 'dist12' sqrt((var(p2x) - var(p1x)) * (var(p2x) - var(p1x)) + (var(p2y) - var(p1y)) * (var(p2y) - var(p1y)) + (var(p2z) - var(p1z)) * (var(p2z) - var(p1z)))
-set 'dist23' sqrt((var(p3x) - var(p2x)) * (var(p3x) - var(p2x)) + (var(p3y) - var(p2y)) * (var(p3y) - var(p2y)) + (var(p3z) - var(p2z)) * (var(p3z) - var(p2z)))
-set 't01' max(sqrt(var(dist01)), 0.001)
-set 't12' max(sqrt(var(dist12)), 0.001)
-set 't23' max(sqrt(var(dist23)), 0.001)
-set 'r10' var(t12) / var(t01)
-set 'r20' var(t12) / (var(t01) + var(t12))
-set 'r31' var(t12) / (var(t12) + var(t23))
-set 'r32' var(t12) / var(t23)
+setVars [
+    't01'; max(sqrt(sqrt((var(p1x) - var(p0x)) * (var(p1x) - var(p0x)) + (var(p1y) - var(p0y)) * (var(p1y) - var(p0y)) + (var(p1z) - var(p0z)) * (var(p1z) - var(p0z)))), 0.001);
+    't12'; max(sqrt(sqrt((var(p2x) - var(p1x)) * (var(p2x) - var(p1x)) + (var(p2y) - var(p1y)) * (var(p2y) - var(p1y)) + (var(p2z) - var(p1z)) * (var(p2z) - var(p1z)))), 0.001);
+    't23'; max(sqrt(sqrt((var(p3x) - var(p2x)) * (var(p3x) - var(p2x)) + (var(p3y) - var(p2y)) * (var(p3y) - var(p2y)) + (var(p3z) - var(p2z)) * (var(p3z) - var(p2z)))), 0.001)
+]
+setVars [
+    'r10'; var(t12) / var(t01);
+    'r20'; var(t12) / (var(t01) + var(t12));
+    'r31'; var(t12) / (var(t12) + var(t23));
+    'r32'; var(t12) / var(t23)
+]
 
-set 'm1x' (var(p1x) - var(p0x)) * var(r10) - (var(p2x) - var(p0x)) * var(r20) + (var(p2x) - var(p1x))
-set 'm1z' (var(p1z) - var(p0z)) * var(r10) - (var(p2z) - var(p0z)) * var(r20) + (var(p2z) - var(p1z))
-set 'm2x' (var(p2x) - var(p1x)) - (var(p3x) - var(p1x)) * var(r31) + (var(p3x) - var(p2x)) * var(r32)
-set 'm2z' (var(p2z) - var(p1z)) - (var(p3z) - var(p1z)) * var(r31) + (var(p3z) - var(p2z)) * var(r32)
+setVars [
+    'm1x'; (var(p1x) - var(p0x)) * var(r10) - (var(p2x) - var(p0x)) * var(r20) + (var(p2x) - var(p1x));
+    'm1z'; (var(p1z) - var(p0z)) * var(r10) - (var(p2z) - var(p0z)) * var(r20) + (var(p2z) - var(p1z));
+    'm2x'; (var(p2x) - var(p1x)) - (var(p3x) - var(p1x)) * var(r31) + (var(p3x) - var(p2x)) * var(r32);
+    'm2z'; (var(p2z) - var(p1z)) - (var(p3z) - var(p1z)) * var(r31) + (var(p3z) - var(p2z)) * var(r32)
+]
 
-set 's0y' (var(p1y) - var(p0y)) / var(t01)
-set 's1y' (var(p2y) - var(p1y)) / var(t12)
-set 's2y' (var(p3y) - var(p2y)) / var(t23)
-set 'w1' 2 * var(t12) + var(t01)
-set 'w2' var(t12) + 2 * var(t01)
-set 'w3' 2 * var(t23) + var(t12)
-set 'w4' var(t23) + 2 * var(t12)
-set 'm1y' 0
-set 'm2y' 0
+setVars [
+    's0y'; (var(p1y) - var(p0y)) / var(t01);
+    's1y'; (var(p2y) - var(p1y)) / var(t12);
+    's2y'; (var(p3y) - var(p2y)) / var(t23);
+    'w1'; 2 * var(t12) + var(t01);
+    'w2'; var(t12) + 2 * var(t01);
+    'w3'; 2 * var(t23) + var(t12);
+    'w4'; var(t23) + 2 * var(t12);
+    'm1y'; 0;
+    'm2y'; 0
+]
 if var(s0y) * var(s1y) <= 0 { jump 'buildM1Done' }
 set 'm1y' var(t12) * (var(w1) + var(w2)) / (var(w1) / var(s0y) + var(w2) / var(s1y))
 @buildM1Done
@@ -135,18 +152,20 @@ if var(s1y) * var(s2y) <= 0 { jump 'buildM2Done' }
 set 'm2y' var(t12) * (var(w3) + var(w4)) / (var(w3) / var(s1y) + var(w4) / var(s2y))
 @buildM2Done
 
-set 'aX' 2 * var(p1x) - 2 * var(p2x) + var(m1x) + var(m2x)
-set 'bX' (0 - 3 * var(p1x)) + 3 * var(p2x) - 2 * var(m1x) - var(m2x)
-set 'cX' var(m1x)
-set 'dX' var(p1x)
-set 'aY' 2 * var(p1y) - 2 * var(p2y) + var(m1y) + var(m2y)
-set 'bY' (0 - 3 * var(p1y)) + 3 * var(p2y) - 2 * var(m1y) - var(m2y)
-set 'cY' var(m1y)
-set 'dY' var(p1y)
-set 'aZ' 2 * var(p1z) - 2 * var(p2z) + var(m1z) + var(m2z)
-set 'bZ' (0 - 3 * var(p1z)) + 3 * var(p2z) - 2 * var(m1z) - var(m2z)
-set 'cZ' var(m1z)
-set 'dZ' var(p1z)
+setVars [
+    'aX'; 2 * var(p1x) - 2 * var(p2x) + var(m1x) + var(m2x);
+    'bX'; (0 - 3 * var(p1x)) + 3 * var(p2x) - 2 * var(m1x) - var(m2x);
+    'cX'; var(m1x);
+    'dX'; var(p1x);
+    'aY'; 2 * var(p1y) - 2 * var(p2y) + var(m1y) + var(m2y);
+    'bY'; (0 - 3 * var(p1y)) + 3 * var(p2y) - 2 * var(m1y) - var(m2y);
+    'cY'; var(m1y);
+    'dY'; var(p1y);
+    'aZ'; 2 * var(p1z) - 2 * var(p2z) + var(m1z) + var(m2z);
+    'bZ'; (0 - 3 * var(p1z)) + 3 * var(p2z) - 2 * var(m1z) - var(m2z);
+    'cZ'; var(m1z);
+    'dZ'; var(p1z)
+]
 
 copyToGlobal 'aX' 'MINECART.var(arg.0).aX'
 copyToGlobal 'bX' 'MINECART.var(arg.0).bX'

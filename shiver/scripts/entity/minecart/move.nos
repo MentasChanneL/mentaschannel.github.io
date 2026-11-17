@@ -86,7 +86,8 @@ Entity.tp 'var(arg.0)'
     global(MINECART.var(arg.0).lastYaw); var(nextPitch);
 @afterYaw
 if global(MINECART.var(arg.0).debugTp) == 0 {
-    message '[MC DEBUG] Entity.tp reached: nextProgress=var(nextProgress), tangentLength=var(tangentLength), speed=global(MINECART.var(arg.0).speed), nextYaw=var(nextYaw), nextPitch=var(nextPitch)'
+    Entity.getPos 'var(arg.0)' 'debugPos'
+    message '[MC DEBUG] Entity.tp reached: nextProgress=var(nextProgress), tangentLength=var(tangentLength), speed=global(MINECART.var(arg.0).speed), nextYaw=var(nextYaw), nextPitch=var(nextPitch), actualPos=var(debugPos.x),var(debugPos.y),var(debugPos.z)'
     setGlobal 'MINECART.var(arg.0).debugTp' 1
 }
 
@@ -109,6 +110,11 @@ Entity.tp 'var(arg.0)'
     var(pos.y) + var(y) * global(MINECART.var(arg.0).speed);
     var(pos.z) + var(z) * global(MINECART.var(arg.0).speed);
     var(pos.yaw); var(pos.pitch);
+if global(MINECART.var(arg.0).debugTp) == 0 {
+    Entity.getPos 'var(arg.0)' 'debugPos'
+    message '[MC DEBUG] legacy Entity.tp reached: actualPos=var(debugPos.x),var(debugPos.y),var(debugPos.z), speed=global(MINECART.var(arg.0).speed)'
+    setGlobal 'MINECART.var(arg.0).debugTp' 1
+}
 jump 'trigger'
 
 @buildCache

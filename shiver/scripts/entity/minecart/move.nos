@@ -4,145 +4,147 @@
 # 0 - uuid вагонетки
 # 1 - выполнить движение
 #
-# Если задан route (минимум 2 точки [x, y, z]), движение идёт по
-# Catmull-Rom spline через точки маршрута. Точки должны описывать
-# центр рельсов, добавляй больше точек на поворотах и склонах.
+# Если задан route с минимум двумя точками, движение идёт по
+# Catmull-Rom spline через точки маршрута.
+# Точки описывают центр рельсов.
 # Если route пустой или содержит одну точку, используется direction.
 
 if var(arg.1) > 0 {
-    ifelse global(MINECART.var(arg.0).canMove) > 0 {
-        copyToLocal 'MINECART.var(arg.0).route' 'route'
+    if global(MINECART.var(arg.0).canMove) <= 0 {
+        jump 'trigger'
+    }
 
-        ifelse len(route) > 1 {
-            copyToLocal 'MINECART.var(arg.0).routeIndex' 'routeIndex'
-            copyToLocal 'MINECART.var(arg.0).routeProgress' 'progress'
-            set 'lastIndex' len(route) - 1
+    copyToLocal 'MINECART.var(arg.0).route' 'route'
 
-            ifelse var(routeIndex) < var(lastIndex) {
-                # Берём четыре соседние точки Catmull-Rom.
-                set 'i0' max(var(routeIndex) - 1, 0)
-                set 'i1' var(routeIndex)
-                set 'i2' var(routeIndex) + 1
-                set 'i3' min(var(routeIndex) + 2, var(lastIndex))
+    if len(route) > 1 {
+        copyToLocal 'MINECART.var(arg.0).routeIndex' 'routeIndex'
+        copyToLocal 'MINECART.var(arg.0).routeProgress' 'progress'
+        set 'lastIndex' len(route) - 1
 
-                list.get 'route' var(i0); 'p0'
-                list.get 'route' var(i1); 'p1'
-                list.get 'route' var(i2); 'p2'
-                list.get 'route' var(i3); 'p3'
+        if var(routeIndex) >= var(lastIndex) {
+            setGlobal 'MINECART.var(arg.0).canMove' 0
+            jump 'trigger'
+        }
 
-                list.get 'p0' 0; 'p0x'
-                list.get 'p0' 1; 'p0y'
-                list.get 'p0' 2; 'p0z'
-                list.get 'p1' 0; 'p1x'
-                list.get 'p1' 1; 'p1y'
-                list.get 'p1' 2; 'p1z'
-                list.get 'p2' 0; 'p2x'
-                list.get 'p2' 1; 'p2y'
-                list.get 'p2' 2; 'p2z'
-                list.get 'p3' 0; 'p3x'
-                list.get 'p3' 1; 'p3y'
-                list.get 'p3' 2; 'p3z'
+        # Берём четыре соседние точки Catmull-Rom.
+        set 'i0' max(var(routeIndex) - 1, 0)
+        set 'i1' var(routeIndex)
+        set 'i2' var(routeIndex) + 1
+        set 'i3' min(var(routeIndex) + 2, var(lastIndex))
 
-                # Коэффициенты Catmull-Rom для X.
-                set 'aX' 2 * var(p1x)
-                set 'bX' (0 - var(p0x)) + var(p2x)
-                set 'cX' 2 * var(p0x) - 5 * var(p1x) + 4 * var(p2x) - var(p3x)
-                set 'dX' (0 - var(p0x)) + 3 * var(p1x) - 3 * var(p2x) + var(p3x)
+        list.get 'route' var(i0); 'p0'
+        list.get 'route' var(i1); 'p1'
+        list.get 'route' var(i2); 'p2'
+        list.get 'route' var(i3); 'p3'
 
-                # Коэффициенты Catmull-Rom для Y.
-                set 'aY' 2 * var(p1y)
-                set 'bY' (0 - var(p0y)) + var(p2y)
-                set 'cY' 2 * var(p0y) - 5 * var(p1y) + 4 * var(p2y) - var(p3y)
-                set 'dY' (0 - var(p0y)) + 3 * var(p1y) - 3 * var(p2y) + var(p3y)
+        list.get 'p0' 0; 'p0x'
+        list.get 'p0' 1; 'p0y'
+        list.get 'p0' 2; 'p0z'
+        list.get 'p1' 0; 'p1x'
+        list.get 'p1' 1; 'p1y'
+        list.get 'p1' 2; 'p1z'
+        list.get 'p2' 0; 'p2x'
+        list.get 'p2' 1; 'p2y'
+        list.get 'p2' 2; 'p2z'
+        list.get 'p3' 0; 'p3x'
+        list.get 'p3' 1; 'p3y'
+        list.get 'p3' 2; 'p3z'
 
-                # Коэффициенты Catmull-Rom для Z.
-                set 'aZ' 2 * var(p1z)
-                set 'bZ' (0 - var(p0z)) + var(p2z)
-                set 'cZ' 2 * var(p0z) - 5 * var(p1z) + 4 * var(p2z) - var(p3z)
-                set 'dZ' (0 - var(p0z)) + 3 * var(p1z) - 3 * var(p2z) + var(p3z)
+        # Коэффициенты Catmull-Rom для X.
+        set 'aX' 2 * var(p1x)
+        set 'bX' (0 - var(p0x)) + var(p2x)
+        set 'cX' 2 * var(p0x) - 5 * var(p1x) + 4 * var(p2x) - var(p3x)
+        set 'dX' (0 - var(p0x)) + 3 * var(p1x) - 3 * var(p2x) + var(p3x)
 
-                # Производная кривой в текущей позиции нужна для
-                # приблизительно постоянного шага в блоках.
-                set 'u2' pow(var(progress), 2)
-                set 'tangentX' 0.5 * (var(bX) + 2 * var(cX) * var(progress) + 3 * var(dX) * var(u2))
-                set 'tangentY' 0.5 * (var(bY) + 2 * var(cY) * var(progress) + 3 * var(dY) * var(u2))
-                set 'tangentZ' 0.5 * (var(bZ) + 2 * var(cZ) * var(progress) + 3 * var(dZ) * var(u2))
-                set 'tangentLength' sqrt(pow(var(tangentX), 2) + pow(var(tangentY), 2) + pow(var(tangentZ), 2))
+        # Коэффициенты Catmull-Rom для Y.
+        set 'aY' 2 * var(p1y)
+        set 'bY' (0 - var(p0y)) + var(p2y)
+        set 'cY' 2 * var(p0y) - 5 * var(p1y) + 4 * var(p2y) - var(p3y)
+        set 'dY' (0 - var(p0y)) + 3 * var(p1y) - 3 * var(p2y) + var(p3y)
 
-                # Защита от вырожденной касательной (например, совпадающих точек).
-                if var(tangentLength) <= 0.001 {
-                    set 'tangentX' var(p2x) - var(p1x)
-                    set 'tangentY' var(p2y) - var(p1y)
-                    set 'tangentZ' var(p2z) - var(p1z)
-                    set 'tangentLength' sqrt(pow(var(tangentX), 2) + pow(var(tangentY), 2) + pow(var(tangentZ), 2))
-                }
+        # Коэффициенты Catmull-Rom для Z.
+        set 'aZ' 2 * var(p1z)
+        set 'bZ' (0 - var(p0z)) + var(p2z)
+        set 'cZ' 2 * var(p0z) - 5 * var(p1z) + 4 * var(p2z) - var(p3z)
+        set 'dZ' (0 - var(p0z)) + 3 * var(p1z) - 3 * var(p2z) + var(p3z)
 
-                ifelse var(tangentLength) > 0.001 {
-                    Entity.getPos 'var(arg.0)' 'pos'
+        # Производная кривой в текущей позиции.
+        set 'u2' pow(var(progress), 2)
+        set 'tangentX' 0.5 * (var(bX) + 2 * var(cX) * var(progress) + 3 * var(dX) * var(u2))
+        set 'tangentY' 0.5 * (var(bY) + 2 * var(cY) * var(progress) + 3 * var(dY) * var(u2))
+        set 'tangentZ' 0.5 * (var(bZ) + 2 * var(cZ) * var(progress) + 3 * var(dZ) * var(u2))
+        set 'tangentLength' sqrt(pow(var(tangentX), 2) + pow(var(tangentY), 2) + pow(var(tangentZ), 2))
 
-                    # speed - расстояние за один шаг (обычно 0.5 блока).
-                    set 'stepProgress' global(MINECART.var(arg.0).speed) / var(tangentLength)
-                    set 'nextProgress' min(1, var(progress) + var(stepProgress))
-                    set 'nextU2' pow(var(nextProgress), 2)
-                    set 'nextU3' pow(var(nextProgress), 3)
+        # Резервное направление, если касательная выродилась.
+        if var(tangentLength) <= 0.001 {
+            set 'tangentX' var(p2x) - var(p1x)
+            set 'tangentY' var(p2y) - var(p1y)
+            set 'tangentZ' var(p2z) - var(p1z)
+            set 'tangentLength' sqrt(pow(var(tangentX), 2) + pow(var(tangentY), 2) + pow(var(tangentZ), 2))
+        }
 
-                    # Новая позиция на Catmull-Rom кривой.
-                    set 'nextX' 0.5 * (var(aX) + var(bX) * var(nextProgress) + var(cX) * var(nextU2) + var(dX) * var(nextU3))
-                    set 'nextY' 0.5 * (var(aY) + var(bY) * var(nextProgress) + var(cY) * var(nextU2) + var(dY) * var(nextU3))
-                    set 'nextZ' 0.5 * (var(aZ) + var(bZ) * var(nextProgress) + var(cZ) * var(nextU2) + var(dZ) * var(nextU3))
+        if var(tangentLength) <= 0.001 {
+            setGlobal 'MINECART.var(arg.0).canMove' 0
+            jump 'trigger'
+        }
 
-                    # Касательная в новой точке задаёт yaw и pitch.
-                    set 'nextTX' 0.5 * (var(bX) + 2 * var(cX) * var(nextProgress) + 3 * var(dX) * var(nextU2))
-                    set 'nextTY' 0.5 * (var(bY) + 2 * var(cY) * var(nextProgress) + 3 * var(dY) * var(nextU2))
-                    set 'nextTZ' 0.5 * (var(bZ) + 2 * var(cZ) * var(nextProgress) + 3 * var(dZ) * var(nextU2))
-                    set 'horizontal' sqrt(pow(var(nextTX), 2) + pow(var(nextTZ), 2))
+        Entity.getPos 'var(arg.0)' 'pos'
 
-                    # atan2 возвращает радианы Entity.tp принимает градусы.
-                    ifelse var(horizontal) > 0.001 {
-                        set 'targetYaw' atan2(0 - var(nextTX), var(nextTZ)) * 180 / 3.141592653589793
-                        set 'yawDelta' wrap(var(targetYaw) - var(pos.yaw), -180, 180)
-                        set 'nextYaw' var(pos.yaw) + var(yawDelta)
-                    } {
-                        set 'nextYaw' var(pos.yaw)
-                    }
-                    set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 180 / 3.141592653589793
+        # speed - расстояние за один шаг.
+        set 'stepProgress' global(MINECART.var(arg.0).speed) / var(tangentLength)
+        set 'nextProgress' min(1, var(progress) + var(stepProgress))
+        set 'nextU2' pow(var(nextProgress), 2)
+        set 'nextU3' pow(var(nextProgress), 3)
 
-                    Entity.tp 'var(arg.0)' math(var(nextX)); math(var(nextY)); math(var(nextZ)); math(var(nextYaw)); math(var(nextPitch));
+        # Новая позиция на Catmull-Rom кривой.
+        set 'nextX' 0.5 * (var(aX) + var(bX) * var(nextProgress) + var(cX) * var(nextU2) + var(dX) * var(nextU3))
+        set 'nextY' 0.5 * (var(aY) + var(bY) * var(nextProgress) + var(cY) * var(nextU2) + var(dY) * var(nextU3))
+        set 'nextZ' 0.5 * (var(aZ) + var(bZ) * var(nextProgress) + var(cZ) * var(nextU2) + var(dZ) * var(nextU3))
 
-                    # Переходим к следующему сегменту после достижения его конца.
-                    ifelse var(nextProgress) >= 1 {
-                        set 'routeIndex' var(routeIndex) + 1
-                        copyToGlobal 'routeIndex' 'MINECART.var(arg.0).routeIndex'
-                        setGlobal 'MINECART.var(arg.0).routeProgress' 0
-                        if var(routeIndex) >= var(lastIndex) {
-                            setGlobal 'MINECART.var(arg.0).canMove' 0
-                        }
-                    } {
-                        copyToGlobal 'nextProgress' 'MINECART.var(arg.0).routeProgress'
-                    }
-                } {
-                    # Все точки сегмента совпадают: останавливаем вагонетку,
-                    # чтобы не получить деление на ноль.
-                    setGlobal 'MINECART.var(arg.0).canMove' 0
-                }
-            } {
+        # Касательная в новой точке задаёт yaw и pitch.
+        set 'nextTX' 0.5 * (var(bX) + 2 * var(cX) * var(nextProgress) + 3 * var(dX) * var(nextU2))
+        set 'nextTY' 0.5 * (var(bY) + 2 * var(cY) * var(nextProgress) + 3 * var(dY) * var(nextU2))
+        set 'nextTZ' 0.5 * (var(bZ) + 2 * var(cZ) * var(nextProgress) + 3 * var(dZ) * var(nextU2))
+        set 'horizontal' sqrt(pow(var(nextTX), 2) + pow(var(nextTZ), 2))
+
+        if var(horizontal) > 0.001 {
+            set 'targetYaw' atan2(0 - var(nextTX), var(nextTZ)) * 180 / 3.141592653589793
+            set 'yawDelta' wrap(var(targetYaw) - var(pos.yaw), -180, 180)
+            set 'nextYaw' var(pos.yaw) + var(yawDelta)
+        }
+        if var(horizontal) <= 0.001 {
+            set 'nextYaw' var(pos.yaw)
+        }
+        set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 180 / 3.141592653589793
+
+        Entity.tp 'var(arg.0)' math(var(nextX)); math(var(nextY)); math(var(nextZ)); math(var(nextYaw)); math(var(nextPitch));
+
+        # Переходим к следующему сегменту после достижения его конца.
+        if var(nextProgress) >= 1 {
+            set 'routeIndex' var(routeIndex) + 1
+            copyToGlobal 'routeIndex' 'MINECART.var(arg.0).routeIndex'
+            setGlobal 'MINECART.var(arg.0).routeProgress' 0
+            if var(routeIndex) >= var(lastIndex) {
                 setGlobal 'MINECART.var(arg.0).canMove' 0
             }
-        } {
-            # Совместимость со старым режимом фиксированного направления.
-            copyToLocal 'MINECART.var(arg.0).direction' 'direction'
-            list.get 'direction' 0; 'x'
-            list.get 'direction' 1; 'y'
-            list.get 'direction' 2; 'z'
-            Entity.getPos 'var(arg.0)' 'pos'
-            Entity.tp 'var(arg.0)'
-                math(var(pos.x) + var(x) * global(MINECART.var(arg.0).speed));
-                math(var(pos.y) + var(y) * global(MINECART.var(arg.0).speed));
-                math(var(pos.z) + var(z) * global(MINECART.var(arg.0).speed));
-                var(pos.yaw); var(pos.pitch);
         }
-    } {
-        jump 'trigger'
+        if var(nextProgress) < 1 {
+            copyToGlobal 'nextProgress' 'MINECART.var(arg.0).routeProgress'
+        }
+    }
+
+    # Совместимость со старым режимом фиксированного направления.
+    if len(route) <= 1 {
+        copyToLocal 'MINECART.var(arg.0).direction' 'direction'
+        list.get 'direction' 0; 'x'
+        list.get 'direction' 1; 'y'
+        list.get 'direction' 2; 'z'
+        Entity.getPos 'var(arg.0)' 'pos'
+        Entity.tp 'var(arg.0)'
+            math(var(pos.x) + var(x) * global(MINECART.var(arg.0).speed));
+            math(var(pos.y) + var(y) * global(MINECART.var(arg.0).speed));
+            math(var(pos.z) + var(z) * global(MINECART.var(arg.0).speed));
+            var(pos.yaw); var(pos.pitch);
     }
 }
 

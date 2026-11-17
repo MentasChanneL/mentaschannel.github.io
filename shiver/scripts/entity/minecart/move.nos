@@ -56,10 +56,9 @@ Entity.tp 'var(arg.0)'
 @afterYaw
 
 if var(nextProgress) < 1 { jump 'saveProgress' }
-set 'nextRouteIndex' global(MINECART.var(arg.0).routeIndex) + 1
-copyToGlobal 'nextRouteIndex' 'MINECART.var(arg.0).routeIndex'
+setGlobal 'MINECART.var(arg.0).routeIndex' global(MINECART.var(arg.0).routeIndex) + 1
 setGlobal 'MINECART.var(arg.0).routeProgress' 0
-if var(nextRouteIndex) >= global(MINECART.var(arg.0).routeLastIndex) { setGlobal 'MINECART.var(arg.0).canMove' 0 }
+if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) { setGlobal 'MINECART.var(arg.0).canMove' 0 }
 jump 'trigger'
 
 @saveProgress

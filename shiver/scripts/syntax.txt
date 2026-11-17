@@ -2,6 +2,7 @@
 pass
 set text(name) any(value)
 if math(condition) block(code)
+ifelse math(condition) block(code) block(else code)
 wait math(ticks)
 jump text(label)
 setGlobal text(name) any(value)

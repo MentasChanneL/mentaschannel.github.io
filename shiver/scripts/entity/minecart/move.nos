@@ -20,23 +20,11 @@ set 'back' 'loadCoefficients'
 jump 'buildCache'
 
 @loadCoefficients
-copyToLocal 'MINECART.var(arg.0).aX' 'aX'
-copyToLocal 'MINECART.var(arg.0).bX' 'bX'
-copyToLocal 'MINECART.var(arg.0).cX' 'cX'
-copyToLocal 'MINECART.var(arg.0).dX' 'dX'
-copyToLocal 'MINECART.var(arg.0).aY' 'aY'
-copyToLocal 'MINECART.var(arg.0).bY' 'bY'
-copyToLocal 'MINECART.var(arg.0).cY' 'cY'
-copyToLocal 'MINECART.var(arg.0).dY' 'dY'
-copyToLocal 'MINECART.var(arg.0).aZ' 'aZ'
-copyToLocal 'MINECART.var(arg.0).bZ' 'bZ'
-copyToLocal 'MINECART.var(arg.0).cZ' 'cZ'
-copyToLocal 'MINECART.var(arg.0).dZ' 'dZ'
 
 set 'u2' var(progress) * var(progress)
-set 'tangentX' 3 * var(aX) * var(u2) + 2 * var(bX) * var(progress) + var(cX)
-set 'tangentY' 3 * var(aY) * var(u2) + 2 * var(bY) * var(progress) + var(cY)
-set 'tangentZ' 3 * var(aZ) * var(u2) + 2 * var(bZ) * var(progress) + var(cZ)
+set 'tangentX' 3 * global(MINECART.var(arg.0).aX) * var(u2) + 2 * global(MINECART.var(arg.0).bX) * var(progress) + global(MINECART.var(arg.0).cX)
+set 'tangentY' 3 * global(MINECART.var(arg.0).aY) * var(u2) + 2 * global(MINECART.var(arg.0).bY) * var(progress) + global(MINECART.var(arg.0).cY)
+set 'tangentZ' 3 * global(MINECART.var(arg.0).aZ) * var(u2) + 2 * global(MINECART.var(arg.0).bZ) * var(progress) + global(MINECART.var(arg.0).cZ)
 set 'tangentLength' sqrt(var(tangentX) * var(tangentX) + var(tangentY) * var(tangentY) + var(tangentZ) * var(tangentZ))
 if var(tangentLength) <= 0.001 {
     setGlobal 'MINECART.var(arg.0).canMove' 0
@@ -46,27 +34,27 @@ if var(tangentLength) <= 0.001 {
 set 'nextProgress' min(1, var(progress) + global(MINECART.var(arg.0).speed) / var(tangentLength))
 set 'nextU2' var(nextProgress) * var(nextProgress)
 set 'nextU3' var(nextU2) * var(nextProgress)
-set 'nextTX' 3 * var(aX) * var(nextU2) + 2 * var(bX) * var(nextProgress) + var(cX)
-set 'nextTY' 3 * var(aY) * var(nextU2) + 2 * var(bY) * var(nextProgress) + var(cY)
-set 'nextTZ' 3 * var(aZ) * var(nextU2) + 2 * var(bZ) * var(nextProgress) + var(cZ)
+set 'nextTX' 3 * global(MINECART.var(arg.0).aX) * var(nextU2) + 2 * global(MINECART.var(arg.0).bX) * var(nextProgress) + global(MINECART.var(arg.0).cX)
+set 'nextTY' 3 * global(MINECART.var(arg.0).aY) * var(nextU2) + 2 * global(MINECART.var(arg.0).bY) * var(nextProgress) + global(MINECART.var(arg.0).cY)
+set 'nextTZ' 3 * global(MINECART.var(arg.0).aZ) * var(nextU2) + 2 * global(MINECART.var(arg.0).bZ) * var(nextProgress) + global(MINECART.var(arg.0).cZ)
 set 'horizontal' sqrt(var(nextTX) * var(nextTX) + var(nextTZ) * var(nextTZ))
 
 set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 57.29577951308232
 if var(horizontal) <= 0.001 { jump 'keepYaw' }
 set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(nextTX), var(nextTZ)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
 Entity.tp 'var(arg.0)'
-    var(aX) * var(nextU3) + var(bX) * var(nextU2) + var(cX) * var(nextProgress) + var(dX);
-    var(aY) * var(nextU3) + var(bY) * var(nextU2) + var(cY) * var(nextProgress) + var(dY);
-    var(aZ) * var(nextU3) + var(bZ) * var(nextU2) + var(cZ) * var(nextProgress) + var(dZ);
+    global(MINECART.var(arg.0).aX) * var(nextU3) + global(MINECART.var(arg.0).bX) * var(nextU2) + global(MINECART.var(arg.0).cX) * var(nextProgress) + global(MINECART.var(arg.0).dX);
+    global(MINECART.var(arg.0).aY) * var(nextU3) + global(MINECART.var(arg.0).bY) * var(nextU2) + global(MINECART.var(arg.0).cY) * var(nextProgress) + global(MINECART.var(arg.0).dY);
+    global(MINECART.var(arg.0).aZ) * var(nextU3) + global(MINECART.var(arg.0).bZ) * var(nextU2) + global(MINECART.var(arg.0).cZ) * var(nextProgress) + global(MINECART.var(arg.0).dZ);
     var(nextYaw); var(nextPitch);
 copyToGlobal 'nextYaw' 'MINECART.var(arg.0).lastYaw'
 jump 'afterYaw'
 
 @keepYaw
 Entity.tp 'var(arg.0)'
-    var(aX) * var(nextU3) + var(bX) * var(nextU2) + var(cX) * var(nextProgress) + var(dX);
-    var(aY) * var(nextU3) + var(bY) * var(nextU2) + var(cY) * var(nextProgress) + var(dY);
-    var(aZ) * var(nextU3) + var(bZ) * var(nextU2) + var(cZ) * var(nextProgress) + var(dZ);
+    global(MINECART.var(arg.0).aX) * var(nextU3) + global(MINECART.var(arg.0).bX) * var(nextU2) + global(MINECART.var(arg.0).cX) * var(nextProgress) + global(MINECART.var(arg.0).dX);
+    global(MINECART.var(arg.0).aY) * var(nextU3) + global(MINECART.var(arg.0).bY) * var(nextU2) + global(MINECART.var(arg.0).cY) * var(nextProgress) + global(MINECART.var(arg.0).dY);
+    global(MINECART.var(arg.0).aZ) * var(nextU3) + global(MINECART.var(arg.0).bZ) * var(nextU2) + global(MINECART.var(arg.0).cZ) * var(nextProgress) + global(MINECART.var(arg.0).dZ);
     global(MINECART.var(arg.0).lastYaw); var(nextPitch);
 @afterYaw
 

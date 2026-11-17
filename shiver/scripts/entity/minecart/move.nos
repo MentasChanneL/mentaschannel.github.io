@@ -67,9 +67,7 @@ jump 'trigger'
 
 @legacyMove
 copyToLocal 'MINECART.var(arg.0).direction' 'direction'
-list.get 'direction' 0; 'x'
-list.get 'direction' 1; 'y'
-list.get 'direction' 2; 'z'
+list.unpack 'direction' ['x'; 'y'; 'z']
 Entity.getPos 'var(arg.0)' 'pos'
 Entity.tp 'var(arg.0)'
     var(pos.x) + var(x) * global(MINECART.var(arg.0).speed);
@@ -88,18 +86,10 @@ list.get 'route' var(i0); 'p0'
 list.get 'route' var(i1); 'p1'
 list.get 'route' var(i2); 'p2'
 list.get 'route' var(i3); 'p3'
-list.get 'p0' 0; 'p0x'
-list.get 'p0' 1; 'p0y'
-list.get 'p0' 2; 'p0z'
-list.get 'p1' 0; 'p1x'
-list.get 'p1' 1; 'p1y'
-list.get 'p1' 2; 'p1z'
-list.get 'p2' 0; 'p2x'
-list.get 'p2' 1; 'p2y'
-list.get 'p2' 2; 'p2z'
-list.get 'p3' 0; 'p3x'
-list.get 'p3' 1; 'p3y'
-list.get 'p3' 2; 'p3z'
+list.unpack 'p0' ['p0x'; 'p0y'; 'p0z']
+list.unpack 'p1' ['p1x'; 'p1y'; 'p1z']
+list.unpack 'p2' ['p2x'; 'p2y'; 'p2z']
+list.unpack 'p3' ['p3x'; 'p3y'; 'p3z']
 
 if global(MINECART.var(arg.0).routeIndex) != 0 { jump 'buildP0Done' }
 set 'p0x' 2 * var(p1x) - var(p2x)

@@ -16,7 +16,7 @@
 # 11 - начальное направление [x, y, z], используется без маршрута
 # 12 - маршрут как список точек [ [x, y, z], ... ]
 #      Точки задают положение сущности вагонетки вдоль маршрута.
-#      Смещение отображаемой модели задаётся отдельно через arg.3.
+#      Смещение отображаемой модели задаётся отдельно через arg.3
 
 list.get 'arg.0' 0; 'pos_x'
 list.get 'arg.0' 1; 'pos_y'
@@ -36,6 +36,8 @@ copyToGlobal 'arg.12' 'MINECART.var(model).route'
 setGlobal 'MINECART.var(model).routeIndex' 0
 setGlobal 'MINECART.var(model).routeProgress' 0
 setGlobal 'MINECART.var(model).cacheIndex' -1
+setGlobal 'MINECART.var(model).routeLastIndex' len(arg.12) - 1
+setGlobal 'MINECART.var(model).triggerRadius' var(arg.6) / 2 + 1
 copyToGlobal 'yaw' 'MINECART.var(model).lastYaw'
 list.get 'arg.3' 0; 'x'
 list.get 'arg.3' 1; 'y'

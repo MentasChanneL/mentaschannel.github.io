@@ -22,11 +22,8 @@ if var(arg.1) > 0 {
         copyToLocal 'MINECART.var(arg.0).routeProgress' 'progress'
         set 'lastIndex' len(route) - 1
 
-        # Если маршрут уже закончен, останавливаем вагонетку.
-        ifelse var(routeIndex) >= var(lastIndex) {
-            setGlobal 'MINECART.var(arg.0).canMove' 0
-            jump 'trigger'
-        } {
+        # Пока есть следующий сегмент, обрабатываем маршрут.
+        ifelse var(routeIndex) < var(lastIndex) {
             # Берём четыре соседние точки Catmull-Rom.
             set 'i0' max(var(routeIndex) - 1, 0)
             set 'i1' var(routeIndex)
@@ -85,10 +82,7 @@ if var(arg.1) > 0 {
             }
 
             # Двигаемся только если касательная ненулевая.
-            ifelse var(tangentLength) <= 0.001 {
-                setGlobal 'MINECART.var(arg.0).canMove' 0
-                jump 'trigger'
-            } {
+            ifelse var(tangentLength) > 0.001 {
                 Entity.getPos 'var(arg.0)' 'pos'
 
                 # speed - расстояние за один шаг.
@@ -131,7 +125,13 @@ if var(arg.1) > 0 {
                 } {
                     copyToGlobal 'nextProgress' 'MINECART.var(arg.0).routeProgress'
                 }
+            } {
+                setGlobal 'MINECART.var(arg.0).canMove' 0
+                jump 'trigger'
             }
+        } {
+            setGlobal 'MINECART.var(arg.0).canMove' 0
+            jump 'trigger'
         }
     } {
         # Совместимость со старым режимом фиксированного направления.

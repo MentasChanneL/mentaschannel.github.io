@@ -1,6 +1,7 @@
 # Op module commands
 pass
 set text(name) any(value)
+setVars list(name; value; name; value ...)
 if math(condition) block(code)
 ifelse math(condition) block(code) block(else code)
 wait math(ticks)

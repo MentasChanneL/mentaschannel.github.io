@@ -68,7 +68,7 @@ parallel '*' [] {
     Entity.remove 'var(c4)'
     Shiver.removeZombies
     # Arg 12 - optional minecart route. Each point contains X Y Z coordinates.
-    # Empty route temporarily keeps the legacy straight direction [0; 0; 1].
+    # Empty route temporarily keeps the legacy straight direction along positive Z.
     run 'entity/minecart/spawn' '*' [
         [310.5; 3; 0.5; 0; 0];
         [];

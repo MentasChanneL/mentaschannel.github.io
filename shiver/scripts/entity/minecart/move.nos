@@ -4,10 +4,31 @@
 # Все рабочие метки находятся на одном уровне; buildCache возвращается через back.
 
 @entry
-if var(arg.1) * global(MINECART.var(arg.0).canMove) <= 0 { jump 'trigger' }
-if global(MINECART.var(arg.0).routeLastIndex) <= 0 { jump 'legacyMove' }
+if var(arg.1) > 0 {
+    if global(MINECART.var(arg.0).debugEntry) == 0 {
+        message '[MC DEBUG] entry: arg1=var(arg.1), canMove=global(MINECART.var(arg.0).canMove), routeIndex=global(MINECART.var(arg.0).routeIndex), routeLastIndex=global(MINECART.var(arg.0).routeLastIndex), cacheIndex=global(MINECART.var(arg.0).cacheIndex), speed=global(MINECART.var(arg.0).speed)'
+        setGlobal 'MINECART.var(arg.0).debugEntry' 1
+    }
+}
+if var(arg.1) * global(MINECART.var(arg.0).canMove) <= 0 {
+    if var(arg.1) > 0 {
+        if global(MINECART.var(arg.0).debugGate) == 0 {
+            message '[MC DEBUG] movement blocked by gate: arg1=var(arg.1), canMove=global(MINECART.var(arg.0).canMove)'
+            setGlobal 'MINECART.var(arg.0).debugGate' 1
+        }
+    }
+    jump 'trigger'
+}
+if global(MINECART.var(arg.0).routeLastIndex) <= 0 {
+    if global(MINECART.var(arg.0).debugLegacy) == 0 {
+        message '[MC DEBUG] legacy branch: routeLastIndex=global(MINECART.var(arg.0).routeLastIndex), speed=global(MINECART.var(arg.0).speed)'
+        setGlobal 'MINECART.var(arg.0).debugLegacy' 1
+    }
+    jump 'legacyMove'
+}
 
 if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) {
+    message '[MC DEBUG] route already finished: routeIndex=global(MINECART.var(arg.0).routeIndex), routeLastIndex=global(MINECART.var(arg.0).routeLastIndex)'
     setGlobal 'MINECART.var(arg.0).canMove' 0
     jump 'trigger'
 }
@@ -26,6 +47,10 @@ setVars [
 ]
 set 'tangentLength' sqrt(var(tangentX) * var(tangentX) + var(tangentY) * var(tangentY) + var(tangentZ) * var(tangentZ))
 if var(tangentLength) <= 0.001 {
+    if global(MINECART.var(arg.0).debugBadTangent) == 0 {
+        message '[MC DEBUG] tangent too small: tangentLength=var(tangentLength), progress=global(MINECART.var(arg.0).routeProgress), aX=global(MINECART.var(arg.0).aX), bX=global(MINECART.var(arg.0).bX), cX=global(MINECART.var(arg.0).cX)'
+        setGlobal 'MINECART.var(arg.0).debugBadTangent' 1
+    }
     setGlobal 'MINECART.var(arg.0).canMove' 0
     jump 'trigger'
 }
@@ -60,6 +85,10 @@ Entity.tp 'var(arg.0)'
     global(MINECART.var(arg.0).aZ) * var(nextU3) + global(MINECART.var(arg.0).bZ) * var(nextU2) + global(MINECART.var(arg.0).cZ) * var(nextProgress) + global(MINECART.var(arg.0).dZ);
     global(MINECART.var(arg.0).lastYaw); var(nextPitch);
 @afterYaw
+if global(MINECART.var(arg.0).debugTp) == 0 {
+    message '[MC DEBUG] Entity.tp reached: nextProgress=var(nextProgress), tangentLength=var(tangentLength), speed=global(MINECART.var(arg.0).speed), nextYaw=var(nextYaw), nextPitch=var(nextPitch)'
+    setGlobal 'MINECART.var(arg.0).debugTp' 1
+}
 
 if var(nextProgress) < 1 { jump 'saveProgress' }
 setGlobal 'MINECART.var(arg.0).routeIndex' global(MINECART.var(arg.0).routeIndex) + 1
@@ -83,6 +112,10 @@ Entity.tp 'var(arg.0)'
 jump 'trigger'
 
 @buildCache
+if global(MINECART.var(arg.0).debugCacheStart) == 0 {
+    message '[MC DEBUG] building route cache: routeIndex=global(MINECART.var(arg.0).routeIndex), routeLastIndex=global(MINECART.var(arg.0).routeLastIndex)'
+    setGlobal 'MINECART.var(arg.0).debugCacheStart' 1
+}
 copyToLocal 'MINECART.var(arg.0).route' 'route'
 setVars [
     'i0'; max(global(MINECART.var(arg.0).routeIndex) - 1, 0);
@@ -182,12 +215,20 @@ setGlobals [
     'MINECART.var(arg.0).dZ'; var(dZ);
     'MINECART.var(arg.0).cacheIndex'; global(MINECART.var(arg.0).routeIndex)
 ]
+if global(MINECART.var(arg.0).debugCacheDone) == 0 {
+    message '[MC DEBUG] route cache written: cacheIndex=global(MINECART.var(arg.0).cacheIndex), routeIndex=global(MINECART.var(arg.0).routeIndex)'
+    setGlobal 'MINECART.var(arg.0).debugCacheDone' 1
+}
 jump 'var(back)'
 
 @trigger
 wait global(MINECART.var(arg.0).tickDelta) - 1
 Entity.getPos 'var(arg.0)' 'pos'
 set 'radius' global(MINECART.var(arg.0).triggerRadius)
+if global(MINECART.var(arg.0).debugTrigger) == 0 {
+    message '[MC DEBUG] trigger loop active: arg1=var(arg.1), tickDelta=global(MINECART.var(arg.0).tickDelta), radius=var(radius), pos=var(pos.x),var(pos.y),var(pos.z)'
+    setGlobal 'MINECART.var(arg.0).debugTrigger' 1
+}
 Shiver.spawnTrigger 'minecart.var(arg.0)' 'global(MINECART.var(arg.0).team)' 0;
     (var(pos.x) + var(radius)); (var(pos.y) + var(radius)); (var(pos.z) + var(radius));
     (var(pos.x) - var(radius)); (var(pos.y) - var(radius)); (var(pos.z) - var(radius));

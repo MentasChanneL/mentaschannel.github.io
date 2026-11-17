@@ -38,6 +38,14 @@ setGlobal 'MINECART.var(model).routeProgress' 0
 setGlobal 'MINECART.var(model).cacheIndex' -1
 setGlobal 'MINECART.var(model).routeLastIndex' len(arg.12) - 1
 setGlobal 'MINECART.var(model).triggerRadius' var(arg.6) / 2 + 1
+setGlobal 'MINECART.var(model).debugEntry' 0
+setGlobal 'MINECART.var(model).debugGate' 0
+setGlobal 'MINECART.var(model).debugLegacy' 0
+setGlobal 'MINECART.var(model).debugCacheStart' 0
+setGlobal 'MINECART.var(model).debugCacheDone' 0
+setGlobal 'MINECART.var(model).debugBadTangent' 0
+setGlobal 'MINECART.var(model).debugTp' 0
+setGlobal 'MINECART.var(model).debugTrigger' 0
 copyToGlobal 'yaw' 'MINECART.var(model).lastYaw'
 list.get 'arg.3' 0; 'x'
 list.get 'arg.3' 1; 'y'

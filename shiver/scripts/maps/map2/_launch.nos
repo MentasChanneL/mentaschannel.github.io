@@ -67,8 +67,6 @@ parallel '*' [] {
     World.sound 'shiver:ambience.obval' 0.2; 1.1; var(c4.x); var(c4.y); var(c4.z);
     Entity.remove 'var(c4)'
     Shiver.removeZombies
-    # Arg 12 - minecart route. Coordinates describe the entity position, before model offset.
-    # The first point matches the spawn position [310.5; 3; 0.5].
     run 'entity/minecart/spawn' '*' [
         [310.5; 3; 0.5; 0; 0];
         [];

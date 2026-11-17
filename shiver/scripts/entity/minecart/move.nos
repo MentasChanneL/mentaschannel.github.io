@@ -4,9 +4,9 @@
 # 0 - uuid вагонетки
 # 1 - выполнить движение
 #
-# Если задан route (минимум 2 точки [x; y; z]), движение идёт по
+# Если задан route (минимум 2 точки [x, y, z]), движение идёт по
 # Catmull-Rom spline через точки маршрута. Точки должны описывать
-# центр рельсов; добавляй больше точек на поворотах и склонах.
+# центр рельсов, добавляй больше точек на поворотах и склонах.
 # Если route пустой или содержит одну точку, используется direction.
 
 if var(arg.1) > 0 {
@@ -97,7 +97,7 @@ if var(arg.1) > 0 {
                     set 'nextTZ' 0.5 * (var(bZ) + 2 * var(cZ) * var(nextProgress) + 3 * var(dZ) * var(nextU2))
                     set 'horizontal' sqrt(pow(var(nextTX), 2) + pow(var(nextTZ), 2))
 
-                    # atan2 возвращает радианы; Entity.tp принимает градусы.
+                    # atan2 возвращает радианы Entity.tp принимает градусы.
                     ifelse var(horizontal) > 0.001 {
                         set 'targetYaw' atan2(0 - var(nextTX), var(nextTZ)) * 180 / 3.141592653589793
                         set 'yawDelta' wrap(var(targetYaw) - var(pos.yaw), -180, 180)

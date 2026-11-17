@@ -4,8 +4,9 @@
 # 0 - uuid вагонетки
 # 1 - выполнить движение
 #
-# Маршрут обрабатывается центростремительным Catmull-Rom.
-# Коэффициенты текущего сегмента кэшируются до перехода на следующий.
+# Горизонталь сглаживается центростремительным Catmull-Rom.
+# Высота использует монотонные касательные без вертикальных выбросов.
+# Коэффициенты сегмента кэшируются до перехода на следующий.
 
 if var(arg.1) > 0 {
     if global(MINECART.var(arg.0).canMove) > 0 {
@@ -69,12 +70,27 @@ if var(arg.1) > 0 {
 
                     # Hermite tangents for the segment P1 -> P2.
                     set 'm1x' (var(p1x) - var(p0x)) * var(r10) - (var(p2x) - var(p0x)) * var(r20) + (var(p2x) - var(p1x))
-                    set 'm1y' (var(p1y) - var(p0y)) * var(r10) - (var(p2y) - var(p0y)) * var(r20) + (var(p2y) - var(p1y))
                     set 'm1z' (var(p1z) - var(p0z)) * var(r10) - (var(p2z) - var(p0z)) * var(r20) + (var(p2z) - var(p1z))
 
                     set 'm2x' (var(p2x) - var(p1x)) - (var(p3x) - var(p1x)) * var(r31) + (var(p3x) - var(p2x)) * var(r32)
-                    set 'm2y' (var(p2y) - var(p1y)) - (var(p3y) - var(p1y)) * var(r31) + (var(p3y) - var(p2y)) * var(r32)
                     set 'm2z' (var(p2z) - var(p1z)) - (var(p3z) - var(p1z)) * var(r31) + (var(p3z) - var(p2z)) * var(r32)
+
+                    # Для Y используем монотонные касательные PCHIP.
+                    set 's0y' (var(p1y) - var(p0y)) / var(t01)
+                    set 's1y' (var(p2y) - var(p1y)) / var(t12)
+                    set 's2y' (var(p3y) - var(p2y)) / var(t23)
+                    set 'w1' 2 * var(t12) + var(t01)
+                    set 'w2' var(t12) + 2 * var(t01)
+                    set 'w3' 2 * var(t23) + var(t12)
+                    set 'w4' var(t23) + 2 * var(t12)
+                    set 'm1y' 0
+                    set 'm2y' 0
+                    if var(s0y) * var(s1y) > 0 {
+                        set 'm1y' var(t12) * (var(w1) + var(w2)) / (var(w1) / var(s0y) + var(w2) / var(s1y))
+                    }
+                    if var(s1y) * var(s2y) > 0 {
+                        set 'm2y' var(t12) * (var(w3) + var(w4)) / (var(w3) / var(s1y) + var(w4) / var(s2y))
+                    }
 
                     # C(u) = a*u^3 + b*u^2 + c*u + d.
                     set 'aX' 2 * var(p1x) - 2 * var(p2x) + var(m1x) + var(m2x)

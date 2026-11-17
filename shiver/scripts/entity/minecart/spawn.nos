@@ -13,7 +13,9 @@
 # 8 - команда
 # 9 - tick интервал
 # 10 - скорость
-# 11 - начальное направление [x, y, z]
+# 11 - начальное направление [x, y, z], используется без маршрута
+# 12 - маршрут через контрольные точки [[x; y; z], ...]
+#      Точки должны идти вдоль центра рельсов; первая точка - место спавна.
 
 list.get 'arg.0' 0; 'pos_x'
 list.get 'arg.0' 1; 'pos_y'
@@ -29,6 +31,9 @@ copyToGlobal 'arg.8' 'MINECART.var(model).team'
 copyToGlobal 'arg.9' 'MINECART.var(model).tickDelta'
 copyToGlobal 'arg.10' 'MINECART.var(model).speed'
 copyToGlobal 'arg.11' 'MINECART.var(model).direction'
+copyToGlobal 'arg.12' 'MINECART.var(model).route'
+setGlobal 'MINECART.var(model).routeIndex' 0
+setGlobal 'MINECART.var(model).routeProgress' 0
 list.get 'arg.3' 0; 'x'
 list.get 'arg.3' 1; 'y'
 list.get 'arg.3' 2; 'z'

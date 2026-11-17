@@ -45,21 +45,21 @@ if var(arg.1) > 0 {
 
                 # Коэффициенты Catmull-Rom для X.
                 set 'aX' 2 * var(p1x)
-                set 'bX' -var(p0x) + var(p2x)
+                set 'bX' (0 - var(p0x)) + var(p2x)
                 set 'cX' 2 * var(p0x) - 5 * var(p1x) + 4 * var(p2x) - var(p3x)
-                set 'dX' -var(p0x) + 3 * var(p1x) - 3 * var(p2x) + var(p3x)
+                set 'dX' (0 - var(p0x)) + 3 * var(p1x) - 3 * var(p2x) + var(p3x)
 
                 # Коэффициенты Catmull-Rom для Y.
                 set 'aY' 2 * var(p1y)
-                set 'bY' -var(p0y) + var(p2y)
+                set 'bY' (0 - var(p0y)) + var(p2y)
                 set 'cY' 2 * var(p0y) - 5 * var(p1y) + 4 * var(p2y) - var(p3y)
-                set 'dY' -var(p0y) + 3 * var(p1y) - 3 * var(p2y) + var(p3y)
+                set 'dY' (0 - var(p0y)) + 3 * var(p1y) - 3 * var(p2y) + var(p3y)
 
                 # Коэффициенты Catmull-Rom для Z.
                 set 'aZ' 2 * var(p1z)
-                set 'bZ' -var(p0z) + var(p2z)
+                set 'bZ' (0 - var(p0z)) + var(p2z)
                 set 'cZ' 2 * var(p0z) - 5 * var(p1z) + 4 * var(p2z) - var(p3z)
-                set 'dZ' -var(p0z) + 3 * var(p1z) - 3 * var(p2z) + var(p3z)
+                set 'dZ' (0 - var(p0z)) + 3 * var(p1z) - 3 * var(p2z) + var(p3z)
 
                 # Производная кривой в текущей позиции нужна для
                 # приблизительно постоянного шага в блоках.
@@ -99,13 +99,13 @@ if var(arg.1) > 0 {
 
                     # atan2 возвращает радианы; Entity.tp принимает градусы.
                     ifelse var(horizontal) > 0.001 {
-                        set 'targetYaw' atan2(-var(nextTX), var(nextTZ)) * 180 / 3.141592653589793
+                        set 'targetYaw' atan2(0 - var(nextTX), var(nextTZ)) * 180 / 3.141592653589793
                         set 'yawDelta' wrap(var(targetYaw) - var(pos.yaw), -180, 180)
                         set 'nextYaw' var(pos.yaw) + var(yawDelta)
                     } {
                         set 'nextYaw' var(pos.yaw)
                     }
-                    set 'nextPitch' atan2(-var(nextTY), var(horizontal)) * 180 / 3.141592653589793
+                    set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 180 / 3.141592653589793
 
                     Entity.tp 'var(arg.0)' math(var(nextX)); math(var(nextY)); math(var(nextZ)); math(var(nextYaw)); math(var(nextPitch));
 

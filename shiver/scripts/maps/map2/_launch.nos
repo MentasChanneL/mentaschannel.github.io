@@ -71,7 +71,7 @@ parallel '*' [] {
         [310.5; 3; 0.5; 0; 0];
         [];
         'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDg3LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
-        [0; 0.5; 0];
+        [0; 0.6; 0];
         [1; 1; 1];
         [180; 0; 0];
         1;

@@ -170,7 +170,7 @@ setGlobal 'MINECART.var(arg.0).lastYaw' var(nextYaw)
 jump 'trigger'
 
 @trigger
-wait global(MINECART.var(arg.0).tickDelta) - 1
+wait global(MINECART.var(arg.0).tickDelta) - 2
 Entity.getPos 'var(arg.0)' 'pos'
 set 'radius' global(MINECART.var(arg.0).triggerRadius)
 Shiver.spawnTrigger 'minecart.var(arg.0)' 'global(MINECART.var(arg.0).team)' 0;

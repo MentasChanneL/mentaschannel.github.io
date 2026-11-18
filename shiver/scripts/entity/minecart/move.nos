@@ -1,197 +1,107 @@
 # Shiver script | REPIS
-# Экспериментальная плоская версия движения сюжетной вагонетки.
-# Аргументы: 0 - uuid вагонетки, 1 - выполнить движение.
-# Кэш следующего сегмента рассчитывается отдельным фоновым скриптом.
+# Простое линейное движение сюжетной вагонетки.
+# Аргументы: 0 - UUID модели; 1 - выполнить шаг движения.
+# Видимая модель находится на 0.5 блока выше маршрута.
+# Пустой ItemDisplay с хитбоксом движется по исходным координатам маршрута.
 
 @entry
-if var(arg.1) * global(MINECART.var(arg.0).canMove) <= 0 {
-    jump 'trigger'
-}
-if global(MINECART.var(arg.0).routeLastIndex) <= 0 {
-    jump 'legacyMove'
-}
+if var(arg.1) * global(MINECART.var(arg.0).canMove) <= 0 { jump 'trigger' }
+if global(MINECART.var(arg.0).routeLastIndex) <= 0 { jump 'legacyMove' }
+if global(MINECART.var(arg.0).speed) <= 0 { jump 'trigger' }
 
+copyToLocal 'MINECART.var(arg.0).route' 'route'
+set 'remaining' global(MINECART.var(arg.0).speed)
+jump 'routeStep'
+
+@routeStep
 if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) {
     setGlobal 'MINECART.var(arg.0).canMove' 0
     jump 'trigger'
 }
+list.get 'route' global(MINECART.var(arg.0).routeIndex); 'p1'
+list.get 'route' global(MINECART.var(arg.0).routeIndex) + 1; 'p2'
+list.unpack 'p1' ['p1x'; 'p1y'; 'p1z']
+list.unpack 'p2' ['p2x'; 'p2y'; 'p2z']
 
-if global(MINECART.var(arg.0).cacheIndex) == global(MINECART.var(arg.0).routeIndex) { jump 'loadCoefficients' }
-if global(MINECART.var(arg.0).cachePendingIndex) == global(MINECART.var(arg.0).routeIndex) { jump 'promotePendingCache' }
-runInLine 'entity/minecart/cache' [*arg.0; global(MINECART.var(arg.0).routeIndex); 0]
-jump 'loadCoefficients'
+setVars [
+    'dx'; var(p2x) - var(p1x);
+    'dy'; var(p2y) - var(p1y);
+    'dz'; var(p2z) - var(p1z)
+]
+set 'segmentLength' sqrt(var(dx) * var(dx) + var(dy) * var(dy) + var(dz) * var(dz))
+if var(segmentLength) <= 0.001 { jump 'skipSegment' }
+set 'distanceLeft' var(segmentLength) - global(MINECART.var(arg.0).routeProgress)
+if var(remaining) >= var(distanceLeft) { jump 'crossSegment' }
 
-@promotePendingCache
-setGlobals [
-    'MINECART.var(arg.0).aX'; global(MINECART.var(arg.0).pendingAX);
-    'MINECART.var(arg.0).bX'; global(MINECART.var(arg.0).pendingBX);
-    'MINECART.var(arg.0).cX'; global(MINECART.var(arg.0).pendingCX);
-    'MINECART.var(arg.0).dX'; global(MINECART.var(arg.0).pendingDX);
-    'MINECART.var(arg.0).aY'; global(MINECART.var(arg.0).pendingAY);
-    'MINECART.var(arg.0).bY'; global(MINECART.var(arg.0).pendingBY);
-    'MINECART.var(arg.0).cY'; global(MINECART.var(arg.0).pendingCY);
-    'MINECART.var(arg.0).dY'; global(MINECART.var(arg.0).pendingDY);
-    'MINECART.var(arg.0).aZ'; global(MINECART.var(arg.0).pendingAZ);
-    'MINECART.var(arg.0).bZ'; global(MINECART.var(arg.0).pendingBZ);
-    'MINECART.var(arg.0).cZ'; global(MINECART.var(arg.0).pendingCZ);
-    'MINECART.var(arg.0).dZ'; global(MINECART.var(arg.0).pendingDZ);
-    'MINECART.var(arg.0).p0x'; global(MINECART.var(arg.0).pendingP0x);
-    'MINECART.var(arg.0).p0y'; global(MINECART.var(arg.0).pendingP0y);
-    'MINECART.var(arg.0).p0z'; global(MINECART.var(arg.0).pendingP0z);
-    'MINECART.var(arg.0).p1x'; global(MINECART.var(arg.0).pendingP1x);
-    'MINECART.var(arg.0).p1y'; global(MINECART.var(arg.0).pendingP1y);
-    'MINECART.var(arg.0).p1z'; global(MINECART.var(arg.0).pendingP1z);
-    'MINECART.var(arg.0).p2x'; global(MINECART.var(arg.0).pendingP2x);
-    'MINECART.var(arg.0).p2y'; global(MINECART.var(arg.0).pendingP2y);
-    'MINECART.var(arg.0).p2z'; global(MINECART.var(arg.0).pendingP2z);
-    'MINECART.var(arg.0).p3x'; global(MINECART.var(arg.0).pendingP3x);
-    'MINECART.var(arg.0).p3y'; global(MINECART.var(arg.0).pendingP3y);
-    'MINECART.var(arg.0).p3z'; global(MINECART.var(arg.0).pendingP3z);
-    'MINECART.var(arg.0).prevRailLength'; global(MINECART.var(arg.0).pendingPrevRailLength);
-    'MINECART.var(arg.0).nextRailLength'; global(MINECART.var(arg.0).pendingNextRailLength)
+set 'newProgress' global(MINECART.var(arg.0).routeProgress) + var(remaining)
+setGlobal 'MINECART.var(arg.0).routeProgress' var(newProgress)
+set 'remaining' 0
+set 'u' var(newProgress) / var(segmentLength)
+setVars [
+    'nextX'; var(p1x) + var(dx) * var(u);
+    'nextY'; var(p1y) + var(dy) * var(u);
+    'nextZ'; var(p1z) + var(dz) * var(u)
 ]
-setGlobal 'MINECART.var(arg.0).cacheIndex' global(MINECART.var(arg.0).routeIndex)
-setGlobal 'MINECART.var(arg.0).cachePendingIndex' -1
-jump 'loadCoefficients'
+jump 'applyPosition'
 
-@loadCoefficients
-if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) - 1 { jump 'coefficientsReady' }
-set 'prebuildIndex' global(MINECART.var(arg.0).routeIndex) + 1
-if global(MINECART.var(arg.0).cacheRequestedIndex) == var(prebuildIndex) { jump 'coefficientsReady' }
-setGlobal 'MINECART.var(arg.0).cacheRequestedIndex' var(prebuildIndex)
-run 'entity/minecart/cache' '*' [*arg.0; var(prebuildIndex); 1]
-@coefficientsReady
-
-set 'u2' global(MINECART.var(arg.0).routeProgress) * global(MINECART.var(arg.0).routeProgress)
-setVars [
-    'tangentX'; 3 * global(MINECART.var(arg.0).aX) * var(u2) + 2 * global(MINECART.var(arg.0).bX) * global(MINECART.var(arg.0).routeProgress) + global(MINECART.var(arg.0).cX);
-    'tangentY'; 3 * global(MINECART.var(arg.0).aY) * var(u2) + 2 * global(MINECART.var(arg.0).bY) * global(MINECART.var(arg.0).routeProgress) + global(MINECART.var(arg.0).cY);
-    'tangentZ'; 3 * global(MINECART.var(arg.0).aZ) * var(u2) + 2 * global(MINECART.var(arg.0).bZ) * global(MINECART.var(arg.0).routeProgress) + global(MINECART.var(arg.0).cZ)
-]
-set 'tangentLength' sqrt(var(tangentX) * var(tangentX) + var(tangentY) * var(tangentY) + var(tangentZ) * var(tangentZ))
-if var(tangentLength) <= 0.001 {
-    setGlobal 'MINECART.var(arg.0).canMove' 0
-    jump 'trigger'
-}
-
-set 'nextProgress' min(1, global(MINECART.var(arg.0).routeProgress) + global(MINECART.var(arg.0).speed) / var(tangentLength))
-setVars [
-    'nextU2'; var(nextProgress) * var(nextProgress);
-    'nextU3'; var(nextProgress) * var(nextProgress) * var(nextProgress)
-]
-setVars [
-    'nextTX'; 3 * global(MINECART.var(arg.0).aX) * var(nextU2) + 2 * global(MINECART.var(arg.0).bX) * var(nextProgress) + global(MINECART.var(arg.0).cX);
-    'nextTY'; 3 * global(MINECART.var(arg.0).aY) * var(nextU2) + 2 * global(MINECART.var(arg.0).bY) * var(nextProgress) + global(MINECART.var(arg.0).cY);
-    'nextTZ'; 3 * global(MINECART.var(arg.0).aZ) * var(nextU2) + 2 * global(MINECART.var(arg.0).bZ) * var(nextProgress) + global(MINECART.var(arg.0).cZ)
-]
-set 'horizontal' sqrt(var(nextTX) * var(nextTX) + var(nextTZ) * var(nextTZ))
-set 'nextTangentLength' sqrt(var(nextTX) * var(nextTX) + var(nextTY) * var(nextTY) + var(nextTZ) * var(nextTZ))
-
-# Calculate pitch from front and rear axle contact points separated by wheelBase.
-if global(MINECART.var(arg.0).wheelBase) <= 0 { jump 'pitchFromTangent' }
-if var(nextTangentLength) <= 0.001 { jump 'pitchFromTangent' }
-set 'wheelDelta' global(MINECART.var(arg.0).wheelBase) / var(nextTangentLength)
-set 'rearU' var(nextProgress) - var(wheelDelta)
-set 'frontU' var(nextProgress) + var(wheelDelta)
-
-# Rear axle sample: current spline or previous rail direction across the boundary.
-if var(rearU) < 0 { jump 'sampleRearOutside' }
-setVars [
-    'rearU2'; var(rearU) * var(rearU);
-    'rearU3'; var(rearU) * var(rearU) * var(rearU)
-]
-setVars [
-    'rearX'; global(MINECART.var(arg.0).aX) * var(rearU3) + global(MINECART.var(arg.0).bX) * var(rearU2) + global(MINECART.var(arg.0).cX) * var(rearU) + global(MINECART.var(arg.0).dX);
-    'rearY'; global(MINECART.var(arg.0).aY) * var(rearU3) + global(MINECART.var(arg.0).bY) * var(rearU2) + global(MINECART.var(arg.0).cY) * var(rearU) + global(MINECART.var(arg.0).dY);
-    'rearZ'; global(MINECART.var(arg.0).aZ) * var(rearU3) + global(MINECART.var(arg.0).bZ) * var(rearU2) + global(MINECART.var(arg.0).cZ) * var(rearU) + global(MINECART.var(arg.0).dZ)
-]
-jump 'sampleRearDone'
-@sampleRearOutside
-set 'rearOver' (0 - var(rearU)) * var(nextTangentLength)
-setVars [
-    'rearX'; global(MINECART.var(arg.0).p1x) - (global(MINECART.var(arg.0).p1x) - global(MINECART.var(arg.0).p0x)) / max(global(MINECART.var(arg.0).prevRailLength), 0.001) * var(rearOver);
-    'rearY'; global(MINECART.var(arg.0).p1y) - (global(MINECART.var(arg.0).p1y) - global(MINECART.var(arg.0).p0y)) / max(global(MINECART.var(arg.0).prevRailLength), 0.001) * var(rearOver);
-    'rearZ'; global(MINECART.var(arg.0).p1z) - (global(MINECART.var(arg.0).p1z) - global(MINECART.var(arg.0).p0z)) / max(global(MINECART.var(arg.0).prevRailLength), 0.001) * var(rearOver)
-]
-@sampleRearDone
-
-# Front axle sample: current spline or next rail direction across the boundary.
-if var(frontU) > 1 { jump 'sampleFrontOutside' }
-setVars [
-    'frontU2'; var(frontU) * var(frontU);
-    'frontU3'; var(frontU) * var(frontU) * var(frontU)
-]
-setVars [
-    'frontX'; global(MINECART.var(arg.0).aX) * var(frontU3) + global(MINECART.var(arg.0).bX) * var(frontU2) + global(MINECART.var(arg.0).cX) * var(frontU) + global(MINECART.var(arg.0).dX);
-    'frontY'; global(MINECART.var(arg.0).aY) * var(frontU3) + global(MINECART.var(arg.0).bY) * var(frontU2) + global(MINECART.var(arg.0).cY) * var(frontU) + global(MINECART.var(arg.0).dY);
-    'frontZ'; global(MINECART.var(arg.0).aZ) * var(frontU3) + global(MINECART.var(arg.0).bZ) * var(frontU2) + global(MINECART.var(arg.0).cZ) * var(frontU) + global(MINECART.var(arg.0).dZ)
-]
-jump 'sampleFrontDone'
-@sampleFrontOutside
-set 'frontOver' (var(frontU) - 1) * var(nextTangentLength)
-setVars [
-    'frontX'; global(MINECART.var(arg.0).p2x) + (global(MINECART.var(arg.0).p3x) - global(MINECART.var(arg.0).p2x)) / max(global(MINECART.var(arg.0).nextRailLength), 0.001) * var(frontOver);
-    'frontY'; global(MINECART.var(arg.0).p2y) + (global(MINECART.var(arg.0).p3y) - global(MINECART.var(arg.0).p2y)) / max(global(MINECART.var(arg.0).nextRailLength), 0.001) * var(frontOver);
-    'frontZ'; global(MINECART.var(arg.0).p2z) + (global(MINECART.var(arg.0).p3z) - global(MINECART.var(arg.0).p2z)) / max(global(MINECART.var(arg.0).nextRailLength), 0.001) * var(frontOver)
-]
-@sampleFrontDone
-
-set 'wheelHorizontal' sqrt((var(frontX) - var(rearX)) * (var(frontX) - var(rearX)) + (var(frontZ) - var(rearZ)) * (var(frontZ) - var(rearZ)))
-if var(wheelHorizontal) <= 0.001 { jump 'pitchFromTangent' }
-# The body pivot must be the midpoint between the two axle contact points.
-setVars [
-    'wheelCenterX'; (var(frontX) + var(rearX)) / 2;
-    'wheelCenterY'; (var(frontY) + var(rearY)) / 2;
-    'wheelCenterZ'; (var(frontZ) + var(rearZ)) / 2
-]
-set 'nextPitch' atan2(var(rearY) - var(frontY), var(wheelHorizontal)) * 57.29577951308232
-jump 'pitchReady'
-@pitchFromTangent
-# Without a valid axle pair, keep the original spline position as the body pivot.
-setVars [
-    'wheelCenterX'; global(MINECART.var(arg.0).aX) * var(nextU3) + global(MINECART.var(arg.0).bX) * var(nextU2) + global(MINECART.var(arg.0).cX) * var(nextProgress) + global(MINECART.var(arg.0).dX);
-    'wheelCenterY'; global(MINECART.var(arg.0).aY) * var(nextU3) + global(MINECART.var(arg.0).bY) * var(nextU2) + global(MINECART.var(arg.0).cY) * var(nextProgress) + global(MINECART.var(arg.0).dY);
-    'wheelCenterZ'; global(MINECART.var(arg.0).aZ) * var(nextU3) + global(MINECART.var(arg.0).bZ) * var(nextU2) + global(MINECART.var(arg.0).cZ) * var(nextProgress) + global(MINECART.var(arg.0).dZ)
-]
-set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 57.29577951308232
-@pitchReady
-if var(horizontal) <= 0.001 { jump 'keepYaw' }
-set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(nextTX), var(nextTZ)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
-Entity.tp 'var(arg.0)'
-    var(wheelCenterX);
-    var(wheelCenterY);
-    var(wheelCenterZ);
-    var(nextYaw); var(nextPitch);
-setGlobals ['MINECART.var(arg.0).lastYaw'; var(nextYaw)]
-jump 'afterYaw'
-
-@keepYaw
-Entity.tp 'var(arg.0)'
-    var(wheelCenterX);
-    var(wheelCenterY);
-    var(wheelCenterZ);
-    global(MINECART.var(arg.0).lastYaw); var(nextPitch);
-@afterYaw
-
-if var(nextProgress) < 1 { jump 'saveProgress' }
+@crossSegment
+set 'remaining' max(var(remaining) - max(var(distanceLeft), 0), 0)
 setGlobal 'MINECART.var(arg.0).routeIndex' global(MINECART.var(arg.0).routeIndex) + 1
 setGlobal 'MINECART.var(arg.0).routeProgress' 0
-if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) { setGlobal 'MINECART.var(arg.0).canMove' 0; }
-jump 'trigger'
+if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) { jump 'routeEnd' }
+jump 'routeStep'
 
-@saveProgress
-setGlobals ['MINECART.var(arg.0).routeProgress'; var(nextProgress)]
+@skipSegment
+setGlobal 'MINECART.var(arg.0).routeIndex' global(MINECART.var(arg.0).routeIndex) + 1
+setGlobal 'MINECART.var(arg.0).routeProgress' 0
+if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) { jump 'routeEnd' }
+jump 'routeStep'
+
+@routeEnd
+setGlobal 'MINECART.var(arg.0).canMove' 0
+setVars [
+    'nextX'; var(p2x);
+    'nextY'; var(p2y);
+    'nextZ'; var(p2z)
+]
+jump 'applyPosition'
+
+@applyPosition
+set 'nextYaw' global(MINECART.var(arg.0).lastYaw)
+if sqrt(var(dx) * var(dx) + var(dz) * var(dz)) <= 0.001 { jump 'teleportPair' }
+set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(dx), var(dz)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
+
+@teleportPair
+Entity.tp 'var(arg.0)'
+    var(nextX); var(nextY) + 0.5; var(nextZ);
+    var(nextYaw); 0;
+Entity.tp 'global(MINECART.var(arg.0).mount)'
+    var(nextX); var(nextY); var(nextZ);
+    var(nextYaw); 0;
+setGlobal 'MINECART.var(arg.0).lastYaw' var(nextYaw)
 jump 'trigger'
 
 @legacyMove
 copyToLocal 'MINECART.var(arg.0).direction' 'direction'
 list.unpack 'direction' ['x'; 'y'; 'z']
 Entity.getPos 'var(arg.0)' 'pos'
+setVars [
+    'nextX'; var(pos.x) + var(x) * global(MINECART.var(arg.0).speed);
+    'nextY'; var(pos.y) + var(y) * global(MINECART.var(arg.0).speed);
+    'nextZ'; var(pos.z) + var(z) * global(MINECART.var(arg.0).speed);
+    'nextYaw'; global(MINECART.var(arg.0).lastYaw)
+]
+if sqrt(var(x) * var(x) + var(z) * var(z)) <= 0.001 { jump 'legacyTeleport' }
+set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(x), var(z)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
+
+@legacyTeleport
 Entity.tp 'var(arg.0)'
-    var(pos.x) + var(x) * global(MINECART.var(arg.0).speed);
-    var(pos.y) + var(y) * global(MINECART.var(arg.0).speed);
-    var(pos.z) + var(z) * global(MINECART.var(arg.0).speed);
-    var(pos.yaw); var(pos.pitch);
+    var(nextX); var(nextY); var(nextZ);
+    var(nextYaw); 0;
+Entity.tp 'global(MINECART.var(arg.0).mount)'
+    var(nextX); var(nextY) - 0.5; var(nextZ);
+    var(nextYaw); 0;
+setGlobal 'MINECART.var(arg.0).lastYaw' var(nextYaw)
 jump 'trigger'
 
 @trigger

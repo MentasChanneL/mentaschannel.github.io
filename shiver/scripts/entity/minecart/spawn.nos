@@ -44,9 +44,9 @@ copyToGlobal 'arg.14' 'MINECART.var(model).soundVolume'
 copyToGlobal 'arg.15' 'MINECART.var(model).soundPitch'
 copyToGlobal 'arg.16' 'MINECART.var(model).soundPeriod'
 copyToGlobal 'arg.17' 'MINECART.var(model).lightEnabled'
-String.equals var(arg.12) '' false false 'hasMovingItem'
+String.equals *arg.12 '' 'false' 'false' 'hasMovingItem'
 copyToGlobal 'hasMovingItem' 'MINECART.var(model).hasMovingItem'
-String.equals var(arg.13) '' false false 'soundEmpty'
+String.equals *arg.13 '' 'false' 'false' 'soundEmpty'
 setGlobal 'MINECART.var(model).soundEnabled' 1
 if var(soundEmpty) > 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
 if var(arg.14) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }

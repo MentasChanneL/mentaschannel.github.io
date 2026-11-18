@@ -101,12 +101,12 @@ parallel '*' [] {
             [344.5; 1.5; -45.25];
             [344.5; 1.5; -48.5]
         ];
-        ''; # 12 - модель с вращающимися колёсами (задать base64)
-        ''; # 13 - звук езды (задать id)
-        1;  # 14 - громкость
-        1;  # 15 - высота звука
-        0;  # 16 - период в тиках (0 - пока отключён)
-        1   # 17 - свет перед вагонеткой включён
+        'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDgzLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
+        'minecraft:entity.minecart.riding';
+        0.5;
+        0.5;
+        20;
+        1
     ]
 }
 

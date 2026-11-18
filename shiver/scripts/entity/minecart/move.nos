@@ -47,6 +47,9 @@ setVars [
 set 'horizontal' sqrt(var(nextTX) * var(nextTX) + var(nextTZ) * var(nextTZ))
 
 set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 57.29577951308232
+# Keep the display's vertical offset constant while its local Y axis tilts with pitch.
+set 'displayOffsetY' 0.5 / cos(var(nextPitch))
+Entity.displaySetOffset 'var(arg.0)' 0; var(displayOffsetY); 0;
 if var(horizontal) <= 0.001 { jump 'keepYaw' }
 set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(nextTX), var(nextTZ)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
 Entity.tp 'var(arg.0)'

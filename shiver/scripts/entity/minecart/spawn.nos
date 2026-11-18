@@ -23,7 +23,7 @@ list.get 'arg.0' 1; 'pos_y'
 list.get 'arg.0' 2; 'pos_z'
 list.get 'arg.0' 3; 'yaw'
 
-Entity.spawnItemDisplay 'model' var(pos_x); var(pos_y) + 0.5; var(pos_z); var(yaw); 0; 'var(arg.2)'
+Entity.spawnItemDisplay 'model' var(pos_x); var(pos_y); var(pos_z); var(yaw); 0; 'var(arg.2)'
 Entity.displayTeleportDuration 'var(model)' var(arg.9) + 1;
 copyToGlobal 'model' 'MINECART'
 copyToGlobal 'arg.1' 'MINECART.var(model).triggers'
@@ -52,7 +52,7 @@ list.get 'arg.5' 1; 'pitch'
 list.get 'arg.5' 2; 'roll'
 Entity.displayRotations 'var(model)' var(yaw); var(pitch); var(roll); 'set'
 
-Entity.spawnItemDisplay 'mount' var(pos_x); var(pos_y); var(pos_z); var(yaw); 0; 'global(EMPTY_ITEMSTACK)'
+Entity.spawnItemDisplay 'mount' var(pos_x); var(pos_y) - 0.5; var(pos_z); var(yaw); 0; 'global(EMPTY_ITEMSTACK)'
 Entity.displayTeleportDuration 'var(mount)' var(arg.9) + 1;
 copyToGlobal 'mount' 'MINECART.var(model).mount'
 

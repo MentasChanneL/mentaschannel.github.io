@@ -153,9 +153,9 @@ if var(arg.1) * global(MINECART.var(arg.0).canMove) > 0 {
 
                 # New tangent. Position is evaluated directly in Entity.tp.
                 setVars [
-                    'nextTX'; 3 * var(aX) * var(nextU2) + 2 * var(bX) * var(nextProgress) + var(cX);
-                    'nextTY'; 3 * var(aY) * var(nextU2) + 2 * var(bY) * var(nextProgress) + var(cY);
-                    'nextTZ'; 3 * var(aZ) * var(nextU2) + 2 * var(bZ) * var(nextProgress) + var(cZ)
+                    'nextTX'; 3 * global(MINECART.var(arg.0).aX) * var(nextU2) + 2 * global(MINECART.var(arg.0).bX) * var(nextProgress) + global(MINECART.var(arg.0).cX);
+                    'nextTY'; 3 * global(MINECART.var(arg.0).aY) * var(nextU2) + 2 * global(MINECART.var(arg.0).bY) * var(nextProgress) + global(MINECART.var(arg.0).cY);
+                    'nextTZ'; 3 * global(MINECART.var(arg.0).aZ) * var(nextU2) + 2 * global(MINECART.var(arg.0).bZ) * var(nextProgress) + global(MINECART.var(arg.0).cZ)
                 ]
                 set 'horizontal' sqrt(var(nextTX) * var(nextTX) + var(nextTZ) * var(nextTZ))
 
@@ -167,9 +167,9 @@ if var(arg.1) * global(MINECART.var(arg.0).canMove) > 0 {
                 set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 57.29577951308232
 
                 Entity.tp 'var(arg.0)'
-                    var(aX) * var(nextU3) + var(bX) * var(nextU2) + var(cX) * var(nextProgress) + var(dX);
-                    var(aY) * var(nextU3) + var(bY) * var(nextU2) + var(cY) * var(nextProgress) + var(dY);
-                    var(aZ) * var(nextU3) + var(bZ) * var(nextU2) + var(cZ) * var(nextProgress) + var(dZ);
+                    global(MINECART.var(arg.0).aX) * var(nextU3) + global(MINECART.var(arg.0).bX) * var(nextU2) + global(MINECART.var(arg.0).cX) * var(nextProgress) + global(MINECART.var(arg.0).dX);
+                    global(MINECART.var(arg.0).aY) * var(nextU3) + global(MINECART.var(arg.0).bY) * var(nextU2) + global(MINECART.var(arg.0).cY) * var(nextProgress) + global(MINECART.var(arg.0).dY);
+                    global(MINECART.var(arg.0).aZ) * var(nextU3) + global(MINECART.var(arg.0).bZ) * var(nextU2) + global(MINECART.var(arg.0).cZ) * var(nextProgress) + global(MINECART.var(arg.0).dZ);
                     var(nextYaw); var(nextPitch);
                 setGlobals ['MINECART.var(arg.0).lastYaw'; var(nextYaw)]
 

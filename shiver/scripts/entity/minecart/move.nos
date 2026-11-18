@@ -124,37 +124,63 @@ setVars [
     't12'; max(sqrt(sqrt((var(p2x) - var(p1x)) * (var(p2x) - var(p1x)) + (var(p2y) - var(p1y)) * (var(p2y) - var(p1y)) + (var(p2z) - var(p1z)) * (var(p2z) - var(p1z)))), 0.001);
     't23'; max(sqrt(sqrt((var(p3x) - var(p2x)) * (var(p3x) - var(p2x)) + (var(p3y) - var(p2y)) * (var(p3y) - var(p2y)) + (var(p3z) - var(p2z)) * (var(p3z) - var(p2z)))), 0.001)
 ]
+# Monotone X/Z tangents prevent lateral overshoot at sharp route turns.
 setVars [
-    'r10'; var(t12) / var(t01);
-    'r20'; var(t12) / (var(t01) + var(t12));
-    'r31'; var(t12) / (var(t12) + var(t23));
-    'r32'; var(t12) / var(t23)
+    'w1'; 2 * var(t12) + var(t01);
+    'w2'; var(t12) + 2 * var(t01);
+    'w3'; 2 * var(t23) + var(t12);
+    'w4'; var(t23) + 2 * var(t12);
+    's0x'; (var(p1x) - var(p0x)) / var(t01);
+    's1x'; (var(p2x) - var(p1x)) / var(t12);
+    's2x'; (var(p3x) - var(p2x)) / var(t23);
+    's0z'; (var(p1z) - var(p0z)) / var(t01);
+    's1z'; (var(p2z) - var(p1z)) / var(t12);
+    's2z'; (var(p3z) - var(p2z)) / var(t23);
+    'm1x'; 0;
+    'm2x'; 0;
+    'm1z'; 0;
+    'm2z'; 0
 ]
-
-setVars [
-    'm1x'; (var(p1x) - var(p0x)) * var(r10) - (var(p2x) - var(p0x)) * var(r20) + (var(p2x) - var(p1x));
-    'm1z'; (var(p1z) - var(p0z)) * var(r10) - (var(p2z) - var(p0z)) * var(r20) + (var(p2z) - var(p1z));
-    'm2x'; (var(p2x) - var(p1x)) - (var(p3x) - var(p1x)) * var(r31) + (var(p3x) - var(p2x)) * var(r32);
-    'm2z'; (var(p2z) - var(p1z)) - (var(p3z) - var(p1z)) * var(r31) + (var(p3z) - var(p2z)) * var(r32)
-]
+if var(s0x) * var(s1x) <= 0 { jump 'buildM1XDone' }
+set 'm1x' var(t12) * (var(w1) + var(w2)) / (var(w1) / var(s0x) + var(w2) / var(s1x))
+@buildM1XDone
+if var(s1x) * var(s2x) <= 0 { jump 'buildM2XDone' }
+set 'm2x' var(t12) * (var(w3) + var(w4)) / (var(w3) / var(s1x) + var(w4) / var(s2x))
+@buildM2XDone
+if var(s0z) * var(s1z) <= 0 { jump 'buildM1ZDone' }
+set 'm1z' var(t12) * (var(w1) + var(w2)) / (var(w1) / var(s0z) + var(w2) / var(s1z))
+@buildM1ZDone
+if var(s1z) * var(s2z) <= 0 { jump 'buildM2ZDone' }
+set 'm2z' var(t12) * (var(w3) + var(w4)) / (var(w3) / var(s1z) + var(w4) / var(s2z))
+@buildM2ZDone
 
 setVars [
     's0y'; (var(p1y) - var(p0y)) / var(t01);
     's1y'; (var(p2y) - var(p1y)) / var(t12);
     's2y'; (var(p3y) - var(p2y)) / var(t23);
-    'w1'; 2 * var(t12) + var(t01);
-    'w2'; var(t12) + 2 * var(t01);
-    'w3'; 2 * var(t23) + var(t12);
-    'w4'; var(t23) + 2 * var(t12);
     'm1y'; 0;
     'm2y'; 0
 ]
-if var(s0y) * var(s1y) <= 0 { jump 'buildM1Done' }
+
+# On a flat-to-slope transition, follow the segment slope immediately.
+# This moves the anchor clear of the upper block's lower corner.
+if var(s0y) == 0 { jump 'buildM1YFlat' }
+if var(s0y) * var(s1y) <= 0 { jump 'buildM1YDone' }
 set 'm1y' var(t12) * (var(w1) + var(w2)) / (var(w1) / var(s0y) + var(w2) / var(s1y))
-@buildM1Done
-if var(s1y) * var(s2y) <= 0 { jump 'buildM2Done' }
+jump 'buildM1YDone'
+@buildM1YFlat
+if var(s1y) == 0 { jump 'buildM1YDone' }
+set 'm1y' var(t12) * var(s1y)
+@buildM1YDone
+
+if var(s2y) == 0 { jump 'buildM2YFlat' }
+if var(s1y) * var(s2y) <= 0 { jump 'buildM2YDone' }
 set 'm2y' var(t12) * (var(w3) + var(w4)) / (var(w3) / var(s1y) + var(w4) / var(s2y))
-@buildM2Done
+jump 'buildM2YDone'
+@buildM2YFlat
+if var(s1y) == 0 { jump 'buildM2YDone' }
+set 'm2y' var(t12) * var(s1y)
+@buildM2YDone
 
 setVars [
     'aX'; 2 * var(p1x) - 2 * var(p2x) + var(m1x) + var(m2x);

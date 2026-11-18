@@ -170,10 +170,8 @@ if var(arg.1) * global(MINECART.var(arg.0).canMove) > 0 {
 
             ifelse var(tangentLength) > 0.001 {
                 set 'nextProgress' min(1, var(progress) + global(MINECART.var(arg.0).speed) / var(tangentLength))
-                setVars [
-                    'nextU2'; var(nextProgress) * var(nextProgress);
-                    'nextU3'; var(nextProgress) * var(nextProgress) * var(nextProgress)
-                ]
+                set 'nextU2' var(nextProgress) * var(nextProgress)
+                set 'nextU3' var(nextU2) * var(nextProgress)
 
                 # New tangent. Position is evaluated directly in Entity.tp.
                 setVars [

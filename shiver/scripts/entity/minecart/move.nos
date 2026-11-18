@@ -98,26 +98,38 @@ setVars [
 
 set 'wheelHorizontal' sqrt((var(frontX) - var(rearX)) * (var(frontX) - var(rearX)) + (var(frontZ) - var(rearZ)) * (var(frontZ) - var(rearZ)))
 if var(wheelHorizontal) <= 0.001 { jump 'pitchFromTangent' }
+# The body pivot must be the midpoint between the two axle contact points.
+setVars [
+    'wheelCenterX'; (var(frontX) + var(rearX)) / 2;
+    'wheelCenterY'; (var(frontY) + var(rearY)) / 2;
+    'wheelCenterZ'; (var(frontZ) + var(rearZ)) / 2
+]
 set 'nextPitch' atan2(var(rearY) - var(frontY), var(wheelHorizontal)) * 57.29577951308232
 jump 'pitchReady'
 @pitchFromTangent
+# Without a valid axle pair, keep the original spline position as the body pivot.
+setVars [
+    'wheelCenterX'; global(MINECART.var(arg.0).aX) * var(nextU3) + global(MINECART.var(arg.0).bX) * var(nextU2) + global(MINECART.var(arg.0).cX) * var(nextProgress) + global(MINECART.var(arg.0).dX);
+    'wheelCenterY'; global(MINECART.var(arg.0).aY) * var(nextU3) + global(MINECART.var(arg.0).bY) * var(nextU2) + global(MINECART.var(arg.0).cY) * var(nextProgress) + global(MINECART.var(arg.0).dY);
+    'wheelCenterZ'; global(MINECART.var(arg.0).aZ) * var(nextU3) + global(MINECART.var(arg.0).bZ) * var(nextU2) + global(MINECART.var(arg.0).cZ) * var(nextProgress) + global(MINECART.var(arg.0).dZ)
+]
 set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 57.29577951308232
 @pitchReady
 if var(horizontal) <= 0.001 { jump 'keepYaw' }
 set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(nextTX), var(nextTZ)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
 Entity.tp 'var(arg.0)'
-    global(MINECART.var(arg.0).aX) * var(nextU3) + global(MINECART.var(arg.0).bX) * var(nextU2) + global(MINECART.var(arg.0).cX) * var(nextProgress) + global(MINECART.var(arg.0).dX);
-    global(MINECART.var(arg.0).aY) * var(nextU3) + global(MINECART.var(arg.0).bY) * var(nextU2) + global(MINECART.var(arg.0).cY) * var(nextProgress) + global(MINECART.var(arg.0).dY);
-    global(MINECART.var(arg.0).aZ) * var(nextU3) + global(MINECART.var(arg.0).bZ) * var(nextU2) + global(MINECART.var(arg.0).cZ) * var(nextProgress) + global(MINECART.var(arg.0).dZ);
+    var(wheelCenterX);
+    var(wheelCenterY);
+    var(wheelCenterZ);
     var(nextYaw); var(nextPitch);
 setGlobals ['MINECART.var(arg.0).lastYaw'; var(nextYaw)]
 jump 'afterYaw'
 
 @keepYaw
 Entity.tp 'var(arg.0)'
-    global(MINECART.var(arg.0).aX) * var(nextU3) + global(MINECART.var(arg.0).bX) * var(nextU2) + global(MINECART.var(arg.0).cX) * var(nextProgress) + global(MINECART.var(arg.0).dX);
-    global(MINECART.var(arg.0).aY) * var(nextU3) + global(MINECART.var(arg.0).bY) * var(nextU2) + global(MINECART.var(arg.0).cY) * var(nextProgress) + global(MINECART.var(arg.0).dY);
-    global(MINECART.var(arg.0).aZ) * var(nextU3) + global(MINECART.var(arg.0).bZ) * var(nextU2) + global(MINECART.var(arg.0).cZ) * var(nextProgress) + global(MINECART.var(arg.0).dZ);
+    var(wheelCenterX);
+    var(wheelCenterY);
+    var(wheelCenterZ);
     global(MINECART.var(arg.0).lastYaw); var(nextPitch);
 @afterYaw
 

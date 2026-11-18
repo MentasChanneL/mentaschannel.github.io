@@ -4,7 +4,6 @@
 # Модель следует по маршруту; mount с хитбоксом находится на 0.5 ниже.
 
 @entry
-message 'MINECART: step=var(arg.1), move=global(MINECART.var(arg.0).canMove), route=global(MINECART.var(arg.0).routeLastIndex), speed=global(MINECART.var(arg.0).speed)'
 if var(arg.1) * global(MINECART.var(arg.0).canMove) <= 0 { jump 'idle' }
 if global(MINECART.var(arg.0).routeLastIndex) <= 0 {
     setGlobal 'MINECART.var(arg.0).canMove' 0

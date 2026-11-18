@@ -16,7 +16,7 @@ loadScript 'maps/common/run_cameras'
 loadScript 'maps/common/initialize_players'
 loadScript 'maps/common/player_join'
 
-wait 10
+wait 20
 loadScript 'maps/common/lose'
 loadScript 'maps/common/victory'
 loadScript 'maps/global(MAP)/_join'

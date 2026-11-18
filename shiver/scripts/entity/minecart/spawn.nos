@@ -31,7 +31,6 @@ list.get 'arg.0' 2; 'pos_z'
 list.get 'arg.0' 3; 'yaw'
 
 Entity.spawnItemDisplay 'model' var(pos_x); var(pos_y); var(pos_z); var(yaw); 0; 'var(arg.2)'
-message 'SPAWN 1: model created'
 Entity.displayTeleportDuration 'var(model)' var(arg.9) + 1;
 copyToGlobal 'model' 'MINECART'
 copyToGlobal 'arg.1' 'MINECART.var(model).triggers'
@@ -47,14 +46,12 @@ copyToGlobal 'arg.14' 'MINECART.var(model).soundVolume'
 copyToGlobal 'arg.15' 'MINECART.var(model).soundPitch'
 copyToGlobal 'arg.16' 'MINECART.var(model).soundPeriod'
 copyToGlobal 'arg.17' 'MINECART.var(model).lightEnabled'
-message 'SPAWN 2: before String.equals'
 setGlobal 'MINECART.var(model).hasMovingItem' var(arg.18)
 setGlobal 'MINECART.var(model).soundEnabled' var(arg.19)
-if var(arg.14) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
-if var(arg.16) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
-message 'SPAWN 2: feature flags initialized'
-if var(arg.14) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
-if var(arg.16) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
+if var(arg.14) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0; }
+if var(arg.16) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0; }
+if var(arg.14) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0; }
+if var(arg.16) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0; }
 setGlobal 'MINECART.var(model).movingModelActive' 0
 setGlobal 'MINECART.var(model).started' 0
 setGlobal 'MINECART.var(model).lightActive' 0
@@ -88,5 +85,4 @@ copyToGlobal 'arg.6' 'MINECART.var(model).hitboxSize'
 Entity.attribute 'var(hitbox)' 'id' var(arg.6);
 Entity.rideOn 'var(hitbox)' 'var(mount)'
 
-message 'SPAWN 3: before move run'
 run 'entity/minecart/move' '*' [*model; 0]

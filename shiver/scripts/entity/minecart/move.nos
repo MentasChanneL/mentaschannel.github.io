@@ -137,26 +137,12 @@ if var(arg.1) * global(MINECART.var(arg.0).canMove) > 0 {
                 ]
             }
 
-            # Загружаем кэшированные коэффициенты сегмента.
-            copyToLocal 'MINECART.var(arg.0).aX' 'aX'
-            copyToLocal 'MINECART.var(arg.0).bX' 'bX'
-            copyToLocal 'MINECART.var(arg.0).cX' 'cX'
-            copyToLocal 'MINECART.var(arg.0).dX' 'dX'
-            copyToLocal 'MINECART.var(arg.0).aY' 'aY'
-            copyToLocal 'MINECART.var(arg.0).bY' 'bY'
-            copyToLocal 'MINECART.var(arg.0).cY' 'cY'
-            copyToLocal 'MINECART.var(arg.0).dY' 'dY'
-            copyToLocal 'MINECART.var(arg.0).aZ' 'aZ'
-            copyToLocal 'MINECART.var(arg.0).bZ' 'bZ'
-            copyToLocal 'MINECART.var(arg.0).cZ' 'cZ'
-            copyToLocal 'MINECART.var(arg.0).dZ' 'dZ'
-
             # Tangent at the current point determines the step length.
             set 'u2' var(progress) * var(progress)
             setVars [
-                'tangentX'; 3 * var(aX) * var(u2) + 2 * var(bX) * var(progress) + var(cX);
-                'tangentY'; 3 * var(aY) * var(u2) + 2 * var(bY) * var(progress) + var(cY);
-                'tangentZ'; 3 * var(aZ) * var(u2) + 2 * var(bZ) * var(progress) + var(cZ)
+                'tangentX'; 3 * global(MINECART.var(arg.0).aX) * var(u2) + 2 * global(MINECART.var(arg.0).bX) * var(progress) + global(MINECART.var(arg.0).cX);
+                'tangentY'; 3 * global(MINECART.var(arg.0).aY) * var(u2) + 2 * global(MINECART.var(arg.0).bY) * var(progress) + global(MINECART.var(arg.0).cY);
+                'tangentZ'; 3 * global(MINECART.var(arg.0).aZ) * var(u2) + 2 * global(MINECART.var(arg.0).bZ) * var(progress) + global(MINECART.var(arg.0).cZ)
             ]
             set 'tangentLength' sqrt(var(tangentX) * var(tangentX) + var(tangentY) * var(tangentY) + var(tangentZ) * var(tangentZ))
 

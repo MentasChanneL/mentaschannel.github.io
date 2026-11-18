@@ -302,3 +302,4 @@ setGlobals [
 ]
 setGlobal 'MINECART.var(arg.0).cacheIndex' var(buildIndex)
 @done
+pass

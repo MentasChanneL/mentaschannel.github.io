@@ -45,12 +45,64 @@ setVars [
     'nextTZ'; 3 * global(MINECART.var(arg.0).aZ) * var(nextU2) + 2 * global(MINECART.var(arg.0).bZ) * var(nextProgress) + global(MINECART.var(arg.0).cZ)
 ]
 set 'horizontal' sqrt(var(nextTX) * var(nextTX) + var(nextTZ) * var(nextTZ))
+set 'nextTangentLength' sqrt(var(nextTX) * var(nextTX) + var(nextTY) * var(nextTY) + var(nextTZ) * var(nextTZ))
 
+# Calculate pitch from front and rear axle contact points separated by wheelBase.
+if global(MINECART.var(arg.0).wheelBase) <= 0 { jump 'pitchFromTangent' }
+if var(nextTangentLength) <= 0.001 { jump 'pitchFromTangent' }
+set 'wheelDelta' global(MINECART.var(arg.0).wheelBase) / var(nextTangentLength)
+set 'rearU' var(nextProgress) - var(wheelDelta)
+set 'frontU' var(nextProgress) + var(wheelDelta)
+
+# Rear axle sample: current spline or previous rail direction across the boundary.
+if var(rearU) < 0 { jump 'sampleRearOutside' }
+setVars [
+    'rearU2'; var(rearU) * var(rearU);
+    'rearU3'; var(rearU) * var(rearU) * var(rearU)
+]
+setVars [
+    'rearX'; global(MINECART.var(arg.0).aX) * var(rearU3) + global(MINECART.var(arg.0).bX) * var(rearU2) + global(MINECART.var(arg.0).cX) * var(rearU) + global(MINECART.var(arg.0).dX);
+    'rearY'; global(MINECART.var(arg.0).aY) * var(rearU3) + global(MINECART.var(arg.0).bY) * var(rearU2) + global(MINECART.var(arg.0).cY) * var(rearU) + global(MINECART.var(arg.0).dY);
+    'rearZ'; global(MINECART.var(arg.0).aZ) * var(rearU3) + global(MINECART.var(arg.0).bZ) * var(rearU2) + global(MINECART.var(arg.0).cZ) * var(rearU) + global(MINECART.var(arg.0).dZ)
+]
+jump 'sampleRearDone'
+@sampleRearOutside
+set 'rearOver' (0 - var(rearU)) * var(nextTangentLength)
+setVars [
+    'rearX'; global(MINECART.var(arg.0).p1x) - (global(MINECART.var(arg.0).p1x) - global(MINECART.var(arg.0).p0x)) / max(global(MINECART.var(arg.0).prevRailH), 0.001) * var(rearOver);
+    'rearY'; global(MINECART.var(arg.0).p1y) - (global(MINECART.var(arg.0).p1y) - global(MINECART.var(arg.0).p0y)) / max(global(MINECART.var(arg.0).prevRailH), 0.001) * var(rearOver);
+    'rearZ'; global(MINECART.var(arg.0).p1z) - (global(MINECART.var(arg.0).p1z) - global(MINECART.var(arg.0).p0z)) / max(global(MINECART.var(arg.0).prevRailH), 0.001) * var(rearOver)
+]
+@sampleRearDone
+
+# Front axle sample: current spline or next rail direction across the boundary.
+if var(frontU) > 1 { jump 'sampleFrontOutside' }
+setVars [
+    'frontU2'; var(frontU) * var(frontU);
+    'frontU3'; var(frontU) * var(frontU) * var(frontU)
+]
+setVars [
+    'frontX'; global(MINECART.var(arg.0).aX) * var(frontU3) + global(MINECART.var(arg.0).bX) * var(frontU2) + global(MINECART.var(arg.0).cX) * var(frontU) + global(MINECART.var(arg.0).dX);
+    'frontY'; global(MINECART.var(arg.0).aY) * var(frontU3) + global(MINECART.var(arg.0).bY) * var(frontU2) + global(MINECART.var(arg.0).cY) * var(frontU) + global(MINECART.var(arg.0).dY);
+    'frontZ'; global(MINECART.var(arg.0).aZ) * var(frontU3) + global(MINECART.var(arg.0).bZ) * var(frontU2) + global(MINECART.var(arg.0).cZ) * var(frontU) + global(MINECART.var(arg.0).dZ)
+]
+jump 'sampleFrontDone'
+@sampleFrontOutside
+set 'frontOver' (var(frontU) - 1) * var(nextTangentLength)
+setVars [
+    'frontX'; global(MINECART.var(arg.0).p2x) + (global(MINECART.var(arg.0).p3x) - global(MINECART.var(arg.0).p2x)) / max(global(MINECART.var(arg.0).nextRailH), 0.001) * var(frontOver);
+    'frontY'; global(MINECART.var(arg.0).p2y) + (global(MINECART.var(arg.0).p3y) - global(MINECART.var(arg.0).p2y)) / max(global(MINECART.var(arg.0).nextRailH), 0.001) * var(frontOver);
+    'frontZ'; global(MINECART.var(arg.0).p2z) + (global(MINECART.var(arg.0).p3z) - global(MINECART.var(arg.0).p2z)) / max(global(MINECART.var(arg.0).nextRailH), 0.001) * var(frontOver)
+]
+@sampleFrontDone
+
+set 'wheelHorizontal' sqrt((var(frontX) - var(rearX)) * (var(frontX) - var(rearX)) + (var(frontZ) - var(rearZ)) * (var(frontZ) - var(rearZ)))
+if var(wheelHorizontal) <= 0.001 { jump 'pitchFromTangent' }
+set 'nextPitch' atan2(var(rearY) - var(frontY), var(wheelHorizontal)) * 57.29577951308232
+jump 'pitchReady'
+@pitchFromTangent
 set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 57.29577951308232
-# At the segment endpoint, orient toward the following rail segment immediately.
-if var(nextProgress) < 1 { jump 'keepCurrentPitch' }
-set 'nextPitch' global(MINECART.var(arg.0).endPitch)
-@keepCurrentPitch
+@pitchReady
 if var(horizontal) <= 0.001 { jump 'keepYaw' }
 set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(nextTX), var(nextTZ)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
 Entity.tp 'var(arg.0)'
@@ -184,21 +236,11 @@ set 'p2x' var(p2BaseX) + 0.6 * (var(p3x) - var(p2BaseX)) / var(h23)
 set 'p2z' var(p2BaseZ) + 0.6 * (var(p3z) - var(p2BaseZ)) / var(h23)
 @shiftP2Done
 
-# Pitch at the segment end follows the next segment's corrected rail angle.
-if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) - 1 { jump 'endPitchCurrentSegment' }
-set 'endHorizontal' var(h23)
-if var(rampNext) <= 0 { jump 'endPitchReady' }
-set 'endHorizontal' max(var(h23) - 1, 0.001)
-jump 'endPitchReady'
-@endPitchCurrentSegment
-set 'endHorizontal' sqrt((var(p2x) - var(p1x)) * (var(p2x) - var(p1x)) + (var(p2z) - var(p1z)) * (var(p2z) - var(p1z)))
-@endPitchReady
-if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) - 1 {
-    setGlobal 'MINECART.var(arg.0).endPitch' atan2(0 - (var(p2y) - var(p1y)), var(endHorizontal)) * 57.29577951308232
-}
-if global(MINECART.var(arg.0).routeIndex) < global(MINECART.var(arg.0).routeLastIndex) - 1 {
-    setGlobal 'MINECART.var(arg.0).endPitch' atan2(0 - (var(p3y) - var(p2y)), var(endHorizontal)) * 57.29577951308232
-}
+# Cache corrected adjacent control points for axle samples across segment boundaries.
+setVars [
+    'prevRailH'; sqrt((var(p1x) - var(p0x)) * (var(p1x) - var(p0x)) + (var(p1z) - var(p0z)) * (var(p1z) - var(p0z)));
+    'nextRailH'; sqrt((var(p3x) - var(p2x)) * (var(p3x) - var(p2x)) + (var(p3z) - var(p2z)) * (var(p3z) - var(p2z)))
+]
 
 setVars [
     't01'; max(sqrt(sqrt((var(p1x) - var(p0x)) * (var(p1x) - var(p0x)) + (var(p1y) - var(p0y)) * (var(p1y) - var(p0y)) + (var(p1z) - var(p0z)) * (var(p1z) - var(p0z)))), 0.001);
@@ -320,6 +362,20 @@ setGlobals [
     'MINECART.var(arg.0).bZ'; var(bZ);
     'MINECART.var(arg.0).cZ'; var(cZ);
     'MINECART.var(arg.0).dZ'; var(dZ);
+    'MINECART.var(arg.0).p0x'; var(p0x);
+    'MINECART.var(arg.0).p0y'; var(p0y);
+    'MINECART.var(arg.0).p0z'; var(p0z);
+    'MINECART.var(arg.0).p1x'; var(p1x);
+    'MINECART.var(arg.0).p1y'; var(p1y);
+    'MINECART.var(arg.0).p1z'; var(p1z);
+    'MINECART.var(arg.0).p2x'; var(p2x);
+    'MINECART.var(arg.0).p2y'; var(p2y);
+    'MINECART.var(arg.0).p2z'; var(p2z);
+    'MINECART.var(arg.0).p3x'; var(p3x);
+    'MINECART.var(arg.0).p3y'; var(p3y);
+    'MINECART.var(arg.0).p3z'; var(p3z);
+    'MINECART.var(arg.0).prevRailH'; var(prevRailH);
+    'MINECART.var(arg.0).nextRailH'; var(nextRailH);
     'MINECART.var(arg.0).cacheIndex'; global(MINECART.var(arg.0).routeIndex)
 ]
 jump 'var(back)'

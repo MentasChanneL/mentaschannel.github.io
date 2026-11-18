@@ -70,8 +70,8 @@ setVars [
 set 'endRadius' sqrt((var(p2x) - var(centerX)) * (var(p2x) - var(centerX)) + (var(p2z) - var(centerZ)) * (var(p2z) - var(centerZ)))
 if abs(var(endRadius) - var(radius)) > 0.15 { jump 'lengthReady' }
 setVars [
-    'startAngle'; atan2(var(p1z) - var(centerZ), var(p1x) - var(centerX));
-    'endAngle'; atan2(var(p2z) - var(centerZ), var(p2x) - var(centerX))
+    'startAngle'; atan2(var(p1z) - var(centerZ), var(p1x) - var(centerX)) * 57.29577951308232;
+    'endAngle'; atan2(var(p2z) - var(centerZ), var(p2x) - var(centerX)) * 57.29577951308232
 ]
 set 'arcDelta' wrap(var(endAngle) - var(startAngle), -180, 180)
 if abs(abs(var(arcDelta)) - 90) > 1 { jump 'lengthReady' }

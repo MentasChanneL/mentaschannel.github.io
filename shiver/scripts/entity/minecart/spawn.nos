@@ -51,7 +51,7 @@ list.get 'arg.5' 0; 'yaw'
 list.get 'arg.5' 1; 'pitch'
 list.get 'arg.5' 2; 'roll'
 Entity.displayRotations 'var(model)' var(yaw); var(pitch); var(roll); 'set'
-Entity.spawn 'hitbox' var(pos_x); var(pos_y); var(pos_z); 'e2lkOiJtaW5lY3JhZnQ6cGlnX3NwYXduX2VnZyIsIGNvdW50OjEsIGNvbXBvbmVudHM6e21pbmVjcmFmdDplbnRpdHlfZGF0YTp7aWQ6InNodWxrZXIiLCBTaWxlbnQ6MWIsIEludnVsbmVyYWJsZToxYn19fQ=='
+Entity.spawn 'hitbox' var(pos_x); var(pos_y); var(pos_z); 'e2lkOiJtaW5lY3JhZnQ6cGlnX3NwYXduX2VnZyIsIGNvdW50OjEsIGNvbXBvbmVudHM6eyJtaW5lY3JhZnQ6ZW50aXR5X2RhdGEiOntpZDoic2h1bGtlciIsIFNpbGVudDoxYiwgSW52dWxuZXJhYmxlOjFifX19'
 copyToGlobal 'hitbox' 'MINECART.var(model).hitbox'
 copyToGlobal 'arg.6' 'MINECART.var(model).hitboxSize'
 Entity.attribute 'var(hitbox)' 'id' var(arg.6);

@@ -5,6 +5,7 @@
 loadScript 'maps/map2/start'
 loadScript 'entity/minecart/spawn'
 loadScript 'entity/minecart/move'
+loadScript 'entity/minecart/sound'
 runInLine 'maps/common/_load' [2]
 setGlobal 'MAP_TITLE' '<white>⛏ <tr:shiver.map.global(MAP)>'
 setGlobal 'LOOT_CHANCE' 0.7
@@ -99,7 +100,13 @@ parallel '*' [] {
             [344.5; 2.5; -44];
             [344.5; 1.5; -45.25];
             [344.5; 1.5; -48.5]
-        ]
+        ];
+        ''; # 12 - модель с вращающимися колёсами (задать base64)
+        ''; # 13 - звук езды (задать id)
+        1;  # 14 - громкость
+        1;  # 15 - высота звука
+        0;  # 16 - период в тиках (0 - пока отключён)
+        1   # 17 - свет перед вагонеткой включён
     ]
 }
 

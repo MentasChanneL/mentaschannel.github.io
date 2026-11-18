@@ -4,6 +4,7 @@
 # Этот скрипт загружается с запуском режима, поэтому загружать его в начале игры не нужно
 # Аргументы:
 # 0 - 1 - является картой на волны, 2 - является картой на прохождения
+# 1 - список сущностей, которые нужно загрузить, например ['minecart']
 
 if var(arg.0) == 0 {
     message '<red>[Load] Тип карты не указан в аргументе'
@@ -33,6 +34,12 @@ if var(arg.0) == 2 {
     loadScript 'maps/common/objective_tick'
 }
 
+if len(arg.1) > 0 {
+    forEach '*' 'entity' 'arg.1' {
+        loadScript 'entity/var(entity)/_load'
+    }
+}
+
 ## Loading wait
 @scriptsLoading
 getLoadingScriptsAmount 'inLoading'
@@ -47,6 +54,11 @@ if var(arg.0) == 1 {
     runInLine 'maps/global(MAP)/waves' []
 }
 runInLine 'maps/common/globals' []
+if len(arg.1) > 0 {
+    forEach '*' 'entity' 'arg.1' {
+        run 'entity/var(entity)/_load' '*' []
+    }
+}
 World.time 12000
 World.weather 'clear'
 Shiver.setBossbarEffect 'none'

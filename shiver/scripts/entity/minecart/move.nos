@@ -172,13 +172,23 @@ Entity.tp 'var(arg.0)'
 Entity.tp 'global(MINECART.var(arg.0).mount)'
     var(nextX); var(nextY) - 0.5; var(nextZ);
     var(nextYaw); 0;
+copyToLocal 'MINECART.var(arg.0).triggers' 'triggers'
+list.get 'triggers' 0; 'trigger'
+if len(trigger) > 0 {
+    list.unpack 'trigger' ['x'; 'y'; 'z'; 'script']
+    if sqrt(pow(var(x) - var(nextX), 2) + pow(var(y) - var(nextY), 2) + pow(var(z) - var(nextZ), 2)) < 1 {
+        run *script '*' []
+        list.remove 'triggers' 0;
+        copyToGlobal 'triggers' 'MINECART.var(arg.0).triggers'
+    }
+}
 setGlobal 'MINECART.var(arg.0).lastYaw' var(nextYaw)
 if global(MINECART.var(arg.0).canMove) <= 0 { jump 'idle' }
 
 @trigger
 setVars [
     'lightX'; floor(var(nextX) - sin(var(nextYaw)));
-    'lightY'; floor(var(nextY) + 1);
+    'lightY'; floor(var(nextY) + 1.5);
     'lightZ'; floor(var(nextZ) + cos(var(nextYaw)))
 ]
 if global(MINECART.var(arg.0).lightEnabled) > 0 && (var(lightX) != global(MINECART.var(arg.0).lightX) || var(lightY) != global(MINECART.var(arg.0).lightY) || var(lightZ) != global(MINECART.var(arg.0).lightZ)) {
@@ -200,7 +210,7 @@ if global(MINECART.var(arg.0).canMove) && var(arg.1) && len(sound) > 0 && global
         var(nextX); var(nextY); var(nextZ);
 }
 if global(MINECART.var(arg.0).canMove) {
-    Entity.itemDisplaySetItem *arg.2 'global(MINECART.var(arg.0).movingItem)'
+    Entity.itemDisplaySetItem *arg.0 'global(MINECART.var(arg.0).movingItem)'
 }
 
 wait global(MINECART.var(arg.0).tickDelta) - 2
@@ -214,7 +224,7 @@ Shiver.spawnTrigger 'minecart.var(arg.0)' 'global(MINECART.var(arg.0).team)' 0;
     }
 
 copyToLocal 'MINECART.var(arg.0).callID' 'callID'
-wait 2
+wait 3
 if global(MINECART.var(arg.0).callID) == var(callID) {
-    Entity.itemDisplaySetItem *arg.2 'global(MINECART.var(arg.0).normalItem)'
+    Entity.itemDisplaySetItem *arg.0 'global(MINECART.var(arg.0).normalItem)'
 }

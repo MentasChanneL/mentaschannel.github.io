@@ -1,0 +1,2 @@
+loadScript 'entity/minecart/move'
+loadScript 'entity/minecart/spawn'

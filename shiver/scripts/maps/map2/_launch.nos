@@ -3,9 +3,8 @@
 
 # Запуск, настройка
 loadScript 'maps/map2/start'
-loadScript 'entity/minecart/spawn'
-loadScript 'entity/minecart/move'
-runInLine 'maps/common/_load' [2]
+loadScript 'maps/map2/triggers/_load'
+runInLine 'maps/common/_load' [2; ['minecart']]
 setGlobal 'MAP_TITLE' '<white>⛏ <tr:shiver.map.global(MAP)>'
 setGlobal 'LOOT_CHANCE' 0.7
 setGlobal 'PREPARE_TIME' 90
@@ -15,6 +14,8 @@ setGlobal 'ZOMBIE_SPAWN' [300.5; 9; 9.5; 0; 0]
 setGlobal 'ZOMBIE_TYPES_OBJECTIVE' [17]
 
 World.time 16000
+run 'entity/minecart/_load' '*' []
+run 'maps/map2/triggers/_load' '*' []
 runInLine 'maps/common/launch' []
 Shiver.music 'shiver:music.theme6' 1; 1;
 

@@ -43,6 +43,10 @@ list.get 'arg.3' 0; 'x'
 list.get 'arg.3' 1; 'y'
 list.get 'arg.3' 2; 'z'
 Entity.displaySetOffset 'var(model)' var(x); var(y); var(z);
+# Preserve the model's base offset so move.nos can compensate it for pitch.
+setGlobal 'MINECART.var(model).displayOffsetX' var(x)
+setGlobal 'MINECART.var(model).displayOffsetY' var(y)
+setGlobal 'MINECART.var(model).displayOffsetZ' var(z)
 list.get 'arg.4' 0; 'x'
 list.get 'arg.4' 1; 'y'
 list.get 'arg.4' 2; 'z'

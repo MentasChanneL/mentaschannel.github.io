@@ -199,8 +199,8 @@ setVars [
     'lightY'; floor(var(nextY) + 1);
     'lightZ'; floor(var(nextZ) + cos(var(nextYaw)))
 ]
-set 'lightDiff' abs(var(lightX) - global(MINECART.var(arg.0).lightX)) + abs(var(lightY) - global(MINECART.var(arg.0).lightY)) + abs(var(lightZ) - global(MINECART.var(arg.0).lightZ))
 if global(MINECART.var(arg.0).lightHasPos) > 0 {
+    set 'lightDiff' abs(var(lightX) - global(MINECART.var(arg.0).lightX)) + abs(var(lightY) - global(MINECART.var(arg.0).lightY)) + abs(var(lightZ) - global(MINECART.var(arg.0).lightZ))
     if var(lightDiff) <= 0 { jump 'trigger' }
 }
 if global(MINECART.var(arg.0).lightActive) > 0 {

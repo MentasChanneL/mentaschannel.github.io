@@ -48,8 +48,6 @@ set 'horizontal' sqrt(var(nextTX) * var(nextTX) + var(nextTZ) * var(nextTZ))
 
 set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 57.29577951308232
 # Keep the display's vertical offset constant while its local Y axis tilts with pitch.
-set 'displayOffsetY' 0.5 / cos(var(nextPitch))
-Entity.displaySetOffset 'var(arg.0)' 0; var(displayOffsetY); 0;
 if var(horizontal) <= 0.001 { jump 'keepYaw' }
 set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(nextTX), var(nextTZ)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
 Entity.tp 'var(arg.0)'
@@ -173,7 +171,12 @@ set 'm1y' var(t12) * (var(w1) + var(w2)) / (var(w1) / var(s0y) + var(w2) / var(s
 jump 'buildM1YDone'
 @buildM1YFlat
 if var(s1y) == 0 { jump 'buildM1YDone' }
-set 'm1y' var(t12) * var(s1y)
+# Match X/Y/Z tangent components to the same sloped rail segment.
+setVars [
+    'm1x'; var(p2x) - var(p1x);
+    'm1y'; var(t12) * var(s1y);
+    'm1z'; var(p2z) - var(p1z)
+]
 @buildM1YDone
 
 if var(s2y) == 0 { jump 'buildM2YFlat' }
@@ -182,7 +185,12 @@ set 'm2y' var(t12) * (var(w3) + var(w4)) / (var(w3) / var(s1y) + var(w4) / var(s
 jump 'buildM2YDone'
 @buildM2YFlat
 if var(s1y) == 0 { jump 'buildM2YDone' }
-set 'm2y' var(t12) * var(s1y)
+# Keep the tangent aligned with the incoming sloped rail segment.
+setVars [
+    'm2x'; var(p2x) - var(p1x);
+    'm2y'; var(t12) * var(s1y);
+    'm2z'; var(p2z) - var(p1z)
+]
 @buildM2YDone
 
 setVars [

@@ -216,7 +216,7 @@ setGlobal 'MINECART.var(arg.0).lightHasPos' 1
 World.getBlock var(lightX); var(lightY); var(lightZ); 'lightBlock'
 String.equals *lightBlock 'minecraft:air' 'false' 'false' 'isAir'
 if var(isAir) <= 0 { jump 'trigger' }
-World.fantomBlock 'light' var(lightX); var(lightY); var(lightZ)
+World.fantomBlock 'minecraft:light' var(lightX); var(lightY); var(lightZ)
 setGlobal 'MINECART.var(arg.0).lightActive' 1
 jump 'trigger'
 

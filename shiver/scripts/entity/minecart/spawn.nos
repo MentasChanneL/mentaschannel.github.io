@@ -19,6 +19,8 @@
 # 15 - высота звука
 # 16 - период звука в тиках (0 = отключён)
 # 17 - излучать ли свет перед вагонеткой (1/0)
+# 18 - использовать движущуюся модель (1/0)
+# 19 - включить звук езды (1/0)
 #
 # Модель движется непосредственно по точкам маршрута.
 # Невидимый ItemDisplay на 0.5 блока ниже служит носителем хитбокса.
@@ -46,11 +48,11 @@ copyToGlobal 'arg.15' 'MINECART.var(model).soundPitch'
 copyToGlobal 'arg.16' 'MINECART.var(model).soundPeriod'
 copyToGlobal 'arg.17' 'MINECART.var(model).lightEnabled'
 message 'SPAWN 2: before String.equals'
-String.equals *arg.12 '' 'false' 'false' 'hasMovingItem'
-copyToGlobal 'hasMovingItem' 'MINECART.var(model).hasMovingItem'
-String.equals *arg.13 '' 'false' 'false' 'soundEmpty'
-setGlobal 'MINECART.var(model).soundEnabled' 1
-if var(soundEmpty) > 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
+setGlobal 'MINECART.var(model).hasMovingItem' var(arg.18)
+setGlobal 'MINECART.var(model).soundEnabled' var(arg.19)
+if var(arg.14) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
+if var(arg.16) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
+message 'SPAWN 2: feature flags initialized'
 if var(arg.14) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
 if var(arg.16) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
 setGlobal 'MINECART.var(model).movingModelActive' 0

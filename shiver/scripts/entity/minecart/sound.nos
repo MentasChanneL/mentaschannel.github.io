@@ -8,11 +8,7 @@ if global(MINECART.var(arg.0).soundEnabled) <= 0 { jump 'end' }
 @play
 if global(MINECART.var(arg.0).canMove) <= 0 { jump 'end' }
 Entity.getPos 'var(arg.0)' 'pos'
-World.sound
-    global(MINECART.var(arg.0).rideSound));
-    global(MINECART.var(arg.0).soundVolume));
-    global(MINECART.var(arg.0).soundPitch));
-    var(pos.x); var(pos.y); var(pos.z);
+World.sound global(MINECART.var(arg.0).rideSound) global(MINECART.var(arg.0).soundVolume); global(MINECART.var(arg.0).soundPitch); var(pos.x); var(pos.y); var(pos.z);
 wait global(MINECART.var(arg.0).soundPeriod)
 if global(MINECART.var(arg.0).canMove) > 0 { jump 'play' }
 

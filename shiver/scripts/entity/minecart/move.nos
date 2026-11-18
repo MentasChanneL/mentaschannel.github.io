@@ -1,8 +1,7 @@
 # Shiver script | REPIS
-# Простое линейное движение сюжетной вагонетки.
+# Линейное движение сюжетной вагонетки со скруглением поворотов.
 # Аргументы: 0 - UUID модели; 1 - выполнить шаг движения.
-# Видимая модель находится на 0.5 блока выше маршрута.
-# Пустой ItemDisplay с хитбоксом движется по исходным координатам маршрута.
+# Модель следует по маршруту; mount с хитбоксом находится на 0.5 ниже.
 
 @entry
 if var(arg.1) * global(MINECART.var(arg.0).canMove) <= 0 { jump 'trigger' }
@@ -26,10 +25,60 @@ list.unpack 'p2' ['p2x'; 'p2y'; 'p2z']
 setVars [
     'dx'; var(p2x) - var(p1x);
     'dy'; var(p2y) - var(p1y);
-    'dz'; var(p2z) - var(p1z)
+    'dz'; var(p2z) - var(p1z);
+    'moveType'; 0
 ]
 set 'segmentLength' sqrt(var(dx) * var(dx) + var(dy) * var(dy) + var(dz) * var(dz))
 if var(segmentLength) <= 0.001 { jump 'skipSegment' }
+
+# Диагональная связка между прямыми перпендикулярными участками становится дугой 90°.
+if global(MINECART.var(arg.0).routeIndex) <= 0 { jump 'lengthReady' }
+if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) - 1 { jump 'lengthReady' }
+if abs(var(dy)) > 0.001 { jump 'lengthReady' }
+if abs(var(dx)) <= 0.001 { jump 'lengthReady' }
+if abs(var(dz)) <= 0.001 { jump 'lengthReady' }
+
+list.get 'route' global(MINECART.var(arg.0).routeIndex) - 1; 'p0'
+list.get 'route' global(MINECART.var(arg.0).routeIndex) + 2; 'p3'
+list.unpack 'p0' ['p0x'; '*'; 'p0z']
+list.unpack 'p3' ['p3x'; '*'; 'p3z']
+setVars [
+    'inX'; var(p1x) - var(p0x);
+    'inZ'; var(p1z) - var(p0z);
+    'outX'; var(p3x) - var(p2x);
+    'outZ'; var(p3z) - var(p2z)
+]
+setVars [
+    'inLength'; sqrt(var(inX) * var(inX) + var(inZ) * var(inZ));
+    'outLength'; sqrt(var(outX) * var(outX) + var(outZ) * var(outZ))
+]
+if var(inLength) <= 0.001 { jump 'lengthReady' }
+if var(outLength) <= 0.001 { jump 'lengthReady' }
+setVars [
+    'dot'; (var(inX) * var(outX) + var(inZ) * var(outZ)) / (var(inLength) * var(outLength));
+    'cross'; (var(inX) * var(outZ) - var(inZ) * var(outX)) / (var(inLength) * var(outLength))
+]
+if abs(var(dot)) > 0.1 { jump 'lengthReady' }
+if abs(var(cross)) < 0.9 { jump 'lengthReady' }
+
+set 'radius' sqrt(var(dx) * var(dx) + var(dz) * var(dz)) / sqrt(2)
+set 'turnSide' 0 - sign(var(cross))
+setVars [
+    'centerX'; var(p1x) + var(inZ) / var(inLength) * var(turnSide) * var(radius);
+    'centerZ'; var(p1z) - var(inX) / var(inLength) * var(turnSide) * var(radius)
+]
+set 'endRadius' sqrt((var(p2x) - var(centerX)) * (var(p2x) - var(centerX)) + (var(p2z) - var(centerZ)) * (var(p2z) - var(centerZ)))
+if abs(var(endRadius) - var(radius)) > 0.15 { jump 'lengthReady' }
+setVars [
+    'startAngle'; atan2(var(p1z) - var(centerZ), var(p1x) - var(centerX));
+    'endAngle'; atan2(var(p2z) - var(centerZ), var(p2x) - var(centerX))
+]
+set 'arcDelta' wrap(var(endAngle) - var(startAngle), -180, 180)
+if abs(abs(var(arcDelta)) - 90) > 1 { jump 'lengthReady' }
+set 'segmentLength' var(radius) * abs(var(arcDelta)) * 0.017453292519943295
+set 'moveType' 1
+
+@lengthReady
 set 'distanceLeft' var(segmentLength) - global(MINECART.var(arg.0).routeProgress)
 if var(remaining) >= var(distanceLeft) { jump 'crossSegment' }
 
@@ -37,10 +86,28 @@ set 'newProgress' global(MINECART.var(arg.0).routeProgress) + var(remaining)
 setGlobal 'MINECART.var(arg.0).routeProgress' var(newProgress)
 set 'remaining' 0
 set 'u' var(newProgress) / var(segmentLength)
+if var(moveType) > 0 { jump 'sampleArc' }
+
 setVars [
     'nextX'; var(p1x) + var(dx) * var(u);
     'nextY'; var(p1y) + var(dy) * var(u);
-    'nextZ'; var(p1z) + var(dz) * var(u)
+    'nextZ'; var(p1z) + var(dz) * var(u);
+    'moveDirX'; var(dx);
+    'moveDirY'; var(dy);
+    'moveDirZ'; var(dz)
+]
+jump 'applyPosition'
+
+@sampleArc
+set 'theta' var(startAngle) + var(arcDelta) * var(u)
+set 'arcSign' sign(var(arcDelta))
+setVars [
+    'nextX'; var(centerX) + var(radius) * cos(var(theta));
+    'nextY'; var(p1y) + var(dy) * var(u);
+    'nextZ'; var(centerZ) + var(radius) * sin(var(theta));
+    'moveDirX'; (0 - sin(var(theta))) * var(arcSign);
+    'moveDirY'; 0;
+    'moveDirZ'; cos(var(theta)) * var(arcSign)
 ]
 jump 'applyPosition'
 
@@ -64,17 +131,35 @@ setVars [
     'nextY'; var(p2y);
     'nextZ'; var(p2z)
 ]
+if var(moveType) <= 0 { jump 'routeEndLine' }
+set 'theta' var(startAngle) + var(arcDelta)
+set 'arcSign' sign(var(arcDelta))
+setVars [
+    'moveDirX'; (0 - sin(var(theta))) * var(arcSign);
+    'moveDirY'; 0;
+    'moveDirZ'; cos(var(theta)) * var(arcSign)
+]
+jump 'applyPosition'
+
+@routeEndLine
+setVars [
+    'moveDirX'; var(dx);
+    'moveDirY'; var(dy);
+    'moveDirZ'; var(dz)
+]
 jump 'applyPosition'
 
 @applyPosition
+set 'horizontal' sqrt(var(moveDirX) * var(moveDirX) + var(moveDirZ) * var(moveDirZ))
 set 'nextYaw' global(MINECART.var(arg.0).lastYaw)
-if sqrt(var(dx) * var(dx) + var(dz) * var(dz)) <= 0.001 { jump 'teleportPair' }
-set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(dx), var(dz)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
+if var(horizontal) <= 0.001 { jump 'pitchReady' }
+set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(moveDirX), var(moveDirZ)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
 
-@teleportPair
+@pitchReady
+set 'nextPitch' atan2(0 - var(moveDirY), var(horizontal)) * 57.29577951308232
 Entity.tp 'var(arg.0)'
     var(nextX); var(nextY); var(nextZ);
-    var(nextYaw); 0;
+    var(nextYaw); var(nextPitch);
 Entity.tp 'global(MINECART.var(arg.0).mount)'
     var(nextX); var(nextY) - 0.5; var(nextZ);
     var(nextYaw); 0;
@@ -89,20 +174,11 @@ setVars [
     'nextX'; var(pos.x) + var(x) * global(MINECART.var(arg.0).speed);
     'nextY'; var(pos.y) + var(y) * global(MINECART.var(arg.0).speed);
     'nextZ'; var(pos.z) + var(z) * global(MINECART.var(arg.0).speed);
-    'nextYaw'; global(MINECART.var(arg.0).lastYaw)
+    'moveDirX'; var(x);
+    'moveDirY'; var(y);
+    'moveDirZ'; var(z)
 ]
-if sqrt(var(x) * var(x) + var(z) * var(z)) <= 0.001 { jump 'legacyTeleport' }
-set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(x), var(z)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
-
-@legacyTeleport
-Entity.tp 'var(arg.0)'
-    var(nextX); var(nextY); var(nextZ);
-    var(nextYaw); 0;
-Entity.tp 'global(MINECART.var(arg.0).mount)'
-    var(nextX); var(nextY) - 0.5; var(nextZ);
-    var(nextYaw); 0;
-setGlobal 'MINECART.var(arg.0).lastYaw' var(nextYaw)
-jump 'trigger'
+jump 'applyPosition'
 
 @trigger
 wait global(MINECART.var(arg.0).tickDelta) - 1

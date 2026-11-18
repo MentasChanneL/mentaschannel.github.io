@@ -13,6 +13,12 @@
 # 9 - tick интервал
 # 10 - скорость (блоков за один шаг)
 # 11 - маршрут как список точек [ [x, y, z], ... ]
+# 12 - модель во время движения (пустая строка = не переключать)
+# 13 - звук езды (пустая строка = отключён)
+# 14 - громкость звука
+# 15 - высота звука
+# 16 - период звука в тиках (0 = отключён)
+# 17 - излучать ли свет перед вагонеткой (1/0)
 #
 # Модель движется непосредственно по точкам маршрута.
 # Невидимый ItemDisplay на 0.5 блока ниже служит носителем хитбокса.
@@ -31,6 +37,24 @@ copyToGlobal 'arg.8' 'MINECART.var(model).team'
 copyToGlobal 'arg.9' 'MINECART.var(model).tickDelta'
 copyToGlobal 'arg.10' 'MINECART.var(model).speed'
 copyToGlobal 'arg.11' 'MINECART.var(model).route'
+copyToGlobal 'arg.2' 'MINECART.var(model).normalItem'
+copyToGlobal 'arg.12' 'MINECART.var(model).movingItem'
+copyToGlobal 'arg.13' 'MINECART.var(model).rideSound'
+copyToGlobal 'arg.14' 'MINECART.var(model).soundVolume'
+copyToGlobal 'arg.15' 'MINECART.var(model).soundPitch'
+copyToGlobal 'arg.16' 'MINECART.var(model).soundPeriod'
+copyToGlobal 'arg.17' 'MINECART.var(model).lightEnabled'
+String.equals var(arg.12) '' false false 'hasMovingItem'
+copyToGlobal 'hasMovingItem' 'MINECART.var(model).hasMovingItem'
+String.equals var(arg.13) '' false false 'soundEmpty'
+setGlobal 'MINECART.var(model).soundEnabled' 1
+if var(soundEmpty) > 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
+if var(arg.14) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
+if var(arg.16) <= 0 { setGlobal 'MINECART.var(model).soundEnabled' 0 }
+setGlobal 'MINECART.var(model).movingModelActive' 0
+setGlobal 'MINECART.var(model).started' 0
+setGlobal 'MINECART.var(model).lightActive' 0
+setGlobal 'MINECART.var(model).lightHasPos' 0
 setGlobal 'MINECART.var(model).routeIndex' 0
 setGlobal 'MINECART.var(model).routeProgress' 0
 setGlobal 'MINECART.var(model).routeLastIndex' len(arg.11) - 1

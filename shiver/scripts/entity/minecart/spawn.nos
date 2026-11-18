@@ -38,6 +38,8 @@ setGlobal 'MINECART.var(model).wheelBase' arg.13
 setGlobal 'MINECART.var(model).routeIndex' 0
 setGlobal 'MINECART.var(model).routeProgress' 0
 setGlobal 'MINECART.var(model).cacheIndex' -1
+setGlobal 'MINECART.var(model).cachePendingIndex' -1
+setGlobal 'MINECART.var(model).cacheRequestedIndex' -1
 setGlobal 'MINECART.var(model).routeLastIndex' len(arg.12) - 1
 setGlobal 'MINECART.var(model).triggerRadius' var(arg.6) / 2 + 1
 copyToGlobal 'yaw' 'MINECART.var(model).lastYaw'

@@ -12,8 +12,7 @@
 # 8 - команда
 # 9 - tick интервал
 # 10 - скорость (блоков за один шаг)
-# 11 - начальное направление [x, y, z], используется без маршрута
-# 12 - маршрут как список точек [ [x, y, z], ... ]
+# 11 - маршрут как список точек [ [x, y, z], ... ]
 #
 # Модель движется непосредственно по точкам маршрута.
 # Невидимый ItemDisplay на 0.5 блока ниже служит носителем хитбокса.
@@ -31,11 +30,10 @@ copyToGlobal 'arg.7' 'MINECART.var(model).canMove'
 copyToGlobal 'arg.8' 'MINECART.var(model).team'
 copyToGlobal 'arg.9' 'MINECART.var(model).tickDelta'
 copyToGlobal 'arg.10' 'MINECART.var(model).speed'
-copyToGlobal 'arg.11' 'MINECART.var(model).direction'
-copyToGlobal 'arg.12' 'MINECART.var(model).route'
+copyToGlobal 'arg.11' 'MINECART.var(model).route'
 setGlobal 'MINECART.var(model).routeIndex' 0
 setGlobal 'MINECART.var(model).routeProgress' 0
-setGlobal 'MINECART.var(model).routeLastIndex' len(arg.12) - 1
+setGlobal 'MINECART.var(model).routeLastIndex' len(arg.11) - 1
 setGlobal 'MINECART.var(model).triggerRadius' var(arg.6) / 2 + 1
 copyToGlobal 'yaw' 'MINECART.var(model).lastYaw'
 

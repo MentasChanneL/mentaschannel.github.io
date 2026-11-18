@@ -230,8 +230,8 @@ jump 'shiftP1Done'
 
 @shiftP1TowardP2
 if var(h12) <= 0.001 { jump 'shiftP1Done' }
-set 'p1x' var(p1BaseX) + 0.6 * (var(p2BaseX) - var(p1BaseX)) / var(h12)
-set 'p1z' var(p1BaseZ) + 0.6 * (var(p2BaseZ) - var(p1BaseZ)) / var(h12)
+set 'p1x' var(p1BaseX) + 0.5 * (var(p2BaseX) - var(p1BaseX)) / var(h12)
+set 'p1z' var(p1BaseZ) + 0.5 * (var(p2BaseZ) - var(p1BaseZ)) / var(h12)
 @shiftP1Done
 
 # The end point is shared with the following segment.
@@ -244,8 +244,8 @@ jump 'shiftP2Done'
 
 @shiftP2TowardP3
 if var(h23) <= 0.001 { jump 'shiftP2Done' }
-set 'p2x' var(p2BaseX) + 0.6 * (var(p3x) - var(p2BaseX)) / var(h23)
-set 'p2z' var(p2BaseZ) + 0.6 * (var(p3z) - var(p2BaseZ)) / var(h23)
+set 'p2x' var(p2BaseX) + 0.5 * (var(p3x) - var(p2BaseX)) / var(h23)
+set 'p2z' var(p2BaseZ) + 0.5 * (var(p3z) - var(p2BaseZ)) / var(h23)
 @shiftP2Done
 
 # Cache corrected adjacent control points for axle samples across segment boundaries.

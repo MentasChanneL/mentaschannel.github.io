@@ -67,7 +67,7 @@ setVars [
 ]
 jump 'sampleRearDone'
 @sampleRearOutside
-set 'rearOver' (0 - var(rearU)) * var(nextTangentLength)
+set 'rearOver' (0 - var(rearU)) * global(MINECART.var(arg.0).prevRailLength)
 setVars [
     'rearX'; global(MINECART.var(arg.0).p1x) - (global(MINECART.var(arg.0).p1x) - global(MINECART.var(arg.0).p0x)) / max(global(MINECART.var(arg.0).prevRailLength), 0.001) * var(rearOver);
     'rearY'; global(MINECART.var(arg.0).p1y) - (global(MINECART.var(arg.0).p1y) - global(MINECART.var(arg.0).p0y)) / max(global(MINECART.var(arg.0).prevRailLength), 0.001) * var(rearOver);
@@ -88,7 +88,7 @@ setVars [
 ]
 jump 'sampleFrontDone'
 @sampleFrontOutside
-set 'frontOver' (var(frontU) - 1) * var(nextTangentLength)
+set 'frontOver' (var(frontU) - 1) * global(MINECART.var(arg.0).nextRailLength)
 setVars [
     'frontX'; global(MINECART.var(arg.0).p2x) + (global(MINECART.var(arg.0).p3x) - global(MINECART.var(arg.0).p2x)) / max(global(MINECART.var(arg.0).nextRailLength), 0.001) * var(frontOver);
     'frontY'; global(MINECART.var(arg.0).p2y) + (global(MINECART.var(arg.0).p3y) - global(MINECART.var(arg.0).p2y)) / max(global(MINECART.var(arg.0).nextRailLength), 0.001) * var(frontOver);

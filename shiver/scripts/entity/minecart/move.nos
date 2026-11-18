@@ -73,10 +73,10 @@ set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(dx), var(
 
 @teleportPair
 Entity.tp 'var(arg.0)'
-    var(nextX); var(nextY) + 0.5; var(nextZ);
+    var(nextX); var(nextY); var(nextZ);
     var(nextYaw); 0;
 Entity.tp 'global(MINECART.var(arg.0).mount)'
-    var(nextX); var(nextY); var(nextZ);
+    var(nextX); var(nextY) - 0.5; var(nextZ);
     var(nextYaw); 0;
 setGlobal 'MINECART.var(arg.0).lastYaw' var(nextYaw)
 jump 'trigger'

@@ -1,30 +1,29 @@
 # Shiver script | REPIS
-# Функция спавна сюжетной вагонетки. Установит в
-# глобальную переменную MINECART uuid вагонетки.
+# Спавн сюжетной вагонетки.
 # Аргументы:
 # 0 - местоположение спавна [x, y, z, yaw, pitch]
-# 1 - список триггеров [[x, y, z, script], [...], ...]
+# 1 - список триггеров
 # 2 - модель - предмет
 # 3 - смещение модели [x, y, z]
 # 4 - размер модели [x, y, z]
-# 5 - повoрот модели [yaw, pitch, roll]
+# 5 - поворот модели [yaw, pitch, roll]
 # 6 - размер хитбокса
 # 7 - включить движение
 # 8 - команда
 # 9 - tick интервал
-# 10 - скорость
+# 10 - скорость (блоков за один шаг)
 # 11 - начальное направление [x, y, z], используется без маршрута
 # 12 - маршрут как список точек [ [x, y, z], ... ]
-#      Точки задают положение сущности вагонетки вдоль маршрута.
-#      Смещение отображаемой модели задаётся отдельно через arg.3
-# 13 - расстояние от центра вагонетки до каждой оси
+#
+# Модель движется на 0.5 блока выше точек маршрута.
+# Невидимый ItemDisplay на уровне маршрута служит носителем хитбокса.
 
 list.get 'arg.0' 0; 'pos_x'
 list.get 'arg.0' 1; 'pos_y'
 list.get 'arg.0' 2; 'pos_z'
 list.get 'arg.0' 3; 'yaw'
-list.get 'arg.0' 4; 'pitch'
-Entity.spawnItemDisplay 'model' var(pos_x); var(pos_y); var(pos_z); var(yaw); var(pitch); 'var(arg.2)'
+
+Entity.spawnItemDisplay 'model' var(pos_x); var(pos_y) + 0.5; var(pos_z); var(yaw); 0; 'var(arg.2)'
 Entity.displayTeleportDuration 'var(model)' var(arg.9) + 1;
 copyToGlobal 'model' 'MINECART'
 copyToGlobal 'arg.1' 'MINECART.var(model).triggers'
@@ -34,15 +33,12 @@ copyToGlobal 'arg.9' 'MINECART.var(model).tickDelta'
 copyToGlobal 'arg.10' 'MINECART.var(model).speed'
 copyToGlobal 'arg.11' 'MINECART.var(model).direction'
 copyToGlobal 'arg.12' 'MINECART.var(model).route'
-setGlobal 'MINECART.var(model).wheelBase' arg.13
 setGlobal 'MINECART.var(model).routeIndex' 0
 setGlobal 'MINECART.var(model).routeProgress' 0
-setGlobal 'MINECART.var(model).cacheIndex' -1
-setGlobal 'MINECART.var(model).cachePendingIndex' -1
-setGlobal 'MINECART.var(model).cacheRequestedIndex' -1
 setGlobal 'MINECART.var(model).routeLastIndex' len(arg.12) - 1
 setGlobal 'MINECART.var(model).triggerRadius' var(arg.6) / 2 + 1
 copyToGlobal 'yaw' 'MINECART.var(model).lastYaw'
+
 list.get 'arg.3' 0; 'x'
 list.get 'arg.3' 1; 'y'
 list.get 'arg.3' 2; 'z'
@@ -55,10 +51,15 @@ list.get 'arg.5' 0; 'yaw'
 list.get 'arg.5' 1; 'pitch'
 list.get 'arg.5' 2; 'roll'
 Entity.displayRotations 'var(model)' var(yaw); var(pitch); var(roll); 'set'
+
+Entity.spawnItemDisplay 'mount' var(pos_x); var(pos_y); var(pos_z); var(yaw); 0; 'global(EMPTY_ITEMSTACK)'
+Entity.displayTeleportDuration 'var(mount)' var(arg.9) + 1;
+copyToGlobal 'mount' 'MINECART.var(model).mount'
+
 Entity.spawn 'hitbox' var(pos_x); var(pos_y); var(pos_z); 'e2lkOiJtaW5lY3JhZnQ6cGlnX3NwYXduX2VnZyIsIGNvdW50OjEsIGNvbXBvbmVudHM6eyJtaW5lY3JhZnQ6ZW50aXR5X2RhdGEiOntpZDoic2h1bGtlciIsIFNpbGVudDoxYiwgSW52dWxuZXJhYmxlOjFiLCBOb0FJOjFifX19'
 copyToGlobal 'hitbox' 'MINECART.var(model).hitbox'
 copyToGlobal 'arg.6' 'MINECART.var(model).hitboxSize'
 Entity.attribute 'var(hitbox)' 'id' var(arg.6);
-Entity.rideOn 'var(hitbox)' 'var(model)'
+Entity.rideOn 'var(hitbox)' 'var(mount)'
 
 run 'entity/minecart/move' '*' [*model; 0]

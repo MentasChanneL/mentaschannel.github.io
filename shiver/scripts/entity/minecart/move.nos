@@ -47,7 +47,10 @@ setVars [
 set 'horizontal' sqrt(var(nextTX) * var(nextTX) + var(nextTZ) * var(nextTZ))
 
 set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 57.29577951308232
-# Keep the display's vertical offset constant while its local Y axis tilts with pitch.
+# At the segment endpoint, orient toward the following rail segment immediately.
+if var(nextProgress) < 1 { jump 'keepCurrentPitch' }
+set 'nextPitch' global(MINECART.var(arg.0).endPitch)
+@keepCurrentPitch
 if var(horizontal) <= 0.001 { jump 'keepYaw' }
 set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(nextTX), var(nextTZ)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
 Entity.tp 'var(arg.0)'
@@ -103,6 +106,10 @@ list.unpack 'p0' ['p0x'; 'p0y'; 'p0z']
 list.unpack 'p1' ['p1x'; 'p1y'; 'p1z']
 list.unpack 'p2' ['p2x'; 'p2y'; 'p2z']
 list.unpack 'p3' ['p3x'; 'p3y'; 'p3z']
+
+# Pitch to use exactly at the end of this segment, based on the outgoing rail.
+set 'endHorizontal' sqrt((var(p3x) - var(p2x)) * (var(p3x) - var(p2x)) + (var(p3z) - var(p2z)) * (var(p3z) - var(p2z)))
+setGlobal 'MINECART.var(arg.0).endPitch' atan2(0 - (var(p3y) - var(p2y)), var(endHorizontal)) * 57.29577951308232
 
 if global(MINECART.var(arg.0).routeIndex) != 0 { jump 'buildP0Done' }
 setVars [

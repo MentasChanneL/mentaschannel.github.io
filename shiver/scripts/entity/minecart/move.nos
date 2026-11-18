@@ -114,10 +114,6 @@ list.unpack 'p1' ['p1x'; 'p1y'; 'p1z']
 list.unpack 'p2' ['p2x'; 'p2y'; 'p2z']
 list.unpack 'p3' ['p3x'; 'p3y'; 'p3z']
 
-# Pitch to use exactly at the end of this segment, based on the outgoing rail.
-set 'endHorizontal' sqrt((var(p3x) - var(p2x)) * (var(p3x) - var(p2x)) + (var(p3z) - var(p2z)) * (var(p3z) - var(p2z)))
-setGlobal 'MINECART.var(arg.0).endPitch' atan2(0 - (var(p3y) - var(p2y)), var(endHorizontal)) * 57.29577951308232
-
 if global(MINECART.var(arg.0).routeIndex) != 0 { jump 'buildP0Done' }
 setVars [
     'p0x'; 2 * var(p1x) - var(p2x);
@@ -133,6 +129,83 @@ setVars [
     'p3z'; 2 * var(p2z) - var(p1z)
 ]
 @buildP3Done
+
+setVars [
+    'h01'; sqrt((var(p1x) - var(p0x)) * (var(p1x) - var(p0x)) + (var(p1z) - var(p0z)) * (var(p1z) - var(p0z)));
+    'h12'; sqrt((var(p2x) - var(p1x)) * (var(p2x) - var(p1x)) + (var(p2z) - var(p1z)) * (var(p2z) - var(p1z)));
+    'h23'; sqrt((var(p3x) - var(p2x)) * (var(p3x) - var(p2x)) + (var(p3z) - var(p2z)) * (var(p3z) - var(p2z)));
+    'p1BaseX'; var(p1x);
+    'p1BaseZ'; var(p1z);
+    'p2BaseX'; var(p2x);
+    'p2BaseZ'; var(p2z);
+    'rampPrev'; 0;
+    'rampCurrent'; 0;
+    'rampNext'; 0
+]
+
+# A block-centre ramp has one extra horizontal block between its centres
+# compared with the rail line: move each endpoint inward by half a block.
+if global(MINECART.var(arg.0).routeIndex) <= 0 { jump 'checkCurrentRamp' }
+if var(p1y) == var(p0y) { jump 'checkCurrentRamp' }
+if abs(var(h01) - abs(var(p1y) - var(p0y)) - 1) > 0.15 { jump 'checkCurrentRamp' }
+set 'rampPrev' 1
+
+@checkCurrentRamp
+if var(p2y) == var(p1y) { jump 'checkNextRamp' }
+if abs(var(h12) - abs(var(p2y) - var(p1y)) - 1) > 0.15 { jump 'checkNextRamp' }
+set 'rampCurrent' 1
+
+@checkNextRamp
+if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) - 1 { jump 'adjustRampPoints' }
+if var(p3y) == var(p2y) { jump 'adjustRampPoints' }
+if abs(var(h23) - abs(var(p3y) - var(p2y)) - 1) > 0.15 { jump 'adjustRampPoints' }
+set 'rampNext' 1
+
+@adjustRampPoints
+# The start point is shared with the previous segment. Prefer the current ramp
+# when two ramps meet; otherwise reuse the previous ramp's adjusted endpoint.
+if var(rampCurrent) > 0 { jump 'shiftP1TowardP2' }
+if var(rampPrev) <= 0 { jump 'shiftP1Done' }
+if var(h01) <= 0.001 { jump 'shiftP1Done' }
+set 'p1x' var(p1BaseX) + 0.5 * (var(p0x) - var(p1BaseX)) / var(h01)
+set 'p1z' var(p1BaseZ) + 0.5 * (var(p0z) - var(p1BaseZ)) / var(h01)
+jump 'shiftP1Done'
+
+@shiftP1TowardP2
+if var(h12) <= 0.001 { jump 'shiftP1Done' }
+set 'p1x' var(p1BaseX) + 0.5 * (var(p2BaseX) - var(p1BaseX)) / var(h12)
+set 'p1z' var(p1BaseZ) + 0.5 * (var(p2BaseZ) - var(p1BaseZ)) / var(h12)
+@shiftP1Done
+
+# The end point is shared with the following segment.
+if var(rampNext) > 0 { jump 'shiftP2TowardP3' }
+if var(rampCurrent) <= 0 { jump 'shiftP2Done' }
+if var(h12) <= 0.001 { jump 'shiftP2Done' }
+set 'p2x' var(p2BaseX) + 0.5 * (var(p1BaseX) - var(p2BaseX)) / var(h12)
+set 'p2z' var(p2BaseZ) + 0.5 * (var(p1BaseZ) - var(p2BaseZ)) / var(h12)
+jump 'shiftP2Done'
+
+@shiftP2TowardP3
+if var(h23) <= 0.001 { jump 'shiftP2Done' }
+set 'p2x' var(p2BaseX) + 0.5 * (var(p3x) - var(p2BaseX)) / var(h23)
+set 'p2z' var(p2BaseZ) + 0.5 * (var(p3z) - var(p2BaseZ)) / var(h23)
+@shiftP2Done
+
+# Pitch at the segment end follows the next segment's corrected rail angle.
+if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) - 1 { jump 'endPitchCurrentSegment' }
+set 'endHorizontal' var(h23)
+if var(rampNext) <= 0 { jump 'endPitchReady' }
+set 'endHorizontal' max(var(h23) - 1, 0.001)
+jump 'endPitchReady'
+@endPitchCurrentSegment
+set 'endHorizontal' sqrt((var(p2x) - var(p1x)) * (var(p2x) - var(p1x)) + (var(p2z) - var(p1z)) * (var(p2z) - var(p1z)))
+@endPitchReady
+if global(MINECART.var(arg.0).routeIndex) >= global(MINECART.var(arg.0).routeLastIndex) - 1 {
+    setGlobal 'MINECART.var(arg.0).endPitch' atan2(0 - (var(p2y) - var(p1y)), var(endHorizontal)) * 57.29577951308232
+}
+if global(MINECART.var(arg.0).routeIndex) < global(MINECART.var(arg.0).routeLastIndex) - 1 {
+    setGlobal 'MINECART.var(arg.0).endPitch' atan2(0 - (var(p3y) - var(p2y)), var(endHorizontal)) * 57.29577951308232
+}
 
 setVars [
     't01'; max(sqrt(sqrt((var(p1x) - var(p0x)) * (var(p1x) - var(p0x)) + (var(p1y) - var(p0y)) * (var(p1y) - var(p0y)) + (var(p1z) - var(p0z)) * (var(p1z) - var(p0z)))), 0.001);

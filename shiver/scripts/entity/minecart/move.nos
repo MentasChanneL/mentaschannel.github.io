@@ -208,6 +208,25 @@ setVars [
     'dZ'; var(p1z)
 ]
 
+# Rail segments with a vertical change are straight ramps: keep position and
+# tangent exactly on the line between the two route points.
+if var(s1y) == 0 { jump 'buildSplineDone' }
+setVars [
+    'aX'; 0;
+    'bX'; 0;
+    'cX'; var(p2x) - var(p1x);
+    'dX'; var(p1x);
+    'aY'; 0;
+    'bY'; 0;
+    'cY'; var(p2y) - var(p1y);
+    'dY'; var(p1y);
+    'aZ'; 0;
+    'bZ'; 0;
+    'cZ'; var(p2z) - var(p1z);
+    'dZ'; var(p1z)
+]
+@buildSplineDone
+
 setGlobals [
     'MINECART.var(arg.0).aX'; var(aX);
     'MINECART.var(arg.0).bX'; var(bX);

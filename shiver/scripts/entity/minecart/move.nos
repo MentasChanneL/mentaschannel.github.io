@@ -10,33 +10,13 @@ if global(MINECART.var(arg.0).routeLastIndex) <= 0 {
     jump 'idle'
 }
 if global(MINECART.var(arg.0).speed) <= 0 { jump 'idle' }
-if global(MINECART.var(arg.0).started) <= 0 {
-    setGlobal 'MINECART.var(arg.0).started' 1
-    if global(MINECART.var(arg.0).soundEnabled) > 0 {
-        run 'entity/minecart/sound' '*' [*arg.0]
-    }
-}
-if global(MINECART.var(arg.0).hasMovingItem) > 0 {
-    if global(MINECART.var(arg.0).movingModelActive) <= 0 {
-        Entity.itemDisplaySetItem 'var(arg.0)' 'global(MINECART.var(arg.0).movingItem)'
-        setGlobal 'MINECART.var(arg.0).movingModelActive' 1
-    }
-}
+if global(MINECART.var(arg.0).started) <= 0 { setGlobal 'MINECART.var(arg.0).started' 1; }
 
 copyToLocal 'MINECART.var(arg.0).route' 'route'
 set 'remaining' global(MINECART.var(arg.0).speed)
 jump 'routeStep'
 
 @idle
-if global(MINECART.var(arg.0).movingModelActive) > 0 {
-    Entity.itemDisplaySetItem 'var(arg.0)' 'global(MINECART.var(arg.0).normalItem)'
-    setGlobal 'MINECART.var(arg.0).movingModelActive' 0
-}
-if global(MINECART.var(arg.0).lightActive) > 0 {
-    World.hideFantomBlock global(MINECART.var(arg.0).lightX); global(MINECART.var(arg.0).lightY); global(MINECART.var(arg.0).lightZ)
-    setGlobal 'MINECART.var(arg.0).lightActive' 0
-}
-setGlobal 'MINECART.var(arg.0).lightHasPos' 0
 jump 'trigger'
 
 @routeStep
@@ -88,8 +68,10 @@ setVars [
 if abs(var(dot)) > 0.1 { jump 'lengthReady' }
 if abs(var(cross)) < 0.9 { jump 'lengthReady' }
 
-set 'radius' sqrt(var(dx) * var(dx) + var(dz) * var(dz)) / sqrt(2)
-set 'turnSide' 0 - sign(var(cross))
+setVars [
+    'radius'; sqrt(var(dx) * var(dx) + var(dz) * var(dz)) / sqrt(2);
+    'turnSide'; 0 - sign(var(cross))
+]
 setVars [
     'centerX'; var(p1x) + var(inZ) / var(inLength) * var(turnSide) * var(radius);
     'centerZ'; var(p1z) - var(inX) / var(inLength) * var(turnSide) * var(radius)
@@ -192,35 +174,32 @@ Entity.tp 'global(MINECART.var(arg.0).mount)'
     var(nextYaw); 0;
 setGlobal 'MINECART.var(arg.0).lastYaw' var(nextYaw)
 if global(MINECART.var(arg.0).canMove) <= 0 { jump 'idle' }
-if global(MINECART.var(arg.0).lightEnabled) <= 0 { jump 'trigger' }
 
+@trigger
 setVars [
     'lightX'; floor(var(nextX) - sin(var(nextYaw)));
     'lightY'; floor(var(nextY) + 1);
     'lightZ'; floor(var(nextZ) + cos(var(nextYaw)))
 ]
-if global(MINECART.var(arg.0).lightHasPos) > 0 {
-    set 'lightDiff' abs(var(lightX) - global(MINECART.var(arg.0).lightX)) + abs(var(lightY) - global(MINECART.var(arg.0).lightY)) + abs(var(lightZ) - global(MINECART.var(arg.0).lightZ))
-    if var(lightDiff) <= 0 { jump 'trigger' }
+if global(MINECART.var(arg.0).lightActive) > 0 && (var(lightX) != global(MINECART.var(arg.0).lightX) || var(lightY) != global(MINECART.var(arg.0).lightY) || var(lightZ) != global(MINECART.var(arg.0).lightZ)) {
+    World.hideFantomBlock global(MINECART.var(arg.0).lightX); global(MINECART.var(arg.0).lightY); global(MINECART.var(arg.0).lightZ);
+    World.getBlock var(lightX); var(lightY); var(lightZ); 'block'
+    String.equals *block 'minecraft:air' 'false' 'false' 'isAir'
+    if !var(isAir) { World.fantomBlock 'minecraft:light' var(lightX); var(lightY); var(lightZ); }
+    setGlobals [
+        'MINECART.var(arg.0).lightX'; var(lightX);
+        'MINECART.var(arg.0).lightY'; var(lightY);
+        'MINECART.var(arg.0).lightZ'; var(lightZ)
+    ]
 }
-if global(MINECART.var(arg.0).lightActive) > 0 {
-    World.hideFantomBlock global(MINECART.var(arg.0).lightX); global(MINECART.var(arg.0).lightY); global(MINECART.var(arg.0).lightZ)
-    setGlobal 'MINECART.var(arg.0).lightActive' 0
+copyToLocal 'MINECART.var(arg.0).rideSound' 'sound'
+if global(MINECART.var(arg.0).canMove) && var(arg.1) && len(sound) > 0 && global(MINECART.var(arg.0).soundCD) < $time {
+    setGlobal 'MINECART.var(arg.0).soundCD' $time + global(MINECART.var(model).soundPeriod)
+    World.sound 'global(MINECART.var(arg.0).rideSound)'
+        global(MINECART.var(arg.0).soundVolume); global(MINECART.var(arg.0).soundPitch);
+        var(nextX); var(nextY); var(nextZ);
 }
-setGlobals [
-    'MINECART.var(arg.0).lightX'; var(lightX);
-    'MINECART.var(arg.0).lightY'; var(lightY);
-    'MINECART.var(arg.0).lightZ'; var(lightZ)
-]
-setGlobal 'MINECART.var(arg.0).lightHasPos' 1
-World.getBlock var(lightX); var(lightY); var(lightZ); 'lightBlock'
-String.equals *lightBlock 'minecraft:air' 'false' 'false' 'isAir'
-if var(isAir) <= 0 { jump 'trigger' }
-World.fantomBlock 'minecraft:light' var(lightX); var(lightY); var(lightZ)
-setGlobal 'MINECART.var(arg.0).lightActive' 1
-jump 'trigger'
 
-@trigger
 wait global(MINECART.var(arg.0).tickDelta) - 2
 Entity.getPos 'var(arg.0)' 'pos'
 set 'radius' global(MINECART.var(arg.0).triggerRadius)

@@ -5,7 +5,10 @@
 
 @entry
 if var(arg.1) * global(MINECART.var(arg.0).canMove) <= 0 { jump 'trigger' }
-if global(MINECART.var(arg.0).routeLastIndex) <= 0 { jump 'legacyMove' }
+if global(MINECART.var(arg.0).routeLastIndex) <= 0 {
+    setGlobal 'MINECART.var(arg.0).canMove' 0
+    jump 'trigger'
+}
 if global(MINECART.var(arg.0).speed) <= 0 { jump 'trigger' }
 
 copyToLocal 'MINECART.var(arg.0).route' 'route'
@@ -165,20 +168,6 @@ Entity.tp 'global(MINECART.var(arg.0).mount)'
     var(nextYaw); 0;
 setGlobal 'MINECART.var(arg.0).lastYaw' var(nextYaw)
 jump 'trigger'
-
-@legacyMove
-copyToLocal 'MINECART.var(arg.0).direction' 'direction'
-list.unpack 'direction' ['x'; 'y'; 'z']
-Entity.getPos 'var(arg.0)' 'pos'
-setVars [
-    'nextX'; var(pos.x) + var(x) * global(MINECART.var(arg.0).speed);
-    'nextY'; var(pos.y) + var(y) * global(MINECART.var(arg.0).speed);
-    'nextZ'; var(pos.z) + var(z) * global(MINECART.var(arg.0).speed);
-    'moveDirX'; var(x);
-    'moveDirY'; var(y);
-    'moveDirZ'; var(z)
-]
-jump 'applyPosition'
 
 @trigger
 wait global(MINECART.var(arg.0).tickDelta) - 1

@@ -5,7 +5,6 @@
 loadScript 'maps/map2/start'
 loadScript 'entity/minecart/spawn'
 loadScript 'entity/minecart/move'
-loadScript 'entity/minecart/sound'
 runInLine 'maps/common/_load' [2]
 setGlobal 'MAP_TITLE' '<white>⛏ <tr:shiver.map.global(MAP)>'
 setGlobal 'LOOT_CHANCE' 0.7

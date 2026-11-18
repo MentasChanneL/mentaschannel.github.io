@@ -5,13 +5,13 @@
 
 @entry
 if var(arg.1) * global(MINECART.var(arg.0).canMove) <= 0 { jump 'idle' }
-if global(MINECART.var(arg.0).routeLastIndex) <= 0 {
+if !global(MINECART.var(arg.0).routeLastIndex) {
     setGlobal 'MINECART.var(arg.0).canMove' 0
     jump 'idle'
 }
 if global(MINECART.var(arg.0).speed) <= 0 { jump 'idle' }
 if global(MINECART.var(arg.0).started) <= 0 { setGlobal 'MINECART.var(arg.0).started' 1; }
-
+setGlobal 'MINECART.var(arg.0).callID' global(MINECART.var(arg.0).callID) + 1
 copyToLocal 'MINECART.var(arg.0).route' 'route'
 set 'remaining' global(MINECART.var(arg.0).speed)
 jump 'routeStep'
@@ -181,11 +181,11 @@ setVars [
     'lightY'; floor(var(nextY) + 1);
     'lightZ'; floor(var(nextZ) + cos(var(nextYaw)))
 ]
-if global(MINECART.var(arg.0).lightActive) > 0 && (var(lightX) != global(MINECART.var(arg.0).lightX) || var(lightY) != global(MINECART.var(arg.0).lightY) || var(lightZ) != global(MINECART.var(arg.0).lightZ)) {
+if global(MINECART.var(arg.0).lightEnabled) > 0 && (var(lightX) != global(MINECART.var(arg.0).lightX) || var(lightY) != global(MINECART.var(arg.0).lightY) || var(lightZ) != global(MINECART.var(arg.0).lightZ)) {
     World.hideFantomBlock global(MINECART.var(arg.0).lightX); global(MINECART.var(arg.0).lightY); global(MINECART.var(arg.0).lightZ);
     World.getBlock var(lightX); var(lightY); var(lightZ); 'block'
     String.equals *block 'minecraft:air' 'false' 'false' 'isAir'
-    if !var(isAir) { World.fantomBlock 'minecraft:light' var(lightX); var(lightY); var(lightZ); }
+    if var(isAir) { World.fantomBlock 'minecraft:light' var(lightX); var(lightY); var(lightZ); }
     setGlobals [
         'MINECART.var(arg.0).lightX'; var(lightX);
         'MINECART.var(arg.0).lightY'; var(lightY);
@@ -194,10 +194,13 @@ if global(MINECART.var(arg.0).lightActive) > 0 && (var(lightX) != global(MINECAR
 }
 copyToLocal 'MINECART.var(arg.0).rideSound' 'sound'
 if global(MINECART.var(arg.0).canMove) && var(arg.1) && len(sound) > 0 && global(MINECART.var(arg.0).soundCD) < $time {
-    setGlobal 'MINECART.var(arg.0).soundCD' $time + global(MINECART.var(model).soundPeriod)
-    World.sound 'global(MINECART.var(arg.0).rideSound)'
+    setGlobal 'MINECART.var(arg.0).soundCD' $time + global(MINECART.var(arg.0).soundPeriod) - 1
+    World.sound *sound
         global(MINECART.var(arg.0).soundVolume); global(MINECART.var(arg.0).soundPitch);
         var(nextX); var(nextY); var(nextZ);
+}
+if global(MINECART.var(arg.0).canMove) {
+    Entity.itemDisplaySetItem *arg.2 'global(MINECART.var(arg.0).movingItem)'
 }
 
 wait global(MINECART.var(arg.0).tickDelta) - 2
@@ -209,3 +212,9 @@ Shiver.spawnTrigger 'minecart.var(arg.0)' 'global(MINECART.var(arg.0).team)' 0;
     [*arg.0] {
         run 'entity/minecart/move' '*' [*arg.0; 1]
     }
+
+copyToLocal 'MINECART.var(arg.0).callID' 'callID'
+wait 2
+if global(MINECART.var(arg.0).callID) == var(callID) {
+    Entity.itemDisplaySetItem *arg.2 'global(MINECART.var(arg.0).normalItem)'
+}

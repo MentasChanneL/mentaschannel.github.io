@@ -45,8 +45,6 @@ copyToGlobal 'arg.15' 'MINECART.var(model).soundPitch'
 copyToGlobal 'arg.16' 'MINECART.var(model).soundPeriod'
 copyToGlobal 'arg.17' 'MINECART.var(model).lightEnabled'
 setGlobal 'MINECART.var(model).started' 0
-setGlobal 'MINECART.var(model).lightActive' 0
-setGlobal 'MINECART.var(model).lightHasPos' 0
 setGlobal 'MINECART.var(model).routeIndex' 0
 setGlobal 'MINECART.var(model).routeProgress' 0
 setGlobal 'MINECART.var(model).routeLastIndex' len(arg.11) - 1

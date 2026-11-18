@@ -51,13 +51,6 @@ set 'nextPitch' atan2(0 - var(nextTY), var(horizontal)) * 57.29577951308232
 if var(nextProgress) < 1 { jump 'keepCurrentPitch' }
 set 'nextPitch' global(MINECART.var(arg.0).endPitch)
 @keepCurrentPitch
-# Counter-rotate the local display offset so its world-space offset is unchanged by pitch.
-setVars [
-    'displayOffsetY'; global(MINECART.var(arg.0).displayOffsetY) * cos(var(nextPitch)) + global(MINECART.var(arg.0).displayOffsetZ) * sin(var(nextPitch));
-    'displayOffsetZ'; (0 - global(MINECART.var(arg.0).displayOffsetY) * sin(var(nextPitch))) + global(MINECART.var(arg.0).displayOffsetZ) * cos(var(nextPitch))
-]
-Entity.displaySetOffset 'var(arg.0)' global(MINECART.var(arg.0).displayOffsetX); var(displayOffsetY); var(displayOffsetZ);
-Entity.displayInterpolation 'var(arg.0)' 0; global(MINECART.var(arg.0).tickDelta);
 if var(horizontal) <= 0.001 { jump 'keepYaw' }
 set 'nextYaw' global(MINECART.var(arg.0).lastYaw) + wrap(atan2(0 - var(nextTX), var(nextTZ)) * 57.29577951308232 - global(MINECART.var(arg.0).lastYaw), -180, 180)
 Entity.tp 'var(arg.0)'

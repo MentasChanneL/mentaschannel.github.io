@@ -1,1 +1,2 @@
 loadScript 'maps/map2/triggers/test'
+loadScript 'maps/map2/triggers/test2'

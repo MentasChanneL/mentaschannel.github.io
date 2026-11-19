@@ -34,6 +34,15 @@ if var(arg.0) == 2 {
     loadScript 'maps/common/objective_tick'
 }
 
+## Loading wait
+@scriptsLoading
+getLoadingScriptsAmount 'inLoading'
+if var(inLoading) > 0 {
+    wait 3
+    jump 'scriptsLoading'
+}
+## ---------------
+
 if len(arg.1) > 0 {
     forEach '*' 'entity' 'arg.1' {
         loadScript 'entity/var(entity)/_load'
@@ -41,11 +50,11 @@ if len(arg.1) > 0 {
 }
 
 ## Loading wait
-@scriptsLoading
+@scriptsLoading2
 getLoadingScriptsAmount 'inLoading'
 if var(inLoading) > 0 {
     wait 3
-    jump 'scriptsLoading'
+    jump 'scriptsLoading2'
 }
 ## ---------------
 

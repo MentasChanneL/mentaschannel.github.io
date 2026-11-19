@@ -75,7 +75,7 @@ parallel '*' [] {
             [344.5; 5.5; -36.5; 'maps/map2/triggers/test'];
             [344.5; 2.5; -42.5; 'maps/map2/triggers/test2']
         ];
-        'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDg3LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
+        'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDgyLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
         [0; 0; 0];
         [1; 1; 1];
         [180; 0; 0];
@@ -109,7 +109,8 @@ parallel '*' [] {
         0.5;
         0.5;
         20;
-        1
+        1;
+        'maps/map2/triggers/on_push'
     ]
 }
 

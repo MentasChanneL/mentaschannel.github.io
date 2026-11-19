@@ -19,6 +19,7 @@
 # 15 - высота звука
 # 16 - период звука в тиках (0 = отключён)
 # 17 - излучать ли свет перед вагонеткой (1/0)
+# 18 - скрипт-события при срабатывании триггера толкания, передает uuid вагонетки
 #
 # Модель движется непосредственно по точкам маршрута.
 # Невидимый ItemDisplay на 0.5 блока ниже служит носителем хитбокса.
@@ -44,11 +45,17 @@ copyToGlobal 'arg.14' 'MINECART.var(model).soundVolume'
 copyToGlobal 'arg.15' 'MINECART.var(model).soundPitch'
 copyToGlobal 'arg.16' 'MINECART.var(model).soundPeriod'
 copyToGlobal 'arg.17' 'MINECART.var(model).lightEnabled'
+copyToGlobal 'arg.18' 'MINECART.var(model).onPush'
 setGlobal 'MINECART.var(model).started' 0
 setGlobal 'MINECART.var(model).routeIndex' 0
 setGlobal 'MINECART.var(model).routeProgress' 0
 setGlobal 'MINECART.var(model).routeLastIndex' len(arg.11) - 1
-setGlobal 'MINECART.var(model).triggerRadius' var(arg.6) / 2 + 1
+setGlobal 'MINECART.var(model).triggerRadius' var(arg.6) / 2 + 1.25
+setGlobals [
+    'MINECART.var(model).lightX'; var(pos_x);
+    'MINECART.var(model).lightY'; var(pos_y) + 1;
+    'MINECART.var(model).lightZ'; var(pos_z)
+]
 copyToGlobal 'yaw' 'MINECART.var(model).lastYaw'
 
 list.get 'arg.3' 0; 'x'

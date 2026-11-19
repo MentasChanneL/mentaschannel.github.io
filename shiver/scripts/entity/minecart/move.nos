@@ -221,6 +221,10 @@ Shiver.spawnTrigger 'minecart.var(arg.0)' 'global(MINECART.var(arg.0).team)' 0;
     (var(pos.x) - var(radius)); (var(pos.y) - var(radius)); (var(pos.z) - var(radius));
     [*arg.0] {
         run 'entity/minecart/move' '*' [*arg.0; 1]
+        copyToLocal 'MINECART.var(arg.0).onPush' 'onPush'
+        if len(onPush) > 0 {
+            run *onPush '*' [*arg.0]
+        }
     }
 
 copyToLocal 'MINECART.var(arg.0).callID' 'callID'

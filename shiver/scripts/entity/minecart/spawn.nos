@@ -31,7 +31,13 @@ list.get 'arg.0' 3; 'yaw'
 
 Entity.spawnItemDisplay 'model' var(pos_x); var(pos_y); var(pos_z); var(yaw); 0; 'var(arg.2)'
 Entity.displayTeleportDuration 'var(model)' var(arg.9) + 1;
+setGlobals [
+    'MINECART'; *model;
+
+]
+# remove this
 copyToGlobal 'model' 'MINECART'
+#
 copyToGlobal 'arg.1' 'MINECART.var(model).triggers'
 copyToGlobal 'arg.7' 'MINECART.var(model).canMove'
 copyToGlobal 'arg.8' 'MINECART.var(model).team'

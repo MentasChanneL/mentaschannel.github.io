@@ -55,9 +55,10 @@ setGlobals [
     'MINECART.var(model).triggerRadius'; var(arg.6) / 2 + 1.25;
     'MINECART.var(model).lightX'; *pos_x;
     'MINECART.var(model).lightY'; var(pos_y) + 1;
-    'MINECART.var(model).lightZ'; *pos_z
+    'MINECART.var(model).lightZ'; *pos_z;
+    'MINECART.var(model).lastYaw'; *yaw;
+    'MINECART.var(model).position'; '{"x": var(pos_x), "y": var(pos_y), "z": var(pos_z), "yaw": 0, "pitch": 0}'
 ]
-setGlobal 'MINECART.var(model).lastYaw' *yaw
 
 list.unpack 'arg.3' ['x'; 'y'; 'z']
 Entity.displaySetOffset *model *x; *y; *z;

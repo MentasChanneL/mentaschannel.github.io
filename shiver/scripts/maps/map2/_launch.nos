@@ -19,6 +19,24 @@ run 'maps/map2/triggers/_load' '*' []
 runInLine 'maps/common/launch' []
 Shiver.music 'shiver:music.theme6' 1; 1;
 
+Shiver.spawnTrigger 'tank_suprize' 'global(TEAM_SURVIVORS)' 0; 349.5; 2.5; 130.5; 343.5; -2.5; 123.5; [] {
+    World.sound 'shiver:zombie.tank.fall' 2; 0.8; 347.5; 3.5; 116.5;
+    World.sound 'shiver:zombie.tank.fall' 2; 0.8; 347.5; 3.5; 116.5;
+    World.particle 347.5; 1.5; 116.5; '{"type":"explosion_emitter","count":1}'
+    World.setBlocks 1; 'barrier' 347.5; 4.5; 117.5; 347.5; 4.5; 117.5;
+    wait 8
+    Shiver.ent '*' '9' 347.5; 3.5; 116.5; 0; 0;
+    Shiver.ent '*' '2' 347.5; 3.5; 116.5; 0; 0;
+    Shiver.ent '*' '2' 347.5; 3.5; 116.5; 0; 0;
+    Shiver.ent '*' '2' 347.5; 3.5; 116.5; 0; 0;
+}
+
+Shiver.spawnTrigger 'bridge_fall' 'global(TEAM_SURVIVORS)' 2; 301.5; -4; 76.5; 336.5; -23.5; 101.5; [] {
+    forEach '*' 'ply' 'targets' {
+        Entity.damage *ply 200; ''
+    }
+}
+
 ###########################################################
 ##                      Катсцены                         ##
 ###########################################################
@@ -94,6 +112,7 @@ parallel '*' [] {
             [310.5; 1.5; 41.25];
             [310.5; 0.5; 42.25];
             [310.5; 0.5; 45.25];
+            [310.5; -0.5; 46.25];
             [310.5; -0.5; 49.5];
             [309.5; -0.5; 50.5];
             [299.5; -0.5; 50.5];
@@ -125,7 +144,7 @@ parallel '*' [] {
             [339.75; 4.5; 186.5];
             [337.25; 4.5; 186.5];
             [335.75; 5.5; 186.5];
-            [334.5; 5.5; 185.5];
+            [334.5; 5.5; 186.5];
             [333.5; 5.5; 187.5];
             [333.5; 5.5; 187.75];
             [333.5; 8.5; 190.75];

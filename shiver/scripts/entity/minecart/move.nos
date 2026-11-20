@@ -172,6 +172,9 @@ Entity.tp 'var(arg.0)'
 Entity.tp 'global(MINECART.var(arg.0).mount)'
     var(nextX); var(nextY) - 0.5; var(nextZ);
     var(nextYaw); 0;
+setGlobals [
+    'MINECART.var(arg.0).position'; '{"x": var(nextX), "y": var(nextY), "z": var(nextZ), "yaw": 0, "pitch": 0}'
+]
 copyToLocal 'MINECART.var(arg.0).triggers' 'triggers'
 list.get 'triggers' 0; 'trigger'
 if len(trigger) > 0 {

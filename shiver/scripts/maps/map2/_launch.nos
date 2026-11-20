@@ -50,7 +50,7 @@ parallel '*' [] {
     dict.values 'clones' 'clones'
     forEach '*' 'ent' 'clones' {
         Entity.tp *ent 310.5; 1.5; -37.5; 0; 0;
-        Entity.moveTo *ent 'pathfinding' [310.5; 1.5; -18.5]
+        Entity.moveTo *ent 'pathfinding' [[310.5; 1.5; -18.5]]
     }
     wait 50
     Shiver.getProp 'stage0.c4' 'c4'

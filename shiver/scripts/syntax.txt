@@ -70,6 +70,7 @@ effects {
     blindness
     darkness
     slowness
+    speed
     ...
 }
 Entity.attribute text(uuid) text(id) math(value)

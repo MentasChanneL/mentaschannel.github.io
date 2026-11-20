@@ -40,7 +40,8 @@ parallel '*' [] {
     @for
         list.get 'types' floor(len(types) * $random); 'type'
         Shiver.ent 'ent' 'var(type)' 310.5 + ($random * 4 - 2); 1.5; -121.5 + ($random * 4 - 2); 0; 0;
-        Entity.moveTo 'var(ent)' 'pathfinding' [[310.5; 1.5; -67.5]]
+        Entity.moveTo *ent 'pathfinding' [[310.5; 1.5; -67.5]]
+        Entity.effect *ent 'speed' -1; 0; 0; 0; 1;
         set 'i' var(i) - 1
     if var(i) > 0 { jump 'for' }
     Shiver.getCameraDuration 'map2_start2' 'wait'
@@ -48,7 +49,8 @@ parallel '*' [] {
     Shiver.getClones 'clones'
     dict.values 'clones' 'clones'
     forEach '*' 'ent' 'clones' {
-        Entity.tp 'var(ent)' 310.5; 1.5; -37.5; 0; 0;
+        Entity.tp *ent 310.5; 1.5; -37.5; 0; 0;
+        Entity.moveTo *ent 'pathfinding' [310.5; 1.5; -18.5]
     }
     wait 50
     Shiver.getProp 'stage0.c4' 'c4'

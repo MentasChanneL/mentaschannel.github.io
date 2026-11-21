@@ -45,7 +45,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
     World.sound 'shiver:ambience.heavy_metal_move1' 2; 1; 329; 2; 117;
     setGlobals [
         'ENABLE_MUTATION'; 1;
-        'MINECART.global(MINECART).canMove'; 0;
+        'MINECART.global(MINECART).canMove'; 1;
         'ZOMBIE_TYPES_OBJECTIVE'; [16; 2; 7; 2]
     ]
 }

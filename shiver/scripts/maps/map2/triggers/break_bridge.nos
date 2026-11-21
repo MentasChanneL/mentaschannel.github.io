@@ -1,16 +1,16 @@
 # 0 - stage
 
-if var(stage) == 1 || var(stage) == 3 {
+if var(arg.0) == 1 || var(arg.0) == 3 {
     World.sound 'shiver:ambience.bridge_crack2' 2; 1; 318.5; -1.5; 88.5;
 }
 
-if var(stage) == 2 {
+if var(arg.0) == 2 {
     World.sound 'shiver:ambience.bridge_crack1' 2; 1; 318.5; -1.5; 88.5;
     wait 17
     Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Мост трещит! Нужно быстрее перебираться!'
 }
 
-if var(stage) != 4 { jump 'return' }
+if var(arg.0) != 4 { jump 'return' }
 
 World.cloneBlocks 313; 22; 81; 318; 24; 101; 316; -2; 78; 'true' 'false'
 

@@ -1,0 +1,3 @@
+if global(MUTATION_OBJECTIVE) < global(MAX_MUTATION_OBJECTIVE) {
+    setGlobal 'MUTATION_OBJECTIVE' 0
+}

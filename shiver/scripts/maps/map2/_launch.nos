@@ -10,7 +10,7 @@ setGlobal 'LOOT_CHANCE' 0.7
 setGlobal 'PREPARE_TIME' 90
 setGlobal 'TICK_HANDLER' 'maps/map2/start'
 setGlobal 'MAX_MUTATION_OBJECTIVE' 300
-setGlobal 'ZOMBIE_TYPES_OBJECTIVE' [17]
+setGlobal 'ZOMBIE_TYPES_OBJECTIVE' [16]
 
 World.time 16000
 run 'entity/minecart/_load' '*' []
@@ -38,7 +38,7 @@ Shiver.spawnTrigger 'bridge_fall' 'global(TEAM_SURVIVORS)' 2; 301.5; -4; 76.5; 3
 
 Shiver.spawnTrigger 'build_bridge' 'global(TEAM_SURVIVORS)' 0; 311; -1; 59; 315; 2; 65; [] {
     World.cloneBlocks 313; 22; 81; 318; 24; 101; 316; -2; 78; 'true' 'false'
-    
+    setGlobal 'ZOMBIE_TYPES_OBJECTIVE' [16; 2]
 }
 
 Shiver.addZombieSpawn 'stage1' 0; 1; 300.5; 8.5; 9.5; -90; 0;
@@ -102,6 +102,7 @@ parallel '*' [] {
     run 'entity/minecart/spawn' '*' [
         [310.5; 3.5; 0.5; 0; 0];
         [
+            [315.5; -0.5; 62.5; 'maps/map2/triggers/reset_mutation'];
             [318.5; -0.5; 82.5; 'maps/map2/triggers/break_bridge'];
             [318.5; -0.5; 88.5; 'maps/map2/triggers/break_bridge'];
             [318.5; -0.5; 94.5; 'maps/map2/triggers/break_bridge'];

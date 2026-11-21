@@ -71,6 +71,8 @@ effects {
     darkness
     slowness
     speed
+    resistance
+    strength
     ...
 }
 Entity.attribute text(uuid) text(id) math(value)
@@ -121,7 +123,7 @@ Shiver.removeProp text(id) math(ignore hitbox)
 Shiver.addZombieSpawn text(id) math(spawn radius) math(gas radius) math(x) math(y) math(z) math(yaw) math(pitch)
 Shiver.removeZombieSpawn text(id)
 Shiver.clearZombieSpawn
-Shiver.smartZombieSpawn text(ent id) math(spawn gas)
+Shiver.smartZombieSpawn text(variable for uuid) text(ent id) math(spawn gas)
 Shiver.showActionbar text(variable name for duration) math(speed) text(prefix) text(text)
 Shiver.title math(fade in) math(time) math(fade out) text(title minimessage) text(subtitle minimessage)
 Shiver.resetPlayer text(player)

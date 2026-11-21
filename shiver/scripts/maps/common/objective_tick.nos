@@ -23,11 +23,17 @@ if global(PAUSE_OBJECTIVE) {
     jump 'tick'
 }
 
+if !global(ENABLE_MUTATION) { jump 'zspawn' }
+
 if global(MUTATION_OBJECTIVE) < global(MAX_MUTATION_OBJECTIVE) {
     setGlobal 'MUTATION_OBJECTIVE' global(MUTATION_OBJECTIVE) + 1
     set 'mutationProcent' floor((global(MUTATION_OBJECTIVE) / global(MAX_MUTATION_OBJECTIVE)) * 100)
     set 'channel' 204 * (1 - (var(mutationProcent) / 100))
-    World.createColor 'color' 204; var(channel); var(channel);
+    ifelse var(mutationProcent) == 100 {
+        set 'color' '#FF0003'
+    } {
+        World.createColor 'color' 204; var(channel); var(channel);
+    }
     Shiver.setBossbarTitle '<var(color)><font:shiver:smol>0<font:minecraft:default> <tr:shiver.gui.zombie_resistence:"var(mutationProcent)%">'
 }
 
@@ -36,25 +42,36 @@ if global(MUTATION_OBJECTIVE) > global(MAX_MUTATION_OBJECTIVE) && global(MAX_MUT
     Shiver.setBossbarTitle ''
 }
 
+@zspawn
 set 'need' min(floor(global(MIN_ZOMBIE_COUNT) + global(SURVIVORS_COUNT) * global(ZOMBIE_PER_PLAYER)), global(MAX_ZOMBIE_COUNT))
-if global(ENEMIES_COUNT) < var(need) && len(ZOMBIE_SPAWN) >= 5 {
+if global(ENEMIES_COUNT) < var(need) {
     copyToLocal 'ZOMBIE_TYPES_OBJECTIVE' 'types'
     if len(types) > 0 {
         set 'index' floor($random * len(types))
         list.get 'types' var(index); 'type'
-        copyToLocal 'pos' 'ZOMBIE_SPAWN'
-        list.get 'pos' 0; 'x'
-        list.get 'pos' 1; 'y'
-        list.get 'pos' 2; 'z'
-        list.get 'pos' 3; 'yaw'
-        list.get 'pos' 4; 'pitch'
-        Shiver.ent '*' 'var(type)' var(x); var(y); var(z); var(yaw); var(pitch);
+        Shiver.smartZombieSpawn 'ent' *type 1;
+        set 'effect' 0
+        if var(mutationProcent) >= 30 && var(mutationProcent) < 70 {
+            Entity.effect *ent 'resistance' -1; 0; 0; 0; 1;
+        }
+        if var(mutationProcent) >= 50 && var(mutationProcent) < 90 {
+            Entity.effect *ent 'speed' -1; 0; 0; 0; 1;
+        }
+        if var(mutationProcent) >= 70 && var(mutationProcent) < 100 {
+            Entity.effect *ent 'resistance' -1; 1; 0; 0; 1;
+            Entity.effect *ent 'strength' -1; 1; 0; 0; 1;
+        }
+        if var(mutationProcent) >= 90 {
+            Entity.effect *ent 'speed' -1; 1; 0; 0; 1;
+        }
+        if var(mutationProcent) == 100 {
+            Entity.effect *ent 'resistance' -1; 127; 0; 0; 1;
+            Entity.effect *ent 'strength' -1; 20; 0; 0; 1;
+        }
     }
 }
 
-wait 10
-# TODO сделать мутацию
-wait 10
+wait 20
 jump 'tick'
 
 @return pass

@@ -1,0 +1,12 @@
+# Shiver map script | REPIS
+# Отображает процент мутации в боссбаре
+# Аргументы:
+# 0 - Процент мутации 0-100
+
+set 'channel' 204 * (1 - (var(mutationProcent) / 100))
+ifelse var(mutationProcent) == 100 {
+    set 'color' '#FF0003'
+} {
+    World.createColor 'color' 204; var(channel); var(channel);
+}
+Shiver.setBossbarTitle '<var(color)><font:shiver:smol>0<font:minecraft:default> <tr:shiver.gui.zombie_resistence:"var(mutationProcent)%">'

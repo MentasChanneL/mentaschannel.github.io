@@ -1,0 +1,5 @@
+setGlobal 'MINECART.global(MINECART).canMove' 0
+
+Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3.5; 110.5; 324.5; 3.5; 110.5; {
+    set 'timer' 60
+}

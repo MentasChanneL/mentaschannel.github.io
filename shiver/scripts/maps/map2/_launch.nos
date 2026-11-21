@@ -41,6 +41,10 @@ Shiver.spawnTrigger 'build_bridge' 'global(TEAM_SURVIVORS)' 0; 311; -1; 59; 315;
     setGlobal 'ZOMBIE_TYPES_OBJECTIVE' [16; 2]
 }
 
+Shiver.spawnTrigger 'init_arrows' 'global(TEAM_SURVIVORS)' 0; 321; 2; 107; 315; -1; 101; [] {
+    World.setBlocks 1; 'stone' 347; 4; 117; 347; 4; 117;
+}
+
 Shiver.addZombieSpawn 'stage1' 0; 1; 300.5; 8.5; 9.5; -90; 0;
 Shiver.addZombieSpawn 'stage2' 0; 1; 291.5; 3; 42.5; -45; 0;
 Shiver.addZombieSpawn 'stage3' 0; 1; 330.5; 8; 77.5; 45; 0;
@@ -102,11 +106,13 @@ parallel '*' [] {
     run 'entity/minecart/spawn' '*' [
         [310.5; 3.5; 0.5; 0; 0];
         [
-            [315.5; -0.5; 62.5; 'maps/map2/triggers/reset_mutation'];
-            [318.5; -0.5; 82.5; 'maps/map2/triggers/break_bridge'];
-            [318.5; -0.5; 88.5; 'maps/map2/triggers/break_bridge'];
-            [318.5; -0.5; 94.5; 'maps/map2/triggers/break_bridge'];
-            [318.5; -0.5; 100.5; 'maps/map2/triggers/break_bridge']
+            [307.5; -0.5; 50.5; 'maps/common/obj/reset_mutation'; [20]];
+            [315.5; -0.5; 62.5; 'maps/common/obj/reset_mutation'; [70]];
+            [318.5; -0.5; 82.5; 'maps/map2/triggers/break_bridge'; [1]];
+            [318.5; -0.5; 88.5; 'maps/map2/triggers/break_bridge'; [2]];
+            [318.5; -0.5; 94.5; 'maps/map2/triggers/break_bridge'; [3]];
+            [318.5; -0.5; 100.5; 'maps/map2/triggers/break_bridge'; [4]];
+            [318.5; 2.5; 121.5; 'maps/map2/triggers/change_arrows'; []]
         ];
         'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDgyLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
         [0; 0; 0];

@@ -31,7 +31,9 @@ if var(arg.0) == 1 {
 }
 
 if var(arg.0) == 2 {
-    loadScript 'maps/common/objective_tick'
+    loadScript 'maps/common/obj/objective_tick'
+    loadScript 'maps/common/obj/reset_mutation'
+    loadScript 'maps/common/obj/display_mutation'
 }
 
 ## Loading wait

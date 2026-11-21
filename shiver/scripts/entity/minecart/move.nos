@@ -178,9 +178,9 @@ setGlobals [
 copyToLocal 'MINECART.var(arg.0).triggers' 'triggers'
 list.get 'triggers' 0; 'trigger'
 if len(trigger) > 0 {
-    list.unpack 'trigger' ['x'; 'y'; 'z'; 'script']
+    list.unpack 'trigger' ['x'; 'y'; 'z'; 'script'; 'args']
     if sqrt(pow(var(x) - var(nextX), 2) + pow(var(y) - var(nextY), 2) + pow(var(z) - var(nextZ), 2)) < 1 {
-        run *script '*' []
+        run *script '*' *args
         list.remove 'triggers' 0;
         copyToGlobal 'triggers' 'MINECART.var(arg.0).triggers'
     }

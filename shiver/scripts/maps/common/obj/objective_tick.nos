@@ -28,13 +28,7 @@ if !global(ENABLE_MUTATION) { jump 'zspawn' }
 if global(MUTATION_OBJECTIVE) < global(MAX_MUTATION_OBJECTIVE) {
     setGlobal 'MUTATION_OBJECTIVE' global(MUTATION_OBJECTIVE) + 1
     set 'mutationProcent' floor((global(MUTATION_OBJECTIVE) / global(MAX_MUTATION_OBJECTIVE)) * 100)
-    set 'channel' 204 * (1 - (var(mutationProcent) / 100))
-    ifelse var(mutationProcent) == 100 {
-        set 'color' '#FF0003'
-    } {
-        World.createColor 'color' 204; var(channel); var(channel);
-    }
-    Shiver.setBossbarTitle '<var(color)><font:shiver:smol>0<font:minecraft:default> <tr:shiver.gui.zombie_resistence:"var(mutationProcent)%">'
+    run 'maps/common/obj/display_mutation' '*' [*mutationProcent]
 }
 
 if global(MUTATION_OBJECTIVE) > global(MAX_MUTATION_OBJECTIVE) && global(MAX_MUTATION_OBJECTIVE) < 0 {
@@ -49,7 +43,7 @@ if global(ENEMIES_COUNT) < var(need) {
     if len(types) > 0 {
         set 'index' floor($random * len(types))
         list.get 'types' var(index); 'type'
-        Shiver.smartZombieSpawn 'ent' *type 1;
+        Shiver.smartZombieSpawn 'ent' *type 1; global(ZOMBIE_LIFETIME);
         set 'effect' 0
         if var(mutationProcent) >= 30 && var(mutationProcent) < 70 {
             Entity.effect *ent 'resistance' -1; 0; 0; 0; 1;

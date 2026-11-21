@@ -57,6 +57,7 @@ World.getBlock math(x) math(y) math(z) text(variable name)
 World.fantomBlock text(block) math(x) math(y) math(z)
 World.hideFantomBlock math(x) math(y) math(z)
 World.toFallingBlocks text(varibale for uuids) math(x1) math(y1) math(z1) math(x2) math(y2) math(z2)
+World.regionToModel text(variable for uuids) math(hitbox x) math(hitbox y) math(hitbox z) math(x1) math(y1) math(z1) math(x2) math(y2) math(z2)
 
 # Entity module commands
 Entity.spawn text(variable name for uuid) math(x) math(y) math(z) text(base64 item)

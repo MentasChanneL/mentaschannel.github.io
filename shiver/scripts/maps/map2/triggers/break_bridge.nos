@@ -20,7 +20,84 @@ setVars [
     'z'; 88
 ]
 
+parallel '*' [] {
+    copyToLocal 'BRIDGE_PILLAR' 'bridge_pillar'
+    setVars [
+        'p'; 1;
+        't'; 11
+    ]
+
+    @fall
+    wait 5
+    setVars [
+        'p'; var(p) * 1.5;
+        't'; var(t) - 1
+    ]
+    forEach '*' 'ent' 'bridge_pillar' {
+        Entity.setCoord *ent 'pitch' *p;
+    }
+    if *t { jump 'fall' }
+    wait 5
+
+    World.sound 'shiver:box.break' 5; 0.5; 333; -15; 88;
+    World.sound 'shiver:zombie.tank.fall' 5; 0.75; 333; -15; 88;
+    World.sound 'shiver:zombie.tank.fall' 5; 0.75; 333; -15; 88;
+    Shiver.getPlayers 'players'
+    Player.sendDamageAnimation *players 270;
+    parallel '*' [] {
+        World.particle 326.5; -14.5; 88.5; '{"type":"explosion_emitter","count":20, "spread": {"first": 6, "second": 2}}'
+        wait 1
+        World.particle 326.5; -14.5; 88.5; '{"type":"campfire_signal_smoke","count":90, "spread": {"first": 6, "second": 2},"motion":{"x":0.0,"y":0.02, "z":0.0}}'
+        wait 1
+        World.particle 326.5; -14.5; 88.5; '{"type":"campfire_signal_smoke","count":90, "spread": {"first": 6, "second": 2},"motion":{"x":0.0,"y":0.04,"z":0.0}}'
+        wait 1
+        World.particle 326.5; -14.5; 88.5; '{"type":"campfire_signal_smoke","count":100, "spread": {"first": 8, "second": 2},"motion":{"x":0.0,"y":0.05,"z":0.0}}'
+        wait 1
+        World.particle 324.5; 10.5; 88.5; '{"type":"block","count":100, "spread": {"first": 6, "second": 2}, "material": "stone"}'
+        wait 1
+        World.particle 324.5; 10.5; 88.5; '{"type":"block","count":100, "spread": {"first": 6, "second": 2}, "material": "stone"}'
+        wait 1
+        set 'i' 10
+        @for
+        World.particle 324.5; 10.5; 88.5; '{"type":"block","count":100, "spread": {"first": 10, "second": 2}, "material": "stone"}'
+        set 'i' var(i) -1
+        wait 1
+        if *i { jump 'for' }
+    }
+
+    wait 1
+    # Первый отскок — 8 градусов
+    set 'angle' 90
+    set 't' 0
+    @bounce1
+    wait 5
+    set 't' min(var(t) + 0.5, 1)
+    set 'angle' 90 - 8 * sin(var(t) * 180)
+    forEach '*' 'ent' 'bridge_pillar' {
+        Entity.setCoord *ent 'pitch' *angle;
+    }
+    if var(t) < 1 {
+        jump 'bounce1'
+    }
+
+    # Второй отскок — 4 градуса
+    set 'angle' 90
+    set 't' 0
+    @bounce2
+    wait 5
+    set 't' min(var(t) + 0.5, 1)
+    set 'angle' 90 - 4 * sin(var(t) * 180)
+    forEach '*' 'ent' 'bridge_pillar' {
+        Entity.setCoord *ent 'pitch' *angle;
+    }
+    if var(t) < 1 {
+        jump 'bounce2'
+    }
+}
+
 parallel '*' [*x; *y; *z] {
+    wait 24
+    World.sound 'shiver:ambience.bridge_crack2' 2; 0.6; *arg.0; *arg.1; *arg.2;
     setVars [
         'len'; 4;
         'segment'; 2;

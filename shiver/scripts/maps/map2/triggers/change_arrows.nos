@@ -1,5 +1,58 @@
 setGlobal 'MINECART.global(MINECART).canMove' 0
 
 Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3.5; 110.5; 324.5; 3.5; 110.5; {
+    parallel '*' [] {
+        wait 40
+        World.setBlocks 1; 'light' 325; 5; 110; 326; 5; 110;
+        wait 20
+        World.setBlocks 1; 'light' 326; 5; 117; 326; 5; 117;
+    }
+    parallel '*' [400] {
+        @tick
+        World.particle 323.5; 5; 109.5; '{"type": "poof", "count": 4, "spread": {"first": 0.5, "second": 0}}'
+        set 'arg.0' var(arg.0) - 1
+        wait 3
+        if *arg.0 { jump 'tick' }
+    }
+    setVars [
+        'maxTimer'; 60;
+        'timer'; 60;
+        'requirePressure'; 25;
+        'angle'; -90
+    ]
+    Shiver.music 'shiver:music.theme7' 1; 1;
+    Shiver.addZombieSpawn 'bonus1' 0; 1; 323.5; 8.5; 124.5; 180; 0;
     set 'timer' 60
+    World.sound 'shiver:ambience.generator2' 2; 1; 323; 2; 110;
+    setGlobals [
+        'ENABLE_MUTATION'; 0;
+        'ZOMBIE_TYPES_OBJECTIVE'; [16; 2; 7; 4; 2]
+    ]
+    run 'maps/common/obj/reset_mutation' '*' [100]
+    @timer
+    set 'timer' var(timer) - 1
+    setVars [
+        'pressure'; round(var(requirePressure) * (1 - var(timer) / var(maxTimer)), 1);
+        'angle'; -90 * (var(timer) / var(maxTimer))
+    ]
+    Shiver.setProgressBar (1 - var(timer) / var(maxTimer)); 0;
+    Shiver.setBossbarTitle 'var(pressure)/var(requirePressure)'
+    Entity.setCoord 'global(ARROW_ROLL)' 'yaw' *angle
+    wait 20
+    if *timer { jump 'timer' }
+    Entity.offsetCoord 'global(ARROW_GATE)' 'y' 2;
+    World.setBlocks 1; 'air' 329; 3; 115; 329; 2; 119;
+    World.sound 'shiver:ambience.heavy_metal_move1' 2; 1; 329; 2; 117;
+    setGlobals [
+        'ENABLE_MUTATION'; 1;
+        'MINECART.global(MINECART).canMove'; 0;
+        'ZOMBIE_TYPES_OBJECTIVE'; [16; 2; 7; 2]
+    ]
 }
+
+Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Стрелки не переведены... Поищем генератор.'
+
+wait 80
+
+message 'new goal'
+World.privateSound 'shiver:ambience.button15' 1; 0.5;

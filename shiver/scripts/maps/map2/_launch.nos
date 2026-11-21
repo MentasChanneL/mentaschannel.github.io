@@ -13,6 +13,7 @@ setGlobal 'MAX_MUTATION_OBJECTIVE' 300
 setGlobal 'ZOMBIE_TYPES_OBJECTIVE' [16]
 
 World.time 16000
+Shiver.setBossbarEffect 'dark_sky'
 run 'entity/minecart/_load' '*' []
 run 'maps/map2/triggers/_load' '*' []
 runInLine 'maps/common/launch' []
@@ -22,7 +23,7 @@ Shiver.spawnTrigger 'tank_suprize' 'global(TEAM_SURVIVORS)' 0; 349.5; 2.5; 130.5
     World.sound 'shiver:zombie.tank.fall' 2; 0.8; 347.5; 3.5; 116.5;
     World.sound 'shiver:zombie.tank.fall' 2; 0.8; 347.5; 3.5; 116.5;
     World.particle 347.5; 1.5; 116.5; '{"type":"explosion_emitter","count":1}'
-    World.setBlocks 1; 'barrier' 347.5; 4.5; 117.5; 347.5; 4.5; 117.5;
+    World.setBlocks 1; 'air' 347; 1; 116; 347; 1; 115;
     wait 8
     Shiver.ent '*' '9' 347.5; 3.5; 116.5; 0; 0;
     Shiver.ent '*' '2' 347.5; 3.5; 116.5; 0; 0;
@@ -49,6 +50,18 @@ Shiver.spawnTrigger 'build_bridge' 'global(TEAM_SURVIVORS)' 0; 311; -1; 59; 315;
 
 Shiver.spawnTrigger 'init_arrows' 'global(TEAM_SURVIVORS)' 0; 321; 2; 107; 315; -1; 101; [] {
     World.setBlocks 1; 'stone' 347; 1; 116; 347; 1; 115;
+    Entity.spawnItemDisplay 'roll' 318.5; 2.5; 123.5; -90; 0; 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzkuMGZdfX0sY291bnQ6MSxpZDoibWluZWNyYWZ0OnN0cmluZyJ9'
+    World.setBlocks 0; 'minecraft:light_gray_stained_glass_pane[east=false,north=true,south=true,waterlogged=false,west=false]' 329; 2; 115; 329; 4; 119;
+    Entity.spawnItemDisplay 'gate' 329.5; 2; 117.5; -90; 0; 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpzdHJpbmcifQ=='
+    Entity.displaySetScale *gate 8; 8; 8;
+    Entity.displaySetOffset *gate 0; 1.5625; 0;
+    Entity.displayTeleportDuration *gate 20;
+    World.setBlocks 1; 'air' 326; 5; 117; 326; 5; 117;
+    World.setBlocks 1; 'air' 325; 5; 110; 326; 5; 110;
+    setGlobals [
+        'ARROW_ROLL'; *roll;
+        'ARROW_GATE'; *gate
+    ]
 }
 
 Shiver.addZombieSpawn 'stage1' 0; 1; 300.5; 8.5; 9.5; -90; 0;

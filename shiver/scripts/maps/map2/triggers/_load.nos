@@ -1,3 +1,1 @@
-loadScript 'maps/map2/triggers/on_push'
-loadScript 'maps/map2/triggers/test'
-loadScript 'maps/map2/triggers/test2'
+loadScript 'maps/map2/triggers/break_bridge'

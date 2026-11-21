@@ -10,7 +10,6 @@ setGlobal 'LOOT_CHANCE' 0.7
 setGlobal 'PREPARE_TIME' 90
 setGlobal 'TICK_HANDLER' 'maps/map2/start'
 setGlobal 'MAX_MUTATION_OBJECTIVE' 300
-setGlobal 'ZOMBIE_SPAWN' [300.5; 9; 9.5; 0; 0]
 setGlobal 'ZOMBIE_TYPES_OBJECTIVE' [17]
 
 World.time 16000
@@ -37,6 +36,18 @@ Shiver.spawnTrigger 'bridge_fall' 'global(TEAM_SURVIVORS)' 2; 301.5; -4; 76.5; 3
     }
 }
 
+Shiver.spawnTrigger 'build_bridge' 'global(TEAM_SURVIVORS)' 0; 311; -1; 59; 315; 2; 65; [] {
+    World.cloneBlocks 313; 22; 81; 318; 24; 101; 316; -2; 78; 'true' 'false'
+    
+}
+
+Shiver.addZombieSpawn 'stage1' 0; 1; 300.5; 8.5; 9.5; -90; 0;
+Shiver.addZombieSpawn 'stage2' 0; 1; 291.5; 3; 42.5; -45; 0;
+Shiver.addZombieSpawn 'stage3' 0; 1; 330.5; 8; 77.5; 45; 0;
+Shiver.addZombieSpawn 'stage4' 0; 1; 301.5; 10; 128.5; -135; 0;
+Shiver.addZombieSpawn 'stage5' 0; 1; 333.5; 10; 154.5; 180; 0;
+Shiver.addZombieSpawn 'stage6' 1.5; 3; 347.5; 12.5; 182.5; 45; 0;
+
 ###########################################################
 ##                      Катсцены                         ##
 ###########################################################
@@ -59,7 +70,7 @@ parallel '*' [] {
         list.get 'types' floor(len(types) * $random); 'type'
         Shiver.ent 'ent' 'var(type)' 310.5 + ($random * 4 - 2); 1.5; -121.5 + ($random * 4 - 2); 0; 0;
         Entity.moveTo *ent 'pathfinding' [[310.5; 1.5; -67.5]]
-        Entity.effect *ent 'speed' -1; 0; 0; 0; 1;
+        Entity.effect *ent 'speed' -1; 1; 0; 0; 1;
         set 'i' var(i) - 1
     if var(i) > 0 { jump 'for' }
     Shiver.getCameraDuration 'map2_start2' 'wait'
@@ -72,13 +83,13 @@ parallel '*' [] {
     }
     wait 50
     Shiver.getProp 'stage0.c4' 'c4'
-    Entity.getPos 'var(c4)' 'c4'
+    Entity.getPos *c4 'c4'
     World.sound 'shiver:weapon.c4' 2; 1; var(c4.x); var(c4.y); var(c4.z);
     World.particle 308.5; 2.5; -30.5; '{"type":"flash"}'
-    Entity.itemDisplaySetItem 'var(c4)' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzY1LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpjbGF5X2JhbGwifQ=='
+    Entity.itemDisplaySetItem *c4 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzY1LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpjbGF5X2JhbGwifQ=='
     wait 20
     World.particle 310; 2.5; -30; '{"type":"explosion_emitter","count":5,"spread":{"first":2.0,"second":2.0}}'
-    World.particle 310; 2.5; -30; '{"type":"campfire_cosy_smoke","count":100,"spread":{"first":4.0,"second":4.0},"motion":{"x":0.0,"y":0.01,"z":0.0}}'
+    World.particle 310; 2.5; -30; '{"type":"campfire_cosy_smoke","count":100,"spread":{"first":2.5,"second":2.5},"motion":{"x":0.0,"y":0.01,"z":0.0}}'
     World.particle 310; 2.5; -30; '{"type":"lava","count":100,"spread":{"first":4.0,"second":4.0}}'
     World.sound 'shiver:weapon.c4.explode' 4; 0.8; var(c4.x); var(c4.y); var(c4.z);
     World.sound 'shiver:weapon.c4.explode' 0.7; 0.8; var(c4.x); var(c4.y); var(c4.z);
@@ -86,13 +97,15 @@ parallel '*' [] {
     World.sound 'minecraft:entity.generic.explode' 0.7; 1; var(c4.x); var(c4.y); var(c4.z);
     World.sound 'shiver:ambience.obval' 4; 1.1; var(c4.x); var(c4.y); var(c4.z);
     World.sound 'shiver:ambience.obval' 0.2; 1.1; var(c4.x); var(c4.y); var(c4.z);
-    Entity.remove 'var(c4)'
+    Entity.remove *c4
     Shiver.removeZombies
     run 'entity/minecart/spawn' '*' [
         [310.5; 3.5; 0.5; 0; 0];
         [
-            [344.5; 5.5; -36.5; 'maps/map2/triggers/test'];
-            [344.5; 2.5; -42.5; 'maps/map2/triggers/test2']
+            [318.5; -0.5; 82.5; 'maps/map2/triggers/break_bridge'];
+            [318.5; -0.5; 88.5; 'maps/map2/triggers/break_bridge'];
+            [318.5; -0.5; 94.5; 'maps/map2/triggers/break_bridge'];
+            [318.5; -0.5; 100.5; 'maps/map2/triggers/break_bridge']
         ];
         'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDgyLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
         [0; 0; 0];
@@ -139,11 +152,11 @@ parallel '*' [] {
             [346.5; 2.5; 185.5];
             [345.5; 2.5; 186.5];
             [345.25; 2.5; 186.5];
-            [343.75; 3.5; 186.5];
+            [344.25; 3.5; 186.5];
             [341.25; 3.5; 186.5];
-            [339.75; 4.5; 186.5];
+            [340.25; 4.5; 186.5];
             [337.25; 4.5; 186.5];
-            [335.75; 5.5; 186.5];
+            [336.25; 5.5; 186.5];
             [334.5; 5.5; 186.5];
             [333.5; 5.5; 187.5];
             [333.5; 5.5; 187.75];
@@ -170,23 +183,9 @@ parallel '*' [] {
     ]
     wait 10
     Entity.setTags 'global(MINECART.global(MINECART).hitbox)' ['can_ride_sentry'; 1]
+    World.particle 310.5; 5.5; -8.5; '{"type":"campfire_signal_smoke","count":100,"spread":{"first":2.5,"second":2.5},"motion":{"x":0.0,"y":-0.01,"z":0.0}}'
+    World.particle 310.5; 4.5; -3.5; '{"type":"campfire_signal_smoke","count":100,"spread":{"first":2.5,"second":2.5},"motion":{"x":0.0,"y":-0.01,"z":0.0}}'
 }
-
-        #[
-        #    [310.5; 3; 0.5];
-        #    [310.5; 3; 3.5];
-        #    [310.5; 3; 33];
-        #    [310.5; 2; 34.25];
-        #    [310.5; 2; 36.5];
-        #    [310.5; 1; 38.5];
-        #    [310.5; 1; 40.5];
-        #    [310.5; 0; 42.5];
-        #    [310.5; 0; 44.5];
-        #    [310.5; -1; 46.5];
-        #    [310.5; -1; 49.5];
-        #    [309.5; -1; 50.5];
-        #    [299.5; -1; 50.5]
-        #]
 
 Shiver.getAllPlayers 'players'
 forEach 'i' 'ply' 'players' {

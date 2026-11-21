@@ -1,0 +1,17 @@
+setGlobal 'BRIDGE_CRACK' global(BRIDGE_CRACK) + 1
+
+if global(BRIDGE_CRACK) == 1 || global(BRIDGE_CRACK) == 3 {
+    World.sound 'shiver:ambience.bridge_crack2' 2; 1; 318.5; -1.5; 88.5;
+}
+
+if global(BRIDGE_CRACK) == 2 {
+    World.sound 'shiver:ambience.bridge_crack1' 2; 1; 318.5; -1.5; 88.5;
+    wait 17
+    Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Мост трещит! Нужно быстрее перебираться!'
+}
+
+if global(BRIDGE_CRACK == 4) {
+    
+}
+
+# shiver:ambience.bridge_crush

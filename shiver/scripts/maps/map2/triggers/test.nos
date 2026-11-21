@@ -1,5 +1,0 @@
-World.cloneBlocks
-    340.5; 1.5; -41.5; 340.5; 3.5; -39.5;
-    340.5; 1.5; -36.5; 'true' 'false'
-
-message 'trigger'

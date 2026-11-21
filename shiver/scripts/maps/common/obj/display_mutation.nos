@@ -3,6 +3,7 @@
 # Аргументы:
 # 0 - Процент мутации 0-100
 
+set 'mutationProcent' *arg.0
 set 'channel' 204 * (1 - (var(mutationProcent) / 100))
 ifelse var(mutationProcent) == 100 {
     set 'color' '#FF0003'

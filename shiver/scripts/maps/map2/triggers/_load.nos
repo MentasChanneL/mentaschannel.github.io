@@ -1,3 +1,6 @@
 loadScript 'maps/map2/triggers/break_bridge'
 loadScript 'maps/map2/triggers/change_arrows'
 loadScript 'maps/map2/triggers/find_tnt'
+wait 20
+loadScript 'maps/map2/triggers/enable_second_generator'
+loadScript 'maps/map2/triggers/check_second_arrows'

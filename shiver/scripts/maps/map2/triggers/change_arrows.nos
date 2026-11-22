@@ -10,7 +10,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
     }
     parallel '*' [400] {
         @tick
-        World.particle 323.5; 5; 109.5; '{"type": "poof", "count": 4, "spread": {"first": 0.5, "second": 0}}'
+        World.particle 323.5; 5; 109.5; '{"type": "poof", "count": 4, "spread": {"first": 0.1, "second": 0}}'
         set 'arg.0' var(arg.0) - 1
         wait 3
         if *arg.0 { jump 'tick' }
@@ -50,6 +50,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
         'ENABLE_MUTATION'; 1;
         'MINECART.global(MINECART).canMove'; 1;
         'ZOMBIE_TYPES_OBJECTIVE'; [16; 2; 7; 2];
+        'TNT_GOAL_ARROWS'; 0;
         'TNT_GOAL_OPEN'; 0;
         'TNT_GOAL_NEED'; 3
     ]
@@ -94,7 +95,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
     if *tnts { jump 'dowhile' }
     forEach 'i' 'barrel' 'barrels' {
         list.unpack 'barrel' ['x'; 'y'; 'z']
-        Shiver.addClickableBlocks 'barrelvar(i)' 'global(TEAM_SURVIVORS)' 1; *x; *y; *z; *x; *y; *z; [*i] {
+        Shiver.addClickableBlocks 'barrelvar(i)' 'global(TEAM_SURVIVORS)' 0; *x; *y; *z; *x; *y; *z; [*i] {
             if !global(TNT_GOAL_OPEN) { jump 'return' }
             Shiver.removeClickableBlocks 'barrelvar(arg.0)'
             World.setBlockParam 'open' 'true' *blockX; *blockY; *blockZ; *blockX; *blockY; *blockZ;
@@ -105,7 +106,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
     }
     forEach 'i' 'barrel' 'choosedBarrels' {
         list.unpack 'barrel' ['x'; 'y'; 'z']
-        Shiver.addClickableBlocks 'c_barrelvar(i)' 'global(TEAM_SURVIVORS)' 1; *x; *y; *z; *x; *y; *z; [*i] {
+        Shiver.addClickableBlocks 'c_barrelvar(i)' 'global(TEAM_SURVIVORS)' 0; *x; *y; *z; *x; *y; *z; [*i] {
             if !global(TNT_GOAL_OPEN) { jump 'return' }
             Shiver.removeClickableBlocks 'c_barrelvar(arg.0)'
             World.setBlockParam 'open' 'true' *blockX; *blockY; *blockZ; *blockX; *blockY; *blockZ;
@@ -119,6 +120,45 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
             Player.sendActionbar 'goal' [*player] 40; ['+1'] 40;
             setGlobal 'TNT_GOAL_NEED' global(TNT_GOAL_NEED) - 1
             if global(TNT_GOAL_NEED) { jump 'return' }
+            # TNT searching complete
+            Entity.setCoord 'global(MINECART)' 'yaw' 90;
+            wait 5
+            Entity.displayTeleportDuration 'global(MINECART)' global(MINECART.global(MINECART).teleportDuration);
+            setGlobals [
+                'MINECART.global(MINECART).canMove'; 1;
+                'MINECART.global(MINECART).routeIndex'; 0;
+                'MINECART.global(MINECART).route'; [
+                    [359.5; 2.5; 166.5];
+                    [347.5; 2.5; 166.5];
+                    [346.5; 2.5; 167.5];
+                    [346.5; 2.5; 185.5];
+                    [345.5; 2.5; 186.5];
+                    [345.25; 2.5; 186.5];
+                    [344.25; 3.5; 186.5];
+                    [341.25; 3.5; 186.5];
+                    [340.25; 4.5; 186.5];
+                    [337.25; 4.5; 186.5];
+                    [336.25; 5.5; 186.5];
+                    [334.5; 5.5; 186.5];
+                    [333.5; 5.5; 187.5];
+                    [333.5; 5.5; 187.75];
+                    [333.5; 8.5; 190.75];
+                    [333.5; 8.5; 194.5];
+                    [334.5; 8.5; 195.5];
+                    [334.75; 8.5; 195.5];
+                    [335.75; 9.5; 195.5];
+                    [338.75; 9.5; 195.5];
+                    [339.75; 10.5; 195.5];
+                    [342.75; 10.5; 195.5];
+                    [345.75; 13.5; 195.5];
+                    [348.75; 13.5; 195.5];
+                    [349.75; 14.5; 195.5];
+                    [368.5; 14.5; 195.5]
+                ];
+                'MINECART.global(MINECART).triggers'; [
+                    [349.5; 2.5; 166.5; 'maps/map2/triggers/check_second_arrows'; []]
+                ]
+            ]
             message 'task complete'
             @return pass
         }

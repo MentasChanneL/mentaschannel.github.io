@@ -1,0 +1,3 @@
+if global(TNT_GOAL_ARROWS) { jump 'return' }
+setGlobal 'MINECART.global(MINECART).canMove' 0
+@return pass

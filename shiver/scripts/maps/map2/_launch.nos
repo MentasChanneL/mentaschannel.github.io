@@ -133,7 +133,8 @@ parallel '*' [] {
             [318.5; -0.5; 94.5; 'maps/map2/triggers/break_bridge'; [3]];
             [318.5; -0.5; 98.5; 'maps/map2/triggers/break_bridge'; [4]];
             [318.5; 2.5; 121.5; 'maps/map2/triggers/change_arrows'; []];
-            [359.5; 2.5; 166.5; 'maps/map2/triggers/find_tnt'; []]
+            [359.5; 2.5; 166.5; 'maps/map2/triggers/find_tnt'; []];
+            [349.5; 2.5; 166.5; 'maps/map2/triggers/enable_second_generator'; []]
         ];
         'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDgyLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
         [0; 0; 0];
@@ -174,32 +175,7 @@ parallel '*' [] {
             [346.5; 2.5; 149.5];
             [346.5; 2.5; 165.5];
             [347.5; 2.5; 166.5];
-            [359.5; 2.5; 166.5];
-            [347.5; 2.5; 166.5];
-            [346.5; 2.5; 167.5];
-            [346.5; 2.5; 185.5];
-            [345.5; 2.5; 186.5];
-            [345.25; 2.5; 186.5];
-            [344.25; 3.5; 186.5];
-            [341.25; 3.5; 186.5];
-            [340.25; 4.5; 186.5];
-            [337.25; 4.5; 186.5];
-            [336.25; 5.5; 186.5];
-            [334.5; 5.5; 186.5];
-            [333.5; 5.5; 187.5];
-            [333.5; 5.5; 187.75];
-            [333.5; 8.5; 190.75];
-            [333.5; 8.5; 194.5];
-            [334.5; 8.5; 195.5];
-            [334.75; 8.5; 195.5];
-            [335.75; 9.5; 195.5];
-            [338.75; 9.5; 195.5];
-            [339.75; 10.5; 195.5];
-            [342.75; 10.5; 195.5];
-            [345.75; 13.5; 195.5];
-            [348.75; 13.5; 195.5];
-            [349.75; 14.5; 195.5];
-            [368.5; 14.5; 195.5]
+            [359.5; 2.5; 166.5]
         ];
         'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDgzLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
         'minecraft:entity.minecart.riding';

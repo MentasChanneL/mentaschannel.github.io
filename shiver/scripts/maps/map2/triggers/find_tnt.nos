@@ -5,7 +5,9 @@ Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Похо�
 
 run 'maps/common/obj/reset_mutation' '*' [80]
 
-wait 80
+wait 10
+Entity.displayTeleportDuration 'global(MINECART)' 0;
+wait 70
 
 message 'new goal find tnt'
 World.privateSound 'shiver:ambience.button15' 1; 0.5;

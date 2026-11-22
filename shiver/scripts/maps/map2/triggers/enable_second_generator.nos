@@ -1,0 +1,40 @@
+Shiver.addClickableBlocks 'tnt_generator' 'global(TEAM_SURVIVORS)' 1; 348.5; 3.5; 158.5; 348.5; 2.5; 159.5; [] {
+    Shiver.removeClickableBlocks 'tnt_generator'
+    setVars [
+        'maxTimer'; 60;
+        'timer'; 60;
+        'requirePressure'; 25;
+        'angle'; -90
+    ]
+    parallel '*' [var(timer) * 20 / 3] {
+        @tick
+        World.particle 349.35; 5; 159.9; '{"type": "poof", "count": 4, "spread": {"first": 0.1, "second": 0}}'
+        set 'arg.0' var(arg.0) - 1
+        wait 3
+        if *arg.0 { jump 'tick' }
+    }
+    Shiver.getProp 'stage4.generator' 'prop'
+    Shiver.getProp 'stage4.strelka' 'strelka'
+    Entity.itemDisplaySetItem *prop 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMTcwLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0='
+    Shiver.addZombieSpawn 'bonus2' 0; 1; 346.5; 7.5; 146.5; 45; 0;
+    set 'timer' 60
+    World.sound 'shiver:ambience.generator2' 2; 1; 348; 2; 159;
+    setGlobals [
+        'ENABLE_MUTATION'; 0;
+        'ZOMBIE_TYPES_OBJECTIVE'; [16; 2; 7; 4; 2]
+    ]
+    run 'maps/common/obj/reset_mutation' '*' [100]
+    @timer
+    set 'timer' var(timer) - 1
+    setVars [
+        'pressure'; round(var(requirePressure) * (1 - var(timer) / var(maxTimer)), 1);
+        'angle'; 90 + 90 * (1 - var(timer) / var(maxTimer))
+    ]
+    Shiver.setProgressBar (1 - var(timer) / var(maxTimer)); 0;
+    Shiver.setBossbarTitle 'var(pressure)/var(requirePressure)'
+    Entity.setCoord 'global(ARROW_ROLL)' 'yaw' *angle
+    wait 20
+    if *timer { jump 'timer' }
+    setGlobal 'TNT_GOAL_ARROWS' 1
+    setGlobal 'MINECART.global(MINECART).canMove' 1
+}

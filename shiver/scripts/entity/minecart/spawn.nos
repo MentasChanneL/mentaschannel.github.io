@@ -70,6 +70,7 @@ Entity.displayRotations *model *yaw; *pitch; *roll; 'set'
 Entity.spawnItemDisplay 'mount' *pos_x; var(pos_y) - 0.5; *pos_z; *yaw; 0; 'global(EMPTY_ITEMSTACK)'
 Entity.displayTeleportDuration *mount var(arg.9) + 1;
 setGlobal 'MINECART.var(model).mount' *mount
+setGlobal 'MINECART.var(model).teleportDuration' var(arg.9) + 1
 
 Entity.spawn 'hitbox' *pos_x; *pos_y; *pos_z; 'e2lkOiJtaW5lY3JhZnQ6cGlnX3NwYXduX2VnZyIsIGNvdW50OjEsIGNvbXBvbmVudHM6eyJtaW5lY3JhZnQ6ZW50aXR5X2RhdGEiOntpZDoic2h1bGtlciIsIFNpbGVudDoxYiwgSW52dWxuZXJhYmxlOjFiLCBOb0FJOjFifX19'
 setGlobal 'MINECART.var(model).hitbox' *hitbox

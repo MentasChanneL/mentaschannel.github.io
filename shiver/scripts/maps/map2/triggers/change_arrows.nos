@@ -1,6 +1,7 @@
 setGlobal 'MINECART.global(MINECART).canMove' 0
 
 Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3.5; 111.5; 324.5; 2.5; 109.5; {
+    Shiver.removeClickableBlocks 'start_generator'
     parallel '*' [] {
         wait 40
         World.setBlocks 1; 'light' 325; 5; 110; 326; 5; 110;

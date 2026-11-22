@@ -1,6 +1,6 @@
 setGlobal 'MINECART.global(MINECART).canMove' 0
 
-Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3.5; 111.5; 324.5; 2.5; 109.5; {
+Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3.5; 111.5; 324.5; 2.5; 109.5; [] {
     Shiver.removeClickableBlocks 'start_generator'
     parallel '*' [] {
         wait 40
@@ -49,8 +49,80 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
     setGlobals [
         'ENABLE_MUTATION'; 1;
         'MINECART.global(MINECART).canMove'; 1;
-        'ZOMBIE_TYPES_OBJECTIVE'; [16; 2; 7; 2]
+        'ZOMBIE_TYPES_OBJECTIVE'; [16; 2; 7; 2];
+        'TNT_GOAL_OPEN'; 0;
+        'TNT_GOAL_NEED'; 3
     ]
+    setVars [
+        'barrels'; [
+            [352.5; 2.5; 168.5];
+            [355.5; 2.5; 169.5];
+            [361.5; 2.5; 169.5];
+            [363.5; 4.5; 166.5];
+            [363.5; 4.5; 167.5];
+            [363.5; 3.5; 166.5];
+            [363.5; 3.5; 167.5];
+            [363.5; 2.5; 167.5];
+            [363.5; 2.5; 166.5];
+            [360.5; 2.5; 162.5];
+            [360.5; 2.5; 161.5];
+            [360.5; 2.5; 160.5];
+            [363.5; 2.5; 159.5];
+            [358.5; 2.5; 159.5];
+            [355.5; 2.5; 158.5];
+            [355.5; 2.5; 159.5];
+            [357.5; 2.5; 169.5];
+            [357.5; 3.5; 169.5];
+            [356.5; 3.5; 169.5];
+            [356.5; 2.5; 169.5]
+        ];
+        'choosedBarrels'; [];
+        'tnts'; global(TNT_GOAL_NEED)
+    ]
+    forEach '*' 'barrel' 'barrels' {
+        list.unpack 'barrel' ['x'; 'y'; 'z']
+        World.setBlockParam 'open' 'false' *x; *y; *z; *x; *y; *z;
+    }
+    @dowhile
+    setVars [
+        'tnts'; var(tnts) - 1;
+        'index'; floor($random * len(barrels))
+    ]
+    list.get 'barrels' *index; 'barrel'
+    list.remove 'barrels' *index
+    list.add 'choosedBarrels' *barrel
+    if *tnts { jump 'dowhile' }
+    forEach 'i' 'barrel' 'barrels' {
+        list.unpack 'barrel' ['x'; 'y'; 'z']
+        Shiver.addClickableBlocks 'barrelvar(i)' 'global(TEAM_SURVIVORS)' 1; *x; *y; *z; *x; *y; *z; [*i] {
+            if !global(TNT_GOAL_OPEN) { jump 'return' }
+            Shiver.removeClickableBlocks 'barrelvar(arg.0)'
+            World.setBlockParam 'open' 'true' *blockX; *blockY; *blockZ; *blockX; *blockY; *blockZ;
+            World.sound 'minecraft:block.barrel.open' 1; 1; *blockX; *blockY; *blockZ;
+            Player.sendActionbar 'goal' [*player] 40; ['Empty'] 40;
+            @return pass
+        }
+    }
+    forEach '*' 'barrel' 'choosedBarrels' {
+        list.unpack 'barrel' ['x'; 'y'; 'z']
+        Shiver.addClickableBlocks 'c_barrelvar(i)' 'global(TEAM_SURVIVORS)' 1; *x; *y; *z; *x; *y; *z; [*i] {
+            if !global(TNT_GOAL_OPEN) { jump 'return' }
+            Shiver.removeClickableBlocks 'c_barrelvar(arg.0)'
+            World.setBlockParam 'open' 'true' *blockX; *blockY; *blockZ; *blockX; *blockY; *blockZ;
+            setVars [
+                'particleX'; var(blockX) + var(faceX);
+                'particleY'; var(blockY) + var(faceY);
+                'particleZ'; var(blockZ) + var(faceZ)
+            ]
+            World.particle *particleX; *particleY; *particleZ; '{"type": "poof", "count": 2}'
+            World.sound 'minecraft:block.barrel.open' 1; 1; *blockX; *blockY; *blockZ;
+            Player.sendActionbar 'goal' [*player] 40; ['+1'] 40;
+            setGlobal 'TNT_GOAL_NEED' global(TNT_GOAL_NEED) - 1
+            if global(TNT_GOAL_NEED) { jump 'return' }
+            message 'task complete'
+            @return pass
+        }
+    }
 }
 
 Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Стрелки не переведены... Поищем генератор.'

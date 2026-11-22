@@ -1,0 +1,9 @@
+setGlobal 'MINECART.global(MINECART).canMove' 0
+setGlobal 'TNT_GOAL_OPEN' 1
+
+Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Похоже, это склад. Поищем тут динамит.'
+
+wait 80
+
+message 'new goal find tnt'
+World.privateSound 'shiver:ambience.button15' 1; 0.5;

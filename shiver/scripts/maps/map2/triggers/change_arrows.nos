@@ -1,6 +1,6 @@
 setGlobal 'MINECART.global(MINECART).canMove' 0
 
-Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3.5; 110.5; 324.5; 3.5; 110.5; {
+Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3.5; 111.5; 324.5; 2.5; 109.5; {
     parallel '*' [] {
         wait 40
         World.setBlocks 1; 'light' 325; 5; 110; 326; 5; 110;
@@ -20,6 +20,8 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
         'requirePressure'; 25;
         'angle'; -90
     ]
+    Shiver.getProp 'stage3.generator' 'prop'
+    Entity.itemDisplaySetItem *prop 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMTcwLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0='
     Shiver.music 'shiver:music.theme7' 1; 1;
     Shiver.addZombieSpawn 'bonus1' 0; 1; 323.5; 8.5; 124.5; 180; 0;
     set 'timer' 60

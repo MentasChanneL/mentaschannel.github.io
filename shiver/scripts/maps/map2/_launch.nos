@@ -25,10 +25,10 @@ Shiver.spawnTrigger 'tank_suprize' 'global(TEAM_SURVIVORS)' 0; 349.5; 2.5; 130.5
     World.particle 347.5; 1.5; 116.5; '{"type":"explosion_emitter","count":1}'
     World.setBlocks 1; 'air' 347; 1; 116; 347; 1; 115;
     wait 8
-    Shiver.ent '*' '9' 347.5; 3.5; 116.5; 0; 0;
-    Shiver.ent '*' '2' 347.5; 3.5; 116.5; 0; 0;
-    Shiver.ent '*' '2' 347.5; 3.5; 116.5; 0; 0;
-    Shiver.ent '*' '2' 347.5; 3.5; 116.5; 0; 0;
+    Shiver.ent '*' 30; '9' 347.5; 3.5; 116.5; 0; 0;
+    Shiver.ent '*' 30; '2' 347.5; 3.5; 116.5; 0; 0;
+    Shiver.ent '*' 30; '2' 347.5; 3.5; 116.5; 0; 0;
+    Shiver.ent '*' 30; '2' 347.5; 3.5; 116.5; 0; 0;
 }
 
 Shiver.spawnTrigger 'bridge_fall' 'global(TEAM_SURVIVORS)' 2; 301.5; -4; 76.5; 336.5; -23.5; 101.5; [] {
@@ -91,7 +91,7 @@ parallel '*' [] {
     set 'i' 10
     @for
         list.get 'types' floor(len(types) * $random); 'type'
-        Shiver.ent 'ent' 'var(type)' 310.5 + ($random * 4 - 2); 1.5; -121.5 + ($random * 4 - 2); 0; 0;
+        Shiver.ent 'ent' 0; 'var(type)' 310.5 + ($random * 4 - 2); 1.5; -121.5 + ($random * 4 - 2); 0; 0;
         Entity.moveTo *ent 'pathfinding' [[310.5; 1.5; -67.5]]
         Entity.effect *ent 'speed' -1; 1; 0; 0; 1;
         set 'i' var(i) - 1
@@ -104,7 +104,7 @@ parallel '*' [] {
         Entity.tp *ent 310.5; 1.5; -37.5; 0; 0;
         Entity.moveTo *ent 'pathfinding' [[310.5; 1.5; -18.5]]
     }
-    wait 50
+    wait 60
     Shiver.getProp 'stage0.c4' 'c4'
     Entity.getPos *c4 'c4'
     World.sound 'shiver:weapon.c4' 2; 1; var(c4.x); var(c4.y); var(c4.z);
@@ -121,7 +121,7 @@ parallel '*' [] {
     World.sound 'shiver:ambience.obval' 4; 1.1; var(c4.x); var(c4.y); var(c4.z);
     World.sound 'shiver:ambience.obval' 0.2; 1.1; var(c4.x); var(c4.y); var(c4.z);
     Entity.remove *c4
-    Shiver.removeZombies
+    Shiver.removeZombies 0
     # TODO make speed 5
     run 'entity/minecart/spawn' '*' [
         [310.5; 3.5; 0.5; 0; 0];

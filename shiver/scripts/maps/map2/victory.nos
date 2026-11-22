@@ -26,6 +26,12 @@ dict.set 'move' 'pos' '{"x": 396, "y": 14, "z": 195, "yaw": 0, "pitch": 0}'
 dict.set 'move' 'sprint' 1
 dict.setVar 'tasks' 'move' 'move'
 Shiver.spawnClones 360.5; 14.5; 195.5; 'tasks' 1.5;
+Entity.getMembers 'global(MINECART)' 0; 'passengers'
+forEach '*' 'ent' 'passengers' {
+    Entity.damage *ent 222; ''
+}
+Entity.remove 'global(MINECART)'
+Shiver.removeZombies 1
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.stopMusic *ply

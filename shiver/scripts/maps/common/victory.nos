@@ -9,6 +9,7 @@
 # 4 - Y координата черной команаты
 # 5 - Z координата черной команаты
 
+Shiver.STAGE global(GAMESTAGE_CUTSCENE);
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.addStats 'var(ply)' 'global(STAT_WINS)' 1

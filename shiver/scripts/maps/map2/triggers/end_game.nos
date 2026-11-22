@@ -36,15 +36,20 @@ setGlobals [
     'ENABLE_MUTATION'; 1
 ]
 World.sound 'shiver:weapon.tnt' 1; 1; 368; 14; 195;
-World.particle 367.75; 15; 196.5; '{"type": "lava", "count": 2}'
+World.particle 367.75; 15; 195.5; '{"type": "lava", "count": 2}'
 Shiver.music 'shiver:music.theme8' 0.8; 1;
+setGlobal 'ZOMBIE_TYPES_OBJECTIVE' [8; 12; 13; 4; 16]
 set 'timer' 120
 parallel '*' [var(timer) * 20 / 3] {
     @tick
-    World.particle 367.75; 15; 196.5; '{"type":"entity_effect","count":1,"spread":{"first":0.1,"second":0.1},"color":-1}'
+    World.particle 367.75; 15; 195.5; '{"type":"entity_effect","count":1,"spread":{"first":0.1,"second":0.1},"color":-1}'
     set 'arg.0' var(arg.0) - 1
     wait 3
     if *arg.0 { jump 'tick' }
+}
+parallel '*' [var(timer) * 0.85] {
+    wait *arg.0
+    setGlobal 'ZOMBIE_TYPES_OBJECTIVE' [12; 13; 14; 17; 5]
 }
 @timer2
 set 'timer' var(timer) - 1

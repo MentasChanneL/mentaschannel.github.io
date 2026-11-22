@@ -163,7 +163,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
                 ];
                 'MINECART.global(MINECART).triggers'; [
                     [349.5; 2.5; 166.5; 'maps/map2/triggers/check_second_arrows'; []];
-                    [368.5; 14.5; 195.5; 'maps/map2/triggers/end_game'; []]
+                    [369.5; 14.5; 195.5; 'maps/map2/triggers/end_game'; []]
                 ]
             ]
             message 'task complete'

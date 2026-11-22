@@ -122,7 +122,6 @@ parallel '*' [] {
     World.sound 'shiver:ambience.obval' 0.2; 1.1; var(c4.x); var(c4.y); var(c4.z);
     Entity.remove *c4
     Shiver.removeZombies 0
-    # TODO make speed 5
     run 'entity/minecart/spawn' '*' [
         [310.5; 3.5; 0.5; 0; 0];
         [
@@ -134,7 +133,7 @@ parallel '*' [] {
             [318.5; -0.5; 98.5; 'maps/map2/triggers/break_bridge'; [4]];
             [318.5; 2.5; 121.5; 'maps/map2/triggers/change_arrows'; []];
             [349.5; 2.5; 166.5; 'maps/map2/triggers/enable_second_generator'; []];
-            [359.5; 2.5; 166.5; 'maps/map2/triggers/find_tnt'; []]
+            [360.5; 2.5; 166.5; 'maps/map2/triggers/find_tnt'; []]
         ];
         'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDgyLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
         [0; 0; 0];
@@ -143,7 +142,7 @@ parallel '*' [] {
         1;
         0;
         'global(TEAM_SURVIVORS)';
-        1;
+        5;
         0.35;
         [
             [310.5; 3.5; 0.5];

@@ -12,7 +12,9 @@ if !var(arg.1) { set 'arg.1' 2; }
 @reset
     set 'arg.0' var(arg.0) - 1
     setGlobal 'MUTATION_OBJECTIVE' global(MUTATION_OBJECTIVE) - 1
-    run 'maps/common/obj/display_mutation' '*' [floor((global(MUTATION_OBJECTIVE) / global(MAX_MUTATION_OBJECTIVE)) * 100)]
+    if global(ENABLE_MUTATION) {
+        run 'maps/common/obj/display_mutation' '*' [floor((global(MUTATION_OBJECTIVE) / global(MAX_MUTATION_OBJECTIVE)) * 100)]
+    }
     wait *arg.1
     if var(arg.0) && global(MUTATION_OBJECTIVE) > 0 { jump 'reset' }
 @return pass

@@ -3,6 +3,8 @@ setGlobal 'TNT_GOAL_OPEN' 1
 
 Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Похоже, это склад. Поищем тут динамит.'
 
+run 'maps/common/obj/reset_mutation' '*' [80]
+
 wait 80
 
 message 'new goal find tnt'

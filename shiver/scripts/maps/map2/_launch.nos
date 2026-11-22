@@ -133,7 +133,7 @@ parallel '*' [] {
             [318.5; -0.5; 98.5; 'maps/map2/triggers/break_bridge'; [4]];
             [318.5; 2.5; 121.5; 'maps/map2/triggers/change_arrows'; []];
             [349.5; 2.5; 166.5; 'maps/map2/triggers/enable_second_generator'; []];
-            [360.5; 2.5; 166.5; 'maps/map2/triggers/find_tnt'; []]
+            [360; 2.5; 166.5; 'maps/map2/triggers/find_tnt'; []]
         ];
         'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDgyLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
         [0; 0; 0];

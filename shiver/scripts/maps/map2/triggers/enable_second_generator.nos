@@ -32,7 +32,7 @@ Shiver.addClickableBlocks 'tnt_generator' 'global(TEAM_SURVIVORS)' 1; 348.5; 3.5
     ]
     Shiver.setProgressBar (1 - var(timer) / var(maxTimer)); 0;
     Shiver.setBossbarTitle 'var(pressure)/var(requirePressure)'
-    Entity.setCoord 'global(ARROW_ROLL)' 'yaw' *angle
+    Entity.setCoord *strelka 'yaw' *angle
     wait 20
     if *timer { jump 'timer' }
     setGlobal 'TNT_GOAL_ARROWS' 1

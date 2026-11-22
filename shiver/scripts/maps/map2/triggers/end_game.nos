@@ -1,0 +1,52 @@
+setGlobals [
+    'MINECART.global(MINECART).canMove'; 0;
+    'PAUSE_OBJECTIVE'; 1;
+    'ENABLE_MUTATION'; 0
+]
+
+run 'maps/common/obj/reset_mutation' '*' [100]
+
+parallel '*' [] {
+    Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Вот и выход, но датчик газа зашкаливает...'
+    wait var(wait) + 40
+    Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Взрывать опасно, подождем, пока не уйдёт.'
+}
+
+set 'timer' 60
+@timer
+set 'timer' var(timer) - 1
+set 'channel' 204 * ((var(timer) - 10) / 50)
+World.createColor 'color' 204; var(channel); var(channel);
+Shiver.setBossbarTitle '<gradient:#211111:var(color)><strikethrough>          <!strikethrough></gradient><var(color)> <tr:shiver.message.preparing.timer:"var(time)"> <gradient:var(color):#211111><strikethrough>          '
+if var(timer) < 11 {
+    Shiver.setBossbarTitle '<gradient:#211111:#FE1010><strikethrough>          <!strikethrough></gradient><#FF0003> <tr:shiver.message.preparing.timer:"var(time)"> <gradient:#FE1010:#211111><strikethrough>          '
+    set 'sound' 'shiver:tick'
+    if var(timer) % 2 != 0 {
+        set 'sound' 'shiver:tack'
+    }
+    World.privateSound 'var(sound)' 1; 0.5;
+}
+Shiver.setProgressBar var(timer) / 60; 0;
+if *timer { jump 'timer' }
+
+Shiver.addZombieSpawn 'bonus' 0; 1; 343.5; 18.5; 195.5; -90; 0;
+setGlobals [
+    'PAUSE_OBJECTIVE'; 0;
+    'ENABLE_MUTATION'; 1
+]
+World.sound 'shiver:weapon.tnt' 1; 1; 368; 14; 195;
+World.particle 367.75; 15; 196.5; '{"type": "lava", "count": 2}'
+Shiver.music 'shiver:music.theme8' 0.8; 1;
+set 'timer' 120
+parallel '*' [var(timer) * 20 / 3] {
+    @tick
+    World.particle 367.75; 15; 196.5; '{"type":"entity_effect","count":1,"spread":{"first":0.1,"second":0.1},"color":-1}'
+    set 'arg.0' var(arg.0) - 1
+    wait 3
+    if *arg.0 { jump 'tick' }
+}
+@timer2
+set 'timer' var(timer) - 1
+Shiver.setProgressBar var(timer) / 120; *timer
+if *timer { jump 'timer2' }
+run 'maps/global(MAP)/victory' '*' []

@@ -24,7 +24,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
     Shiver.getProp 'stage3.generator' 'prop'
     Entity.itemDisplaySetItem *prop 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMTcwLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0='
     Shiver.music 'shiver:music.theme7' 1; 1;
-    Shiver.addZombieSpawn 'bonus1' 0; 1; 323.5; 8.5; 124.5; 180; 0;
+    Shiver.addZombieSpawn 'bonus' 0; 1; 323.5; 8.5; 124.5; 180; 0;
     set 'timer' 60
     World.sound 'shiver:ambience.generator2' 2; 1; 323; 2; 110;
     setGlobals [

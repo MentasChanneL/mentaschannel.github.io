@@ -17,9 +17,9 @@ set 'timer' 60
 set 'timer' var(timer) - 1
 set 'channel' 204 * ((var(timer) - 10) / 50)
 World.createColor 'color' 204; var(channel); var(channel);
-Shiver.setBossbarTitle '<gradient:#211111:var(color)><strikethrough>          <!strikethrough></gradient><var(color)> <tr:shiver.message.preparing.timer:"var(time)"> <gradient:var(color):#211111><strikethrough>          '
+Shiver.setBossbarTitle '<gradient:#211111:var(color)><strikethrough>          <!strikethrough></gradient><var(color)> <tr:shiver.message.preparing.timer:"var(timer)"> <gradient:var(color):#211111><strikethrough>          '
 if var(timer) < 11 {
-    Shiver.setBossbarTitle '<gradient:#211111:#FE1010><strikethrough>          <!strikethrough></gradient><#FF0003> <tr:shiver.message.preparing.timer:"var(time)"> <gradient:#FE1010:#211111><strikethrough>          '
+    Shiver.setBossbarTitle '<gradient:#211111:#FE1010><strikethrough>          <!strikethrough></gradient><#FF0003> <tr:shiver.message.preparing.timer:"var(timer)"> <gradient:#FE1010:#211111><strikethrough>          '
     set 'sound' 'shiver:tick'
     if var(timer) % 2 != 0 {
         set 'sound' 'shiver:tack'
@@ -27,6 +27,7 @@ if var(timer) < 11 {
     World.privateSound 'var(sound)' 1; 0.5;
 }
 Shiver.setProgressBar var(timer) / 60; 0;
+wait 20
 if *timer { jump 'timer' }
 
 Shiver.addZombieSpawn 'bonus' 0; 1; 343.5; 18.5; 195.5; -90; 0;
@@ -48,5 +49,6 @@ parallel '*' [var(timer) * 20 / 3] {
 @timer2
 set 'timer' var(timer) - 1
 Shiver.setProgressBar var(timer) / 120; *timer
+wait 20
 if *timer { jump 'timer2' }
 run 'maps/global(MAP)/victory' '*' []

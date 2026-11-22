@@ -103,7 +103,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
             @return pass
         }
     }
-    forEach '*' 'barrel' 'choosedBarrels' {
+    forEach 'i' 'barrel' 'choosedBarrels' {
         list.unpack 'barrel' ['x'; 'y'; 'z']
         Shiver.addClickableBlocks 'c_barrelvar(i)' 'global(TEAM_SURVIVORS)' 1; *x; *y; *z; *x; *y; *z; [*i] {
             if !global(TNT_GOAL_OPEN) { jump 'return' }

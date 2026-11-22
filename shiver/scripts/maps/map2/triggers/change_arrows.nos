@@ -123,9 +123,12 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
             # TNT searching complete
             Entity.setCoord 'global(MINECART)' 'yaw' 90;
             wait 5
+            Entity.itemDisplaySetItem 'global(MINECART)' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDg0LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0='
             Entity.displayTeleportDuration 'global(MINECART)' global(MINECART.global(MINECART).teleportDuration);
             setGlobals [
                 'MINECART.global(MINECART).canMove'; 1;
+                'MINECART.global(MINECART).normalItem'; 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDg0LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
+                'MINECART.global(MINECART).movingItem'; 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDg1LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
                 'MINECART.global(MINECART).routeIndex'; 0;
                 'MINECART.global(MINECART).route'; [
                     [359.5; 2.5; 166.5];
@@ -155,10 +158,12 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
                     [345.75; 13.5; 195.5];
                     [348.75; 13.5; 195.5];
                     [349.75; 14.5; 195.5];
+                    [368.5; 14.5; 195.5];
                     [368.5; 14.5; 195.5]
                 ];
                 'MINECART.global(MINECART).triggers'; [
-                    [349.5; 2.5; 166.5; 'maps/map2/triggers/check_second_arrows'; []]
+                    [349.5; 2.5; 166.5; 'maps/map2/triggers/check_second_arrows'; []];
+                    [368.5; 14.5; 195.5; 'maps/map2/triggers/end_game'; []]
                 ]
             ]
             message 'task complete'

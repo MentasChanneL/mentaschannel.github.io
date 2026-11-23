@@ -68,7 +68,7 @@ Shiver.addZombieSpawn 'stage1' 0; 1; 300.5; 8.5; 9.5; -90; 0;
 Shiver.addZombieSpawn 'stage2' 0; 1; 291.5; 3; 42.5; -45; 0;
 Shiver.addZombieSpawn 'stage3' 0; 1; 330.5; 8; 77.5; 45; 0;
 Shiver.addZombieSpawn 'stage4' 0; 1; 301.5; 10; 128.5; -135; 0;
-Shiver.addZombieSpawn 'stage5' 0; 1; 333.5; 10; 154.5; 180; 0;
+Shiver.addZombieSpawn 'stage5' 0; 1; 329.5; 9.5; 157.5; 180; 0;
 
 ###########################################################
 ##                      Катсцены                         ##

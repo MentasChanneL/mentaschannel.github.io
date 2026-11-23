@@ -99,13 +99,9 @@ parallel '*' [] {
     Shiver.getCameraDuration 'map2_start2' 'wait'
     wait var(wait) + 1
     Shiver.removeClones
-    dict 'tasks'
-    dict 'move'
-    dict.set 'move' 'pos' '{"x": 310.5, "y": 1.5, "z": -18.5, "yaw": 0, "pitch": 0}'
-    dict.set 'move' 'sprint' 1
-    dict.set 'tasks' 'move' *move
+    wait 5
     Shiver.spawnClones 310.5; 1.5; -37.5; 'tasks' 2
-    wait 60
+    wait 55
     Shiver.getProp 'stage0.c4' 'c4'
     Entity.getPos *c4 'c4'
     World.sound 'shiver:weapon.c4' 2; 1; var(c4.x); var(c4.y); var(c4.z);

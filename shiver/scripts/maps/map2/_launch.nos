@@ -98,12 +98,8 @@ parallel '*' [] {
     if var(i) > 0 { jump 'for' }
     Shiver.getCameraDuration 'map2_start2' 'wait'
     wait var(wait) + 1
-    Shiver.getClones 'clones'
-    dict.values 'clones' 'clones'
-    forEach '*' 'ent' 'clones' {
-        Entity.tp *ent 310.5; 1.5; -37.5; 0; 0;
-        Entity.moveTo *ent 'pathfinding' [[310.5; 1.5; -18.5]]
-    }
+    Shiver.removeClones
+    Shiver.spawnClones 310.5; 1.5; -37.5; 'tasks' 2
     wait 60
     Shiver.getProp 'stage0.c4' 'c4'
     Entity.getPos *c4 'c4'

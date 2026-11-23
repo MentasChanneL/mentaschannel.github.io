@@ -12,7 +12,7 @@ if var(arg.0) == 2 {
 
 if var(arg.0) != 4 { jump 'return' }
 
-World.cloneBlocks 313; 22; 81; 318; 24; 101; 316; -2; 78; 'true' 'false'
+wait 20
 
 setVars [
     'x'; 318; 

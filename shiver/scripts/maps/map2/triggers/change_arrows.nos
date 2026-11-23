@@ -43,6 +43,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
     Entity.setCoord 'global(ARROW_ROLL)' 'yaw' *angle
     wait 20
     if *timer { jump 'timer' }
+    Shiver.removeZombieSpawn 'bonus'
     Entity.offsetCoord 'global(ARROW_GATE)' 'y' 2;
     World.setBlocks 1; 'air' 329; 3; 115; 329; 2; 119;
     World.sound 'shiver:ambience.heavy_metal_move1' 2; 1; 329; 2; 117;
@@ -54,6 +55,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
         'TNT_GOAL_OPEN'; 0;
         'TNT_GOAL_NEED'; 3
     ]
+    run 'maps/common/obj/reset_mutation' '*' [100]
     setVars [
         'barrels'; [
             [352.5; 2.5; 168.5];

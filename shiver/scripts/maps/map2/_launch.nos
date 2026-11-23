@@ -142,7 +142,7 @@ parallel '*' [] {
         1;
         0;
         'global(TEAM_SURVIVORS)';
-        5;
+        1;
         0.35;
         [
             [310.5; 3.5; 0.5];

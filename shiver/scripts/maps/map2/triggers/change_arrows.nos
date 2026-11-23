@@ -129,11 +129,11 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
             Entity.displayTeleportDuration 'global(MINECART)' global(MINECART.global(MINECART).teleportDuration);
             setGlobals [
                 'MINECART.global(MINECART).canMove'; 1;
+                'MINECART.global(MINECART).routeProgress'; 0;
                 'MINECART.global(MINECART).normalItem'; 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDg0LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
                 'MINECART.global(MINECART).movingItem'; 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDg1LjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0=';
                 'MINECART.global(MINECART).routeIndex'; 0;
                 'MINECART.global(MINECART).route'; [
-                    [359.5; 2.5; 166.5];
                     [359.5; 2.5; 166.5];
                     [358.5; 2.5; 166.5];
                     [347.5; 2.5; 166.5];
@@ -160,7 +160,6 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
                     [345.75; 13.5; 195.5];
                     [348.75; 13.5; 195.5];
                     [349.75; 14.5; 195.5];
-                    [368.5; 14.5; 195.5];
                     [368.5; 14.5; 195.5]
                 ];
                 'MINECART.global(MINECART).triggers'; [
@@ -168,6 +167,8 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
                     [369.5; 14.5; 195.5; 'maps/map2/triggers/end_game'; []]
                 ]
             ]
+            copyToLocal 'route' 'MINECART.global(MINECART).route'
+            setGlobal 'MINECART.var(model).routeLastIndex' len(route) - 1
             message 'task complete'
             @return pass
         }

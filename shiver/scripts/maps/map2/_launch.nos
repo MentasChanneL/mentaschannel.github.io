@@ -11,6 +11,7 @@ setGlobal 'PREPARE_TIME' 90
 setGlobal 'TICK_HANDLER' 'maps/map2/start'
 setGlobal 'MAX_MUTATION_OBJECTIVE' 300
 setGlobal 'ZOMBIE_TYPES_OBJECTIVE' [16]
+setGlobal 'POINT_BONUS' 1.05
 
 World.time 16000
 Shiver.setBossbarEffect 'dark_sky'

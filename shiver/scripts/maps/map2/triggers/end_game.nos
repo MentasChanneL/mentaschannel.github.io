@@ -1,7 +1,8 @@
 setGlobals [
     'MINECART.global(MINECART).canMove'; 0;
     'PAUSE_OBJECTIVE'; 1;
-    'ENABLE_MUTATION'; 0
+    'ENABLE_MUTATION'; 0;
+    'POINT_BONUS'; 1.5
 ]
 
 run 'maps/common/obj/reset_mutation' '*' [100]
@@ -33,12 +34,12 @@ if *timer { jump 'timer' }
 Shiver.addZombieSpawn 'bonus' 0; 1; 343.5; 18.5; 195.5; -90; 0;
 setGlobals [
     'PAUSE_OBJECTIVE'; 0;
-    'ENABLE_MUTATION'; 1
+    'ENABLE_MUTATION'; 1;
+    'ZOMBIE_TYPES_OBJECTIVE'; [8; 12; 13; 4; 16]
 ]
 World.sound 'shiver:weapon.tnt' 1; 1; 368; 14; 195;
 World.particle 367.75; 15; 195.5; '{"type": "lava", "count": 2}'
 Shiver.music 'shiver:music.theme8' 0.8; 1;
-setGlobal 'ZOMBIE_TYPES_OBJECTIVE' [8; 12; 13; 4; 16]
 set 'timer' 120
 parallel '*' [var(timer) * 20 / 3] {
     @tick

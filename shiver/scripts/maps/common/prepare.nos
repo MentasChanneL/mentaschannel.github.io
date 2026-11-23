@@ -7,6 +7,7 @@
 Shiver.STAGE global(GAMESTAGE_GAME)
 set 'time' max(global(PREPARE_TIME), 10)
 # Убираем любой заработок поинтов
+set 'pointBonus' global(POINT_BONUS)
 setGlobal 'POINT_BONUS' 0
 
 @prepareTimer
@@ -40,7 +41,7 @@ forEach '*' 'ply' 'players' {
     Shiver.removeItem 'var(ply)' 'item.kit_selection'
 }
 # Возвращаем заработок поинтов
-setGlobal 'POINT_BONUS' 1
+setGlobal 'POINT_BONUS' *pointBonus
 # Закрываем вход для игроков из меню
 Shiver.openJoin 0
 run 'global(TICK_HANDLER)' '*' []

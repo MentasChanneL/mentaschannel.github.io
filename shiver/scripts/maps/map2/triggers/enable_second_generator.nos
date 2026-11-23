@@ -1,6 +1,7 @@
 run 'maps/common/obj/reset_mutation' '*' [50]
 Shiver.addClickableBlocks 'tnt_generator' 'global(TEAM_SURVIVORS)' 1; 348.5; 3.5; 158.5; 348.5; 2.5; 159.5; [] {
     Shiver.removeClickableBlocks 'tnt_generator'
+    setGlobal 'POINT_BONUS' 1.15
     setVars [
         'maxTimer'; 60;
         'timer'; 60;
@@ -22,7 +23,7 @@ Shiver.addClickableBlocks 'tnt_generator' 'global(TEAM_SURVIVORS)' 1; 348.5; 3.5
     World.sound 'shiver:ambience.generator2' 2; 1; 348; 2; 159;
     setGlobals [
         'ENABLE_MUTATION'; 0;
-        'ZOMBIE_TYPES_OBJECTIVE'; [16; 2; 7; 4; 2]
+        'ZOMBIE_TYPES_OBJECTIVE'; [16; 2; 7; 4; 8]
     ]
     run 'maps/common/obj/reset_mutation' '*' [100]
     @timer
@@ -39,7 +40,8 @@ Shiver.addClickableBlocks 'tnt_generator' 'global(TEAM_SURVIVORS)' 1; 348.5; 3.5
     setGlobals [
         'TNT_GOAL_ARROWS'; 1;
         'MINECART.global(MINECART).canMove'; 1;
-        'ENABLE_MUTATION'; 1
+        'ENABLE_MUTATION'; 1;
+        'ZOMBIE_TYPES_OBJECTIVE'; [16; 2; 7; 8]
     ]
     World.cloneBlocks 367; 13; 187; 371; 16; 183; 368; 14; 197; 'false' 'false'
     Shiver.addZombieSpawn 'stage6' 1.5; 3; 347.5; 12.5; 182.5; 45; 0;

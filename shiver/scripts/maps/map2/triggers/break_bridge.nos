@@ -66,7 +66,6 @@ parallel '*' [] {
     }
 
     wait 1
-    # Первый отскок — 8 градусов
     set 'angle' 90
     set 't' 0
     @bounce1
@@ -80,7 +79,6 @@ parallel '*' [] {
         jump 'bounce1'
     }
 
-    # Второй отскок — 4 градуса
     set 'angle' 90
     set 't' 0
     @bounce2

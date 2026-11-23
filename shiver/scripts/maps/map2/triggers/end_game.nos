@@ -11,6 +11,9 @@ parallel '*' [] {
     Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Вот и выход, но датчик газа зашкаливает...'
     wait var(wait) + 40
     Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Взрывать опасно, подождем, пока не уйдёт.'
+    wait var(wait) + 20
+    message '<br><#F2D282>| <#DDC077><tr:shiver.message.new_goal><br><#D3C5A0>global(MARK_CHAR) <tr:shiver.message.map2.goal.3><br>'
+    World.privateSound 'shiver:ambience.button15' 1; 0.5;
 }
 
 set 'timer' 60

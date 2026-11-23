@@ -11,6 +11,8 @@ setGlobal 'TEAM_SURVIVORS' 'In_Game'
 setGlobal 'TEAM_SPECTATORS' 'In_Spectators'
 setGlobal 'TEAM_ZOMBIES' 'ENEMIES'
 
+# MARK_CHAR - '
+
 # Стата побед
 setGlobal 'STAT_WINS' 'wins'
 # Стата игр

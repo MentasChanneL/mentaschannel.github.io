@@ -9,5 +9,5 @@ wait 10
 Entity.displayTeleportDuration 'global(MINECART)' 0;
 wait 70
 
-message 'new goal find tnt'
+message '<br><#F2D282>| <#DDC077><tr:shiver.message.new_goal><br><#D3C5A0>global(MARK_CHAR) <tr:shiver.message.map2.goal.2><br>'
 World.privateSound 'shiver:ambience.button15' 1; 0.5;

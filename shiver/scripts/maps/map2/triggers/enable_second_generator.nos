@@ -33,7 +33,7 @@ Shiver.addClickableBlocks 'tnt_generator' 'global(TEAM_SURVIVORS)' 1; 348.5; 3.5
         'angle'; 90 + 90 * (1 - var(timer) / var(maxTimer))
     ]
     Shiver.setProgressBar (1 - var(timer) / var(maxTimer)); 0;
-    Shiver.setBossbarTitle 'var(pressure)/var(requirePressure)'
+    Shiver.setBossbarTitle '<#D3C5A0>𐍊 <tr:shiver.message.map2.generator_pressure:"var(pressure)":"var(requirePressure)"> 𐍊'
     Entity.setCoord *strelka 'yaw' *angle
     wait 20
     if *timer { jump 'timer' }

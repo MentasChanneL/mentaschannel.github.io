@@ -39,7 +39,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
         'angle'; -90 * (var(timer) / var(maxTimer))
     ]
     Shiver.setProgressBar (1 - var(timer) / var(maxTimer)); 0;
-    Shiver.setBossbarTitle 'var(pressure)/var(requirePressure)'
+    Shiver.setBossbarTitle '<#D3C5A0>𐍊 <tr:shiver.message.map2.generator_pressure:"var(pressure)":"var(requirePressure)"> 𐍊'
     Entity.setCoord 'global(ARROW_ROLL)' 'yaw' *angle
     wait 20
     if *timer { jump 'timer' }
@@ -102,7 +102,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
             Shiver.removeClickableBlocks 'barrelvar(arg.0)'
             World.setBlockParam 'open' 'true' *blockX; *blockY; *blockZ; *blockX; *blockY; *blockZ;
             World.sound 'minecraft:block.barrel.open' 1; 1; *blockX; *blockY; *blockZ;
-            Player.sendActionbar 'goal' [*player] 40; ['Empty'] 40;
+            Player.sendActionbar 'goal' [*player] 40; ['<tr:shiver.message.map2.empty_barrel>'] 40;
             @return pass
         }
     }
@@ -121,6 +121,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
             World.sound 'minecraft:block.barrel.open' 1; 1; *blockX; *blockY; *blockZ;
             Player.sendActionbar 'goal' [*player] 40; ['+1'] 40;
             setGlobal 'TNT_GOAL_NEED' global(TNT_GOAL_NEED) - 1
+            message '<#FF7070>☑ <#BC5353><tr:shiver.message.map2.founded_tnt:"<#FF7070>math(3 - global(TNT_GOAL_NEED))":"<#FF7070>3">'
             if global(TNT_GOAL_NEED) { jump 'return' }
             # TNT searching complete
             Entity.setCoord 'global(MINECART)' 'yaw' 90;
@@ -169,7 +170,6 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
             ]
             copyToLocal 'MINECART.global(MINECART).route' 'route'
             setGlobal 'MINECART.global(MINECART).routeLastIndex' len(route) - 1
-            message 'task complete'
             @return pass
         }
     }
@@ -179,5 +179,5 @@ Shiver.showActionbar 'wait' global(LORE_SPEED); 'global(LORE_PREFIX)' 'Стре�
 
 wait 80
 
-message 'new goal'
+message '<br><#F2D282>| <#DDC077><tr:shiver.message.new_goal><br><#D3C5A0>global(MARK_CHAR) <tr:shiver.message.map2.goal.1><br>'
 World.privateSound 'shiver:ambience.button15' 1; 0.5;

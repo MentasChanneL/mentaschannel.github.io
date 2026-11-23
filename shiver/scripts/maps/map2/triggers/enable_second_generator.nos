@@ -17,7 +17,7 @@ Shiver.addClickableBlocks 'tnt_generator' 'global(TEAM_SURVIVORS)' 1; 348.5; 3.5
     Shiver.getProp 'stage4.generator' 'prop'
     Shiver.getProp 'stage4.strelka' 'strelka'
     Entity.itemDisplaySetItem *prop 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMTcwLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0='
-    Shiver.addZombieSpawn 'bonus' 0; 1; 346.5; 7.5; 146.5; 45; 0;
+    Shiver.addZombieSpawn 'bonus' 0; 1; 345.5; 8.5; 155.5; 180; 0;
     set 'timer' 60
     World.sound 'shiver:ambience.generator2' 2; 1; 348; 2; 159;
     setGlobals [

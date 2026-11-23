@@ -42,4 +42,5 @@ Shiver.addClickableBlocks 'tnt_generator' 'global(TEAM_SURVIVORS)' 1; 348.5; 3.5
         'ENABLE_MUTATION'; 1
     ]
     World.cloneBlocks 367; 13; 187; 371; 16; 183; 368; 14; 197; 'false' 'false'
+    Shiver.addZombieSpawn 'stage6' 1.5; 3; 347.5; 12.5; 182.5; 45; 0;
 }

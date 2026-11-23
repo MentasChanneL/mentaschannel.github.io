@@ -80,7 +80,7 @@ parallel '*' [] {
     dict 'move'
     dict.set 'move' 'pos' '{"x": 310.5, "y": 1.5, "z": -18.5, "yaw": 0, "pitch": 0}'
     dict.set 'move' 'sprint' 1
-    dict.setVar 'tasks' 'move' 'move'
+    dict.set 'tasks' 'move' *move
     Shiver.spawnClones 310.5; 1.5; -94.5; 'tasks' 2
     Shiver.getCameraDuration 'map2_start1' 'wait'
     wait var(wait) - 5
@@ -99,6 +99,11 @@ parallel '*' [] {
     Shiver.getCameraDuration 'map2_start2' 'wait'
     wait var(wait) + 1
     Shiver.removeClones
+    dict 'tasks'
+    dict 'move'
+    dict.set 'move' 'pos' '{"x": 310.5, "y": 1.5, "z": -18.5, "yaw": 0, "pitch": 0}'
+    dict.set 'move' 'sprint' 1
+    dict.set 'tasks' 'move' *move
     Shiver.spawnClones 310.5; 1.5; -37.5; 'tasks' 2
     wait 60
     Shiver.getProp 'stage0.c4' 'c4'

@@ -43,7 +43,7 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
     Entity.setCoord 'global(ARROW_ROLL)' 'yaw' *angle
     wait 20
     if *timer { jump 'timer' }
-    Shiver.removeZombieSpawn 'bonus'
+    Shiver.addZombieSpawn 'bonus' 0; 1; 314.5; 3.5; 112.5; 0; 0;
     Entity.offsetCoord 'global(ARROW_GATE)' 'y' 2;
     World.setBlocks 1; 'air' 329; 3; 115; 329; 2; 119;
     World.sound 'shiver:ambience.heavy_metal_move1' 2; 1; 329; 2; 117;

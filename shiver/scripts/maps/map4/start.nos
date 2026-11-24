@@ -1,0 +1,4 @@
+setGlobals [
+    'ENABLE_MUTATION'; 0
+]
+run 'maps/common/obj/objective_tick' '*' []

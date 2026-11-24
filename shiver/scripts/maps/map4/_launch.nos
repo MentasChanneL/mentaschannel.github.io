@@ -7,8 +7,9 @@ setGlobal 'MAP_TITLE' '<white>⯪ <tr:shiver.map.global(MAP)>'
 setGlobal 'LOOT_CHANCE' 0.7
 setGlobal 'PREPARE_TIME' 90
 setGlobal 'TICK_HANDLER' 'maps/map2/start'
-World.time 13100
-runInLine 'maps/common/launch' ['street.'; 'water.fire'; 'pool.'; 'final.lamp'; 'hotel_vhod.']
+World.time 10000
+Shiver.setBossbarEffect 'fog'
+runInLine 'maps/common/launch' [['street.'; 'water.fire'; 'pool.'; 'final.lamp'; 'hotel_vhod.']]
 Shiver.music 'shiver:music.theme3' 1; 1;
 loadScript 'maps/common/util/spawn_props'
 loadScript 'maps/map4/start'
@@ -23,23 +24,22 @@ World.setBlocks 0; 'minecraft:light_gray_stained_glass_pane[east=false,north=tru
 parallel '*' [] {
     Shiver.getCameraDuration 'map4_start1' 'wait'
     Entity.spawnItemDisplay 'helicopter' 209.5; 89.5; -389.5; -90; 0; 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDcxLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0='
-    Entity.displaySetScale 'var(helicopter)' 8; 8; 8;
-    Entity.displayRotations 'var(helicopter)' 90; 0; 0; 'set'
-    Entity.displaySetOffset 'var(helicopter)' 0; 65; -150;
-    Entity.displayInterpolation 'var(helicopter)' 60; 100;
-    wait 5
-    Entity.displaySetOffset 'var(helicopter)' 0; 65; 150;
-    wait var(wait) - 5
+    Entity.displaySetScale *helicopter 8; 8; 8;
+    Entity.displayRotations *helicopter 90; 0; 0; 'set'
+    Entity.displaySetOffset *helicopter 0; 80; -150;
+    Entity.displayInterpolation *helicopter 110; 100;
+    wait 80
     World.sound 'shiver:ambience.map1heli' 16; 1.1; 209.5; 89.5; -389.5;
-    Shiver.getCameraDuration 'map4_start2' 'wait'
-    wait *wait
+    wait 20
+    Entity.displaySetOffset *helicopter 0; 80; 150;
+    wait 120
     Entity.remove *helicopter
 }
 
 runInLine 'maps/common/run_cameras' [[
+    'map4_start3';
     'map4_start1';
-    'map4_start2';
-    'map4_start3'
+    'map4_start2'
 ]]
 ###########################################################
 

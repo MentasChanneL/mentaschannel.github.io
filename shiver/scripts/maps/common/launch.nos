@@ -7,7 +7,7 @@
 # 0 - список префиксов размещаемых пропов, по умолч ['']
 
 if len(arg.0) < 0 {
-    set 'arg.0' ['']
+    setVars ['arg.0'; ['']]
 }
 
 Shiver.getPlayers 'players'

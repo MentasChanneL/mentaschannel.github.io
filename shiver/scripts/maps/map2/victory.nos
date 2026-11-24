@@ -7,6 +7,7 @@ run 'maps/common/victory' '*' [
     196.5; 50; -106.5
 ]
 
+run 'maps/common/obj/reset_mutation' '*' [100]
 wait 30
 
 World.sound 'entity.generic.explode' 10; 0.5; 367.5; 14.5; 195.5
@@ -36,7 +37,7 @@ Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
     Shiver.stopMusic *ply
 }
-wait 30
+wait 40
 Shiver.ent 'ent1' 0; '14' 356.5; 14.5; 193.5; 0; 0;
 Shiver.ent 'ent2' 0; '17' 356.5; 14.5; 197.5; 0; 0;
 Shiver.ent 'ent3' 0; '4' 355.5; 14.5; 197.5; 0; 0;

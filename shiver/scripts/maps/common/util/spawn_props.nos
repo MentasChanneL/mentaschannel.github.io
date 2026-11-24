@@ -1,0 +1,42 @@
+# Shiver map script | REPIS
+# Скрипт для загрузки и выгрузки пропов
+# Аргументы:
+# 0 - Список префиксов для размещения
+# 1 - Список префиксов для удаления
+
+@remove
+if len(arg.1) <= 0 { jump 'spawn' }
+list.get 'arg.1' 0; 'prefix'
+Shiver.getSavedProps 'props' *prefix
+set 'i' 0
+@forRemove
+if len(props) <= 0 { jump 'endForRemove' }
+list.get 'props' 0; 'prop'
+set 'i' var(i) + 1
+Shiver.getProp *prop 'uuid'
+Entity.remove *uuid
+if var(i) % 5 == 0 { wait 1; }
+list.remove 'props' 0;
+jump 'forRemove'
+@endForRemove
+list.remove 'arg.1' 0;
+jump 'remove'
+
+@spawn
+if len(arg.0) <= 0 { jump 'return' }
+list.get 'arg.0' 0; 'prefix'
+Shiver.getSavedProps 'props' *prefix
+set 'i' 0
+@forSpawn
+if len(props) <= 0 { jump 'endForSpawn' }
+list.get 'props' 0; 'prop'
+set 'i' var(i) + 1
+Shiver.placeProp *prop
+if var(i) % 5 == 0 { wait 1; }
+list.remove 'props' 0;
+jump 'forSpawn'
+@endForSpawn
+list.remove 'arg.0' 0;
+jump 'spawn'
+
+@return pass

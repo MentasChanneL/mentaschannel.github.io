@@ -1,0 +1,13 @@
+# Shiver map script | REPIS
+# Player join in game event
+# Variables:
+# - player - Player
+# - reason - Player join reason (1 - by User, 2 - by Script, 3 - antidot)
+
+runInLine 'maps/common/player_join' [
+    'var(player)';
+    var(reason);
+    1;
+    1;
+    211.5; 37; -422.5; 0; 0
+]

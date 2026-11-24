@@ -1,0 +1,71 @@
+# Shiver map script | REPIS
+
+run 'maps/common/victory' '*' [
+    ['map1_win1'; 'map1_win2'];
+    1;
+    'coach';
+    196.5; 50; -106.5
+]
+
+Shiver.music 'shiver:music.win1' 1; 1;
+World.sound 'shiver:ambience.map1heli' 10; 0.9; 218; 48; -44;
+World.sound 'shiver:ambience.map1heli' 10; 0.9; 218; 48; -44;
+World.sound 'shiver:ambience.map1heli' 10; 0.9; 218; 48; -44;
+dict 'tasks'
+dict 'move'
+dict.set 'move' 'pos' '{"x": 218, "y": 42, "z": -49, "yaw": 0, "pitch": 0}'
+set 'sprint' 1
+dict.setVar 'move' 'sprint' 'sprint'
+dict 'defend'
+dict.setVar 'tasks' 'move' 'move'
+dict.setVar 'tasks' 'defend' 'defend'
+Shiver.spawnClones 187.5; 44.33; -41.5; 'tasks' 3
+
+parallel '*' [] {
+    Shiver.getCameraDuration 'map1_win1' 'wait'
+    wait var(wait) + 2
+    Shiver.removeClones
+    World.sound 'shiver:ambience.map1heli' 10; 1.1; 219.42; 44.06; -55.57;
+    World.sound 'shiver:ambience.map1heli' 10; 1.1; 219; 54; -70;
+}
+
+parallel '*' [] {
+    Entity.spawnItemDisplay 'helicopter' 219; 88.5; -32.5; 180; -10; 'global(EMPTY_ITEMSTACK)'
+    Entity.displaySetScale 'var(helicopter)' 8; 8; 8;
+    Entity.displayRotations 'var(helicopter)' 90; 0; 0; 'set'
+    Entity.displayTeleportDuration 'var(helicopter)' 15
+    Entity.itemDisplaySetItem 'var(helicopter)' 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6Y3VzdG9tX21vZGVsX2RhdGEiOntmbG9hdHM6WzEwMDcxLjBmXX19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpsZWF0aGVyX2hvcnNlX2FybW9yIn0='
+    wait 10
+    set 'repeat' 10
+    @repeat1
+    if var(repeat) > 0 {
+        set 't1' 1 - (var(repeat) / 20)
+        World.locToLoc 219; 88.5; -32.5; 218.5; 44.5; -46; 'pos' 2 * var(t1) - pow(var(t1), 2)
+        Entity.tp 'var(helicopter)' var(pos.x); var(pos.y); var(pos.z); 180; 15 - 15 * var(t1);
+        set 'repeat' var(repeat) - 1
+        wait 5
+        jump 'repeat1'
+    }
+    Entity.tp 'var(helicopter)' 218.5; 44.5; -46; 180; 0;
+    wait 25
+    set 'repeat' 20
+    @repeat2
+    if var(repeat) > 0 {
+        set 't1' 1 - (var(repeat) / 20)
+        World.locToLoc 218.5; 44.5; -46; 218.5; 102; -114.5; 'pos' pow(var(t1), 3)
+        Entity.tp 'var(helicopter)' var(pos.x); var(pos.y); var(pos.z); 180; 15 * var(t1);
+        set 'repeat' var(repeat) - 1
+        wait 5
+        jump 'repeat2'
+    }
+    set 'repeat' 20
+    @repeat3
+    if var(repeat) > 0 {
+        set 't1' 1 - (var(repeat) / 20)
+        World.locToLoc 218.5; 102; -114.5; 218; 42; -235; 'pos' 2 * var(t1) - pow(var(t1), 2)
+        Entity.tp 'var(helicopter)' var(pos.x); var(pos.y); var(pos.z); 180; 15 - 15 * var(t1);
+        set 'repeat' var(repeat) - 1
+        wait 5
+        jump 'repeat3'
+    }
+}

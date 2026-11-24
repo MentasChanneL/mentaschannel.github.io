@@ -3,6 +3,12 @@
 # Перед вызовом установить следующие глобальные переменные:
 #   MAP_TITLE - Отображаемое имя карты minimessage (🌊 Маяк, ★ Покинутый отель и т.п.)
 #   LOOT_CHANCE - Шанс появление лута
+# Аргументы:
+# 0 - префикс размещаемых пропов, по умолч ''
+
+if len(arg.0) < 0 {
+    set 'arg.0' ''
+}
 
 Shiver.getPlayers 'players'
 forEach '*' 'ply' 'players' {
@@ -14,7 +20,7 @@ forEach '*' 'ply' 'players' {
 Shiver.title 30; 120; 0; 'global(MAP_TITLE)' ' '
 wait 60
 Shiver.clearMap
-Shiver.getSavedProps 'props'
+Shiver.getSavedProps 'props' *arg.0
 set 'i' 0
 set 'size' len(props)
 @propPlace

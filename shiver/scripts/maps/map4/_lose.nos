@@ -1,0 +1,6 @@
+# Shiver map script | REPIS
+
+run 'maps/common/lose' '*' [
+    ['map1.camera3'];
+    196.5; 50; -106.5
+]

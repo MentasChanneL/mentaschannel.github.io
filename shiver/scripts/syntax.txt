@@ -38,6 +38,7 @@ hexToDec text(hex) text(variable name for result)
 decToHex math(int) text(variable name for result)
 String.sub math(startIndex) math(endIndex) text(text) text(variable name for result)
 String.equals text(str1) text(str2) text(isRegex true/false) text(ignoreRegister true/false) text(variable name for result)
+String.startsWith text(variable name) text(str) text(prefx) text(ignore register true/false)
 
 # World module commands
 World.time math(time)
@@ -124,7 +125,7 @@ types {
 }
 Shiver.removeTrigger text(id)
 Shiver.getProp text(id) text(variable name for uuid)
-Shiver.getSavedProps text(variable name)
+Shiver.getSavedProps text(variable name) text(prefix or '')
 Shiver.placeProp text(id)
 Shiver.removeProp text(id) math(ignore hitbox)
 Shiver.addZombieSpawn text(id) math(spawn radius) math(gas radius) math(x) math(y) math(z) math(yaw) math(pitch)

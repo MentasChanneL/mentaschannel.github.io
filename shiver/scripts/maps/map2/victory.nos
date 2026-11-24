@@ -39,9 +39,9 @@ forEach '*' 'ply' 'players' {
 }
 wait 40
 Shiver.ent 'ent1' 0; '14' 356.5; 14.5; 193.5; 0; 0;
-Shiver.ent 'ent2' 0; '17' 356.5; 14.5; 197.5; 0; 0;
-Shiver.ent 'ent3' 0; '4' 355.5; 14.5; 197.5; 0; 0;
-Shiver.ent 'ent4' 0; '4' 355.5; 14.5; 193.5; 0; 0;
+Shiver.ent 'ent2' 0; '16' 356.5; 14.5; 197.5; 0; 0;
+Shiver.ent 'ent3' 0; '16' 355.5; 14.5; 197.5; 0; 0;
+Shiver.ent 'ent4' 0; '16' 355.5; 14.5; 193.5; 0; 0;
 Entity.moveTo *ent1 'pathfinding' [[398.5; 14.5; 195.5]]
 Entity.moveTo *ent2 'pathfinding' [[398.5; 14.5; 195.5]]
 Entity.moveTo *ent3 'pathfinding' [[398.5; 14.5; 195.5]]

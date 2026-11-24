@@ -1,0 +1,42 @@
+# Shiver map script | REPIS
+
+setVars [
+    'landfalls'; [
+        ['shiver:ambience.cave.ambient3'; 'shiver:ambience.cave.ambient2'; 'shiver:ambience.cave.ambient1'];
+        [[349; 1; 14]; [278; 0; 64]; [369; 1; 100]; [388; 2; 177]; [280; 0; 174]]
+    ];
+    'debrisfalls'; ['shiver:ambience.cave.falling_debris1'; 'shiver:ambience.cave.falling_debris2'; 'shiver:ambience.cave.falling_debris3'];
+    'winds'; ['shiver:ambience.cave.wind1'; 'shiver:ambience.cave.wind2'; 'shiver:ambience.cave.wind3']
+]
+
+@tick
+
+setVars [
+    'landfallsCd'; var(landfallsCd) - 1;
+    'debrisfallsCd'; var(debrisfallsCd) - 1;
+    'windCd'; var(windCd) - 1
+]
+
+if var(landfallsCd) <= 0 {
+    set 'landfallsCd' 10 + $random * 50
+    list.unpack 'landfalls' ['sounds'; 'locations']
+    list.get 'sounds' floor($random * len(sounds)); 'sound'
+    list.get 'locations' floor($random * len(locations)); 'location'
+    list.unpack 'location' ['x'; 'y'; 'z']
+    World.sound *sound 100; 0.75 + $random * 0.5; *x; *y; *z;
+}
+
+if var(debrisfallsCd) <= 0 {
+    set 'debrisfallsCd' 30 + $random * 40
+    list.get 'debrisfalls' floor($random * len(debrisfalls)); 'sound'
+    World.privateSound *sound 0.6; 0.8 + $random * 0.4;
+}
+
+if var(windCd) <= 0 {
+    set 'windCd' 10 + $random * 50
+    list.get 'winds' floor($random * len(winds)); 'sound'
+    World.privateSound *sound 0.65; 0.8 + $random * 0.4;
+}
+
+wait 20
+jump 'tick'

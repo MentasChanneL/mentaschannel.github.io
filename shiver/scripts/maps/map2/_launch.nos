@@ -5,6 +5,7 @@
 loadScript 'maps/map2/start'
 loadScript 'maps/map2/triggers/_load'
 runInLine 'maps/common/_load' [2; ['minecart']]
+loadScript 'maps/map2/ambient'
 setGlobal 'MAP_TITLE' '<white>⛏ <tr:shiver.map.global(MAP)>'
 setGlobal 'LOOT_CHANCE' 0.7
 setGlobal 'PREPARE_TIME' 90
@@ -202,6 +203,7 @@ runInLine 'maps/common/run_cameras' [[
 ###########################################################
 
 ### Спавн игроков
+run 'maps/map2/ambient' '*' []
 run 'maps/common/initialize_players' '*' [1; 0; 2]
 ###
 

@@ -51,6 +51,6 @@ if var(reason) < 3 {
 }
 
 if var(reason) == 3 {
-    Player.disableMove 'var(ply)' 0
+    Player.disableMove 'var(player)' 0
 }
 @return pass

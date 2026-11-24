@@ -7,6 +7,7 @@ run 'maps/common/victory' '*' [
     196.5; 50; -106.5
 ]
 
+Shiver.music 'shiver:music.win1' 1; 1;
 run 'maps/common/obj/reset_mutation' '*' [100]
 wait 30
 

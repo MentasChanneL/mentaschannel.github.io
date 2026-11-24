@@ -6,15 +6,15 @@ runInLine 'maps/common/_load' [2]
 setGlobal 'MAP_TITLE' '<white>⯪ <tr:shiver.map.global(MAP)>'
 setGlobal 'LOOT_CHANCE' 0.7
 setGlobal 'PREPARE_TIME' 90
-setGlobal 'TICK_HANDLER' 'maps/map2/start'
+setGlobal 'TICK_HANDLER' 'maps/map4/start'
 World.time 10000
-Shiver.setBossbarEffect 'fog'
 runInLine 'maps/common/launch' [['street.'; 'water.fire'; 'pool.'; 'final.lamp'; 'hotel_vhod.']]
 Shiver.music 'shiver:music.theme3' 1; 1;
 loadScript 'maps/common/util/spawn_props'
 loadScript 'maps/map4/start'
 
-Shiver.addZombieSpawn 'votel_vhod' 2; 3; 194.5; 49.5; -416.5; -135; 0
+Shiver.setBossbarEffect 'fog_and_dark_sky'
+Shiver.addZombieSpawn 'votel_vhod' 2; 2.5; 194.5; 49.5; -416.5; -135; 0
 
 World.setBlocks 0; 'minecraft:light_gray_stained_glass_pane[east=false,north=true,south=true,waterlogged=false,west=false]' 204; 44; -374; 204; 42; -374;
 

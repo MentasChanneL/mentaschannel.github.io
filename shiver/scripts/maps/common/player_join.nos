@@ -17,40 +17,40 @@ set 'reason' var(arg.1)
 if var(reason) == 1 {
     Shiver.getSTAGE 'stage'
     if var(stage) == global(GAMESTAGE_CUTSCENE) {
-        Shiver.resetPlayer 'var(player)'
-        Entity.effect 'var(player)' 'invisibility' -1; 0; 0; 0; 1;
-        Entity.effect 'var(player)' 'blindness' -1; 0; 0; 0; 1;
-        Player.gamemode 'var(player)' 'spectator'
-        Player.disableMove 'var(ply)' 999999
+        Shiver.resetPlayer *player
+        Entity.effect *player 'invisibility' -1; 0; 0; 0; 1;
+        Entity.effect *player 'blindness' -1; 0; 0; 0; 1;
+        Player.gamemode *player 'spectator'
+        Player.disableMove *player 999999
         jump 'return'
     }
     message '<#D8D6D6>+ var(player)'
 }
 
 if var(reason) < 3 {
-    Player.sendBedAnimation 'var(player)'
+    Player.sendBedAnimation *player
     if var(arg.3) {
-        Shiver.tpPlayerToClone 'var(player)' var(arg.4); var(arg.5); var(arg.6); var(arg.7); var(arg.8);
+        Shiver.tpPlayerToClone *player var(arg.4); var(arg.5); var(arg.6); var(arg.7); var(arg.8);
     }
     if !var(arg.3) {
-        Entity.tp 'var(player)' var(arg.4); var(arg.5); var(arg.6); var(arg.7); var(arg.8);
+        Entity.tp *player var(arg.4); var(arg.5); var(arg.6); var(arg.7); var(arg.8);
     }
-    Shiver.resetPlayer 'var(player)'
+    Shiver.resetPlayer *player
     # Выдача рюкзака цвета его рейтинга
     if var(arg.2) > 0 {
-        Shiver.getPlayerRate 'var(player)' '*' '*' '*' 'color'
+        Shiver.getPlayerRate *player '*' '*' '*' 'color'
         if len(color) > 6 {
             # Вырезаем # из цвета
             String.sub 1; len(color); 'var(color)' 'color'
         }
         hexToDec 'var(color)' 'color'
-        Shiver.addItem 'var(player)' 'item.kit_selection' '{"minecraft:dyed_color": var(color)}'
+        Shiver.addItem *player 'item.kit_selection' '{"minecraft:dyed_color": var(color)}'
     }
-    Player.disableMove 'var(player)' 0
+    Player.disableMove *player 0
     jump 'return'
 }
 
 if var(reason) == 3 {
-    Player.disableMove 'var(player)' 0
+    Player.disableMove *player 0
 }
 @return pass

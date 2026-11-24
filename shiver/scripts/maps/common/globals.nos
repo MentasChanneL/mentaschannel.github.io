@@ -11,8 +11,6 @@ setGlobal 'TEAM_SURVIVORS' 'In_Game'
 setGlobal 'TEAM_SPECTATORS' 'In_Spectators'
 setGlobal 'TEAM_ZOMBIES' 'ENEMIES'
 
-# MARK_CHAR - '
-
 # Стата побед
 setGlobal 'STAT_WINS' 'wins'
 # Стата игр
@@ -47,7 +45,17 @@ setGlobal 'ENABLE_MUTATION' 1
 setGlobal 'MAX_MUTATION_OBJECTIVE' 350
 setGlobal 'MUTATION_OBJECTIVE' 0
 
+dict 'directions'
+dict.set 'directions' 'up' [0; 1; 0]
+dict.set 'directions' 'down' [0; -1; 0]
+dict.set 'directions' 'north' [0; 0; -1]
+dict.set 'directions' 'east' [1; 0; 0]
+dict.set 'directions' 'south' [0; 0; 1]
+dict.set 'directions' 'west' [-1; 0; 0]
+setGlobal 'DIRECTIONS' *directions
+
 # Автоматические глобальные переменные
 # MAP - текущая карта (map1, map2 и тд)
 # ENEMIES_COUNT - количество врагов
 # SURVIVORS_COUNT - количество выживших
+# MARK_CHAR - '

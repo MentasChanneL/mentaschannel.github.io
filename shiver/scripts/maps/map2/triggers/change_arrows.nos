@@ -112,16 +112,21 @@ Shiver.addClickableBlocks 'start_generator' 'global(TEAM_SURVIVORS)' 1; 324.5; 3
             if !global(TNT_GOAL_OPEN) { jump 'return' }
             Shiver.removeClickableBlocks 'c_barrelvar(arg.0)'
             World.setBlockParam 'open' 'true' *blockX; *blockY; *blockZ; *blockX; *blockY; *blockZ;
+            World.getBlockParam 'face' 'facing' *blockX; *blockY; *blockZ;
+            copyToLocal 'DIRECTIONS' 'directions'
+            dict.get 'directions' *face 'direction'
+            list.unpack 'direction' ['faceX'; 'faceY'; 'faceZ']
             setVars [
                 'particleX'; var(blockX) + var(faceX);
                 'particleY'; var(blockY) + var(faceY);
                 'particleZ'; var(blockZ) + var(faceZ)
             ]
             World.particle *particleX; *particleY; *particleZ; '{"type": "poof", "count": 2}'
+            Entity.spawn '*' *particleX; *particleY; *particleZ; 'e2NvbXBvbmVudHM6eyJtaW5lY3JhZnQ6ZW50aXR5X2RhdGEiOntBZ2U6NTkwMCxIZWFsdGg6MTAyNCxJdGVtOntjb21wb25lbnRzOnsibWluZWNyYWZ0OmN1c3RvbV9tb2RlbF9kYXRhIjp7ZmxvYXRzOls4NC4wZl19fSxjb3VudDoxLGlkOiJtaW5lY3JhZnQ6Y2xheV9iYWxsIn0sTm9HcmF2aXR5OjFiLFBpY2t1cERlbGF5OjYwMDAsaWQ6Im1pbmVjcmFmdDppdGVtIn19LGNvdW50OjEsaWQ6Im1pbmVjcmFmdDpwaWdfc3Bhd25fZWdnIn0='
             World.sound 'minecraft:block.barrel.open' 1; 1; *blockX; *blockY; *blockZ;
             Player.sendActionbar 'goal' [*player] 40; ['+1'] 40;
             setGlobal 'TNT_GOAL_NEED' global(TNT_GOAL_NEED) - 1
-            message '<#FF7070>☑ <#BC5353><tr:shiver.message.map2.founded_tnt:"<#FF7070>math(3 - global(TNT_GOAL_NEED))":"<#FF7070>3">'
+            message '<br><#FF7070>☑ <#BC5353><tr:shiver.message.map2.founded_tnt:"<#FF7070>math(3 - global(TNT_GOAL_NEED))":"<#FF7070>3"><br>'
             if global(TNT_GOAL_NEED) { jump 'return' }
             # TNT searching complete
             Entity.setCoord 'global(MINECART)' 'yaw' 90;

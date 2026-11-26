@@ -79,8 +79,9 @@ input[type=range]{width:100%;margin:8px 0 0;accent-color:var(--mint);display:blo
 <div class="range-row"><div class="range-head"><label for="smooth">Сглаживание</label><output id="smoothValue">35%</output></div><input id="smooth" type="range" min="0" max="90" step="5" value="35"></div>
 </div>
 <div class="range-row"><div class="range-head"><label for="zoom">Zoom камеры в игре</label><output id="zoomValue">1.0×</output></div><input id="zoom" type="range" min="1" max="4" step="0.1" value="1"></div>
-<div class="range-row"><div class="range-head"><label for="cameraHeight">Высота / подглядывание</label><output id="cameraHeightValue">0.00 блока</output></div><input id="cameraHeight" type="range" min="-0.4" max="0.6" step="0.02" value="0"></div>
-<p class="note">Высота сдвигает только изображение на клиенте, не перемещая тело игрока. При взаимодействии верни слайдер к 0.00.</p>
+<div class="range-row"><div class="range-head"><label for="cameraHeight">Высота камеры · до уровня пола</label><output id="cameraHeightValue">0.00 блока</output></div><input id="cameraHeight" type="range" min="-1.6" max="0.6" step="0.02" value="0"></div>
+<div class="link-actions"><button id="resetHeight" class="secondary" type="button">Вернуть обычную высоту</button></div>
+<p class="note">Крайнее нижнее положение опускает камеру примерно к уровню ног. Высота меняется плавно. Это сдвиг только изображения на клиенте, тело игрока не перемещается.</p>
 <p class="note">Инверсия и чувствительность здесь применяются до отправки в мод. В меню /mobilecamera есть отдельные игровые настройки — не включай инверсию одной оси одновременно в обоих местах.</p>
 </section>
 </div></div>
@@ -202,6 +203,7 @@ $('start').addEventListener('click',startSensors);
 $('calibrate').addEventListener('click',()=>{if(!latestQ)return;neutralQ=latestQ;smoothYaw=0;smoothPitch=0;smoothRoll=0;lastSensorAt=0;$('yaw').textContent='+0.0°';$('pitch').textContent='+0.0°';$('roll').textContent='+0.0°';$('sensorHint').textContent='Центр сохранён. Поворачивай телефон относительно этого положения.';sendPacket()});
 $('connect').addEventListener('click',connect);
 $('disconnect').addEventListener('click',()=>{socket?.close(1000,'Disconnected');socket=null;connection(false,'Не подключено');$('sentStatus').textContent='Передача остановлена.'});
+$('resetHeight').addEventListener('click',()=>{$('cameraHeight').value='0';persist();$('sensorHint').textContent='Высота камеры плавно возвращается в обычное положение.';});
 for(const key of Object.keys(settings))$(key).addEventListener('input',persist);
 persist();
 window.addEventListener('pagehide',()=>socket?.close());

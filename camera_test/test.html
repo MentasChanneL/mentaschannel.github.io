@@ -1,257 +1,140 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#10141d">
-  <title>Shiver Camera — Phone Link</title>
-  <style>
-    :root { color-scheme: dark; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100dvh; background: radial-gradient(ellipse at top, #202b40 0, #10141d 58%); color: #eef3ff; }
-    main { width: min(100%, 560px); margin: 0 auto; padding: max(22px, env(safe-area-inset-top)) 18px max(24px, env(safe-area-inset-bottom)); }
-    .top { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:22px; }
-    .brand { font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#9fb0cb; font-weight:700; }
-    .pill { border:1px solid #35445c; border-radius:999px; padding:6px 10px; font-size:12px; color:#b9c9e2; }
-    h1 { font-size: clamp(29px, 8vw, 42px); line-height:1.04; margin:0 0 10px; letter-spacing:-.04em; }
-    .sub { margin:0 0 24px; color:#aab8cf; line-height:1.5; font-size:14px; }
-    .panel { background:rgba(25,33,47,.88); border:1px solid #2c394e; border-radius:20px; padding:16px; box-shadow:0 14px 40px #0003; }
-    .status { display:flex; align-items:center; gap:9px; font-size:13px; color:#b8c5d9; margin-bottom:14px; }
-    .dot { width:9px; height:9px; border-radius:50%; background:#67758c; box-shadow:0 0 0 4px #67758c22; }
-    .dot.live { background:#49d69a; box-shadow:0 0 0 4px #49d69a22; }
-    .actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-    button { border:0; border-radius:13px; padding:14px 12px; font:inherit; font-weight:700; cursor:pointer; color:#0d1820; background:#9edfc7; }
-    button.secondary { background:#29384d; color:#e4edfc; border:1px solid #40516b; }
-    button:disabled { opacity:.45; cursor:not-allowed; }
-    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-top:14px; }
-    .metric { min-width:0; border-radius:14px; background:#131b28; border:1px solid #28364b; padding:13px 10px; }
-    .metric span { display:block; font-size:11px; color:#92a4bf; margin-bottom:7px; }
-    .metric strong { display:block; font-size:clamp(21px, 6vw, 28px); font-variant-numeric:tabular-nums; letter-spacing:-.04em; }
-    .metric small { font-size:10px; color:#71839e; }
-    .help { margin:18px 2px 0; color:#9eacc2; font-size:12px; line-height:1.55; }
-    .help b { color:#dce7f8; }
-    .bar-wrap { margin-top:16px; }
-    .bar-head { display:flex; justify-content:space-between; gap:12px; color:#aab8cf; font-size:12px; margin-bottom:9px; }
-    input[type=range] { width:100%; accent-color:#9edfc7; }
-    .log { margin-top:16px; color:#8394ad; font-size:11px; line-height:1.5; min-height:16px; overflow-wrap:anywhere; }
-    .link-panel { margin-top:14px; }
-    .field { display:block; margin-top:12px; color:#9fb0cb; font-size:12px; }
-    .field input { display:block; width:100%; margin-top:6px; border:1px solid #40516b; border-radius:11px; background:#101723; color:#eef3ff; font:inherit; font-size:16px; padding:12px; outline:none; }
-    .field input:focus { border-color:#9edfc7; }
-    .link-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
-    .status-line { margin-top:12px; color:#b8c5d9; font-size:12px; overflow-wrap:anywhere; }
-    .status-line b { color:#9edfc7; }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10141d"><title>Mobile Camera — Phone Controller</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;--bg:#0b1018;--panel:#151f2d;--line:#2c3b50;--text:#edf3ff;--muted:#9baec8;--mint:#9edfc7}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh;color:var(--text);background:radial-gradient(ellipse at 50% -10%,#263650 0,var(--bg) 60%)}
+main{width:min(100%,620px);margin:auto;padding:max(20px,env(safe-area-inset-top)) 16px max(26px,env(safe-area-inset-bottom))}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;gap:12px}.brand{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#b8c8df}
+.tag{border:1px solid var(--line);border-radius:99px;padding:7px 10px;color:var(--muted);font-size:11px}
+h1{font-size:clamp(34px,9vw,48px);line-height:.98;letter-spacing:-.05em;margin:0 0 12px}.intro{font-size:14px;line-height:1.55;color:var(--muted);margin:0 0 22px}
+.panel{background:linear-gradient(145deg,#192434f2,#121a27f2);border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:13px;box-shadow:0 16px 42px #0003}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}h2{font-size:14px;margin:0}
+.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:#69788e}.dot.live{background:#4bd69a;box-shadow:0 0 0 4px #4bd69a20}
+.actions,.link-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}button{border:0;border-radius:12px;padding:13px 10px;font:inherit;font-size:13px;font-weight:750;cursor:pointer;color:#0d1820;background:var(--mint)}
+button.secondary{background:#26364b;border:1px solid #40536d;color:#e7effc}button:disabled{opacity:.42;cursor:not-allowed}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}.metric{min-width:0;border:1px solid #29384d;background:#101824;border-radius:13px;padding:11px 9px}
+.metric span{display:block;color:#8fa3bf;font-size:10px;margin-bottom:6px}.metric strong{display:block;font-size:clamp(20px,6vw,27px);font-variant-numeric:tabular-nums;white-space:nowrap}.metric small{display:block;color:#71839e;font-size:10px;margin-top:2px}
+.field{display:block;color:var(--muted);font-size:12px;margin-top:12px}.field input{display:block;width:100%;margin-top:6px;border:1px solid #3a4b64;border-radius:11px;background:#0d1521;color:var(--text);font:inherit;font-size:16px;padding:12px;outline:none}
+input:focus{border-color:var(--mint)!important}.link-actions{margin-top:12px}
+.setting{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #29384b;color:#dce7f7;font-size:13px}.setting:last-child{border:0;padding-bottom:2px}
+.setting small{display:block;color:#8498b4;font-size:11px;margin-top:3px}.switch{appearance:none;width:42px;height:24px;flex:0 0 42px;border-radius:99px;background:#34445b;position:relative;cursor:pointer}
+.switch:before{content:"";position:absolute;width:18px;height:18px;top:3px;left:3px;border-radius:50%;background:#d8e2f1;transition:.18s}.switch:checked{background:#4d9d83}.switch:checked:before{transform:translateX(18px);background:white}
+.range-row{padding:12px 0;border-bottom:1px solid #29384b}.range-row:last-child{border:0;padding-bottom:2px}.range-head{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#dce7f7}.range-head output{color:var(--mint);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;margin:12px 0 0;accent-color:var(--mint)}.note{color:#91a4be;font-size:11px;line-height:1.55;margin:13px 2px 0}.note b{color:#dbe8f9}
+.status-line{color:#b4c3d8;font-size:12px;line-height:1.5;margin-top:12px;overflow-wrap:anywhere}.log{color:#71849f;font-size:10px;line-height:1.5;margin-top:10px;overflow-wrap:anywhere}
+@media(max-width:380px){main{padding-left:12px;padding-right:12px}.panel{padding:13px}.tag{font-size:10px}}
+</style>
 </head>
-<body>
-<main>
-  <div class="top">
-    <div class="brand">Shiver Tools / Camera</div>
-    <div class="pill">Android · Wi-Fi link</div>
-  </div>
-  <h1>Телефон<br>как камера</h1>
-  <p class="sub">Запусти датчики, подключись к компьютеру по Wi-Fi и двигай телефоном. Пока проверяем передачу ориентации; управление Minecraft подключим следующим шагом.</p>
+<body><main>
+<header><div class="brand">◉ &nbsp; MOBILE CAMERA</div><div class="tag">Android · local Wi-Fi</div></header>
+<h1>Телефон<br>как игровая камера</h1>
+<p class="intro">Подключи Android к компьютеру и управляй обзором Minecraft движением телефона. Держи телефон горизонтально, экраном к себе, верхним краем вперёд.</p>
 
-  <section class="panel">
-    <div class="status"><i id="dot" class="dot"></i><span id="status">Датчики не запущены</span></div>
-    <div class="actions">
-      <button id="start">Запустить датчики</button>
-      <button id="calibrate" class="secondary" disabled>Калибровать</button>
-    </div>
-    <div class="grid">
-      <div class="metric"><span>ALPHA · поворот</span><strong id="alpha">—</strong><small>градусы</small></div>
-      <div class="metric"><span>BETA · наклон</span><strong id="beta">—</strong><small>градусы</small></div>
-      <div class="metric"><span>GAMMA · крен</span><strong id="gamma">—</strong><small>градусы</small></div>
-    </div>
-    <div class="bar-wrap">
-      <div class="bar-head"><span>Чувствительность (только для отображения)</span><b id="gainLabel">1.0×</b></div>
-      <input id="gain" type="range" min="0.25" max="3" step="0.05" value="1">
-    </div>
-    <div class="log" id="log">Ожидаю разрешения браузера и события deviceorientation.</div>
-  </section>
+<section class="panel">
+<div class="panel-head"><h2>1. Датчики телефона</h2><div class="status"><i id="sensorDot" class="dot"></i><span id="sensorStatus">Ожидание</span></div></div>
+<div class="actions"><button id="start">Запустить датчики</button><button id="calibrate" class="secondary" disabled>Калибровать</button></div>
+<div class="metrics">
+<div class="metric"><span>ПОВОРОТ</span><strong id="yaw">—</strong><small>влево / вправо</small></div>
+<div class="metric"><span>НАКЛОН</span><strong id="pitch">—</strong><small>вверх / вниз</small></div>
+<div class="metric"><span>СЫРОЙ γ</span><strong id="gamma">—</strong><small>диагностика</small></div>
+</div>
+<div class="status-line" id="sensorHint">Нажми «Запустить датчики» и разреши доступ, если Chrome спросит.</div>
+</section>
 
-  <section class="panel link-panel">
-    <div class="status"><i id="wsDot" class="dot"></i><span id="wsStatus">Компьютер не подключён</span></div>
-    <label class="field">IP-адрес компьютера в Wi-Fi
-      <input id="host" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="Например, 192.168.1.100" value="">
-    </label>
-    <label class="field">Порт
-      <input id="port" inputmode="numeric" autocomplete="off" value="8765">
-    </label>
-    <div class="link-actions">
-      <button id="connect">Подключиться</button>
-      <button id="disconnect" class="secondary" disabled>Отключиться</button>
-    </div>
-    <div class="status-line" id="sentStatus">Данные ещё не отправляются.</div>
-    <p class="help">Сначала запусти Shiver Camera Bridge на компьютере. Chrome может отдельно спросить разрешение на доступ сайта к локальной сети — разреши его.</p>
-  </section>
+<section class="panel">
+<div class="panel-head"><h2>2. Подключение к Minecraft</h2><div class="status"><i id="wsDot" class="dot"></i><span id="wsStatus">Не подключено</span></div></div>
+<label class="field">IP-адрес компьютера в Wi-Fi<input id="host" type="text" inputmode="decimal" autocomplete="off" placeholder="Например, 192.168.1.100"></label>
+<label class="field">Порт WebSocket<input id="port" type="number" value="8765" min="1" max="65535"></label>
+<div class="link-actions"><button id="connect">Подключиться</button><button id="disconnect" class="secondary" disabled>Отключиться</button></div>
+<div class="status-line" id="sentStatus">Сначала запусти мод в Minecraft, затем подключись к IP компьютера.</div>
+</section>
 
-  <p class="help"><b>Как проверить:</b><br>1. Запусти Bridge на компьютере и узнай его IPv4-адрес Wi-Fi.<br>2. Введи этот адрес выше и нажми «Подключиться».<br>3. Запусти датчики, откалибруй телефон и двигай им. На компьютере должны появляться значения углов.</p>
+<section class="panel">
+<div class="panel-head"><h2>3. Управление</h2><span class="tag">сохраняется на телефоне</span></div>
+<div class="setting"><div>Инвертировать поворот<small>Меняет направление влево / вправо</small></div><input class="switch" id="invertYaw" type="checkbox"></div>
+<div class="setting"><div>Инвертировать наклон<small>Меняет направление вверх / вниз</small></div><input class="switch" id="invertPitch" type="checkbox"></div>
+<div class="range-row"><div class="range-head"><label for="yawGain">Чувствительность поворота</label><output id="yawGainValue">1.00×</output></div><input id="yawGain" type="range" min="0.1" max="3" step="0.05" value="1"></div>
+<div class="range-row"><div class="range-head"><label for="pitchGain">Чувствительность наклона</label><output id="pitchGainValue">1.00×</output></div><input id="pitchGain" type="range" min="0.1" max="3" step="0.05" value="1"></div>
+<div class="range-row"><div class="range-head"><label for="smooth">Сглаживание</label><output id="smoothValue">35%</output></div><input id="smooth" type="range" min="0" max="90" step="5" value="35"></div>
+<p class="note">После изменения хвата или поворота экрана нажми «Калибровать» ещё раз.</p>
+</section>
+<p class="note"><b>Как запустить:</b><br>1. Запусти Minecraft с модом Mobile Camera.<br>2. Узнай LAN IPv4 компьютера и введи его выше.<br>3. Подключись, запусти датчики и откалибруй телефон в нейтральном положении.<br>4. В игре введи <b>/mobilecamera</b> и подстрой чувствительность.</p>
+<div class="log" id="log">Mobile Camera · WebSocket /camera · port 8765</div>
 </main>
 <script>
 (() => {
-  const $ = (id) => document.getElementById(id);
-  const dot = $('dot');
-  const status = $('status');
-  const log = $('log');
-  const start = $('start');
-  const calibrate = $('calibrate');
-  const gain = $('gain');
-  const gainLabel = $('gainLabel');
-  const wsDot = $('wsDot');
-  const wsStatus = $('wsStatus');
-  const sentStatus = $('sentStatus');
-  const connectButton = $('connect');
-  const disconnectButton = $('disconnect');
-  let running = false;
-  let latest = null;
-  let neutral = null;
-  let socket = null;
-  let lastSentAt = 0;
-  let sentCount = 0;
-
-  const wrap = (value) => ((value + 180) % 360 + 360) % 360 - 180;
-  const fmt = (value) => Number.isFinite(value) ? `${value >= 0 ? '+' : ''}${value.toFixed(1)}°` : '—';
-  const relative = () => {
-    if (!latest || !neutral) return null;
-    const multiplier = Number(gain.value);
-    return {
-      yaw: wrap(latest.alpha - neutral.alpha) * multiplier,
-      pitch: wrap(latest.beta - neutral.beta) * multiplier,
-      roll: wrap(latest.gamma - neutral.gamma) * multiplier
-    };
-  };
-
-  function updateConnectionUi(connected, message) {
-    wsDot.classList.toggle('live', connected);
-    wsStatus.textContent = message;
-    connectButton.disabled = connected;
-    disconnectButton.disabled = !connected;
-  }
-
-  function onOrientation(event) {
-    if (event.alpha == null || event.beta == null || event.gamma == null) {
-      log.textContent = 'Браузер прислал неполные данные датчика. Попробуй изменить положение телефона.';
-      return;
-    }
-    latest = { alpha: event.alpha, beta: event.beta, gamma: event.gamma };
-    if (!neutral) neutral = { ...latest };
-    const delta = relative();
-    $('alpha').textContent = fmt(delta.yaw);
-    $('beta').textContent = fmt(delta.pitch);
-    $('gamma').textContent = fmt(delta.roll);
-    dot.classList.add('live');
-    status.textContent = event.absolute ? 'Датчики работают · абсолютная ориентация' : 'Датчики работают';
-    log.textContent = `Последнее событие: ${new Date().toLocaleTimeString()} · absolute=${event.absolute}`;
-
-    const now = performance.now();
-    if (socket?.readyState === WebSocket.OPEN && delta && now - lastSentAt >= 33) {
-      lastSentAt = now;
-      const payload = {
-        type: 'orientation',
-        yaw: Number(delta.yaw.toFixed(2)),
-        pitch: Number(delta.pitch.toFixed(2)),
-        roll: Number(delta.roll.toFixed(2)),
-        alpha: Number(latest.alpha.toFixed(2)),
-        beta: Number(latest.beta.toFixed(2)),
-        gamma: Number(latest.gamma.toFixed(2)),
-        absolute: Boolean(event.absolute),
-        timestamp: Date.now()
-      };
-      try {
-        socket.send(JSON.stringify(payload));
-        sentCount++;
-        if (sentCount % 10 === 0) sentStatus.textContent = `Отправляются углы: yaw ${fmt(delta.yaw)}, pitch ${fmt(delta.pitch)}, roll ${fmt(delta.roll)}.`;
-      } catch (error) {
-        sentStatus.textContent = `Ошибка отправки: ${error.message || error}`;
-      }
-    }
-  }
-
-  async function begin() {
-    if (!('DeviceOrientationEvent' in window)) {
-      status.textContent = 'DeviceOrientation API недоступен';
-      log.textContent = 'Открой страницу в актуальном Chrome на Android через HTTPS.';
-      return;
-    }
-    try {
-      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        const permission = await DeviceOrientationEvent.requestPermission();
-        if (permission !== 'granted') throw new Error('Браузер не разрешил доступ к датчикам.');
-      }
-      window.addEventListener('deviceorientation', onOrientation, true);
-      running = true;
-      neutral = latest ? { ...latest } : null;
-      start.disabled = true;
-      calibrate.disabled = false;
-      status.textContent = 'Ожидаю данные датчиков…';
-      log.textContent = 'Разрешение получено. Теперь медленно поверни телефон.';
-    } catch (error) {
-      status.textContent = 'Не удалось запустить датчики';
-      log.textContent = error?.message || String(error);
-    }
-  }
-
-  function connect() {
-    const host = $('host').value.trim();
-    const portText = $('port').value.trim();
-    const port = Number(portText);
-    if (!host || !/^[a-zA-Z0-9.-]+$/.test(host) || !Number.isInteger(port) || port < 1 || port > 65535) {
-      updateConnectionUi(false, 'Проверь IP-адрес и порт.');
-      return;
-    }
-    if (socket) socket.close();
-    updateConnectionUi(false, `Подключаюсь к ${host}:${port}…`);
-    sentStatus.textContent = 'Ожидаю соединение…';
-    const currentSocket = new WebSocket(`ws://${host}:${port}/camera`);
-    socket = currentSocket;
-    let connectionFailed = false;
-    currentSocket.addEventListener('open', () => {
-      updateConnectionUi(true, `Подключено к ${host}:${port}`);
-      sentStatus.textContent = running ? 'Соединение готово. Двигаай телефоном.' : 'Соединение готово. Теперь запусти датчики.';
-    });
-    currentSocket.addEventListener('message', (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        if (data.type === 'hello') sentStatus.textContent = data.message || 'Компьютер принял подключение.';
-      } catch { /* Ignore non-JSON bridge messages. */ }
-    });
-    currentSocket.addEventListener('error', () => {
-      connectionFailed = true;
-      updateConnectionUi(false, 'Не удалось подключиться. Проверь IP, порт и брандмауэр.');
-      sentStatus.textContent = 'Chrome также мог заблокировать доступ к локальной сети.';
-    });
-    currentSocket.addEventListener('close', () => {
-      if (currentSocket !== socket) return;
-      if (!connectionFailed) updateConnectionUi(false, 'Соединение закрыто');
-    });
-  }
-
-  function disconnect() {
-    if (socket) socket.close(1000, 'Disconnected by user');
-    socket = null;
-    updateConnectionUi(false, 'Компьютер не подключён');
-    sentStatus.textContent = 'Передача остановлена.';
-  }
-
-  start.addEventListener('click', begin);
-  calibrate.addEventListener('click', () => {
-    if (!latest) return;
-    neutral = { ...latest };
-    $('alpha').textContent = '+0.0°';
-    $('beta').textContent = '+0.0°';
-    $('gamma').textContent = '+0.0°';
-    sentStatus.textContent = 'Калибровка сохранена. Данные идут относительно текущего положения.';
-    log.textContent = 'Нейтральное положение сохранено.';
-  });
-  gain.addEventListener('input', () => {
-    gainLabel.textContent = `${Number(gain.value).toFixed(2).replace(/0+$/, '').replace(/\.$/, '')}×`;
-    if (latest && neutral) onOrientation({ ...latest, absolute: false });
-  });
-  connectButton.addEventListener('click', connect);
-  disconnectButton.addEventListener('click', disconnect);
-  window.addEventListener('pagehide', () => socket?.close());
+const $=id=>document.getElementById(id);
+const settings={invertYaw:false,invertPitch:false,yawGain:1,pitchGain:1,smooth:35};
+try{Object.assign(settings,JSON.parse(localStorage.getItem('mobile-camera-settings')||'{}'))}catch{}
+for(const key of Object.keys(settings)){if($(key).type==='checkbox')$(key).checked=!!settings[key];else $(key).value=String(settings[key])}
+let latestQ=null,neutralQ=null,socket=null,sensorRunning=false,lastSentAt=0,smoothYaw=0,smoothPitch=0,sentCount=0;
+const fmt=n=>(n>=0?'+':'')+n.toFixed(1)+'°';
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const wrap=v=>((v+180)%360+360)%360-180;
+const mul=(a,b)=>[a[3]*b[0]+a[0]*b[3]+a[1]*b[2]-a[2]*b[1],a[3]*b[1]-a[0]*b[2]+a[1]*b[3]+a[2]*b[0],a[3]*b[2]+a[0]*b[1]-a[1]*b[0]+a[2]*b[3],a[3]*b[3]-a[0]*b[0]-a[1]*b[1]-a[2]*b[2]];
+const inv=q=>[-q[0],-q[1],-q[2],q[3]];
+const rot=(q,v)=>mul(mul(q,[v[0],v[1],v[2],0]),inv(q)).slice(0,3);
+const axis=(x,y,z,a)=>{const s=Math.sin(a/2);return[x*s,y*s,z*s,Math.cos(a/2)]};
+function orientationQ(e){
+const r=Math.PI/180,a=(e.alpha||0)*r,b=(e.beta||0)*r,g=(e.gamma||0)*r,screenAngle=(screen.orientation?.angle??window.orientation??0)*r;
+return mul(mul(mul(axis(0,0,1,a),axis(1,0,0,b)),axis(0,1,0,g)),axis(0,0,1,-screenAngle));
+}
+function axes(){
+const a=((screen.orientation?.angle??window.orientation??0)%360+360)%360;
+let f;if(a>=45&&a<135)f=[1,0,0];else if(a>=135&&a<225)f=[0,-1,0];else if(a>=225&&a<315)f=[-1,0,0];else f=[0,1,0];
+const cross=(u,v)=>[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
+const up=cross([0,0,1],f),right=cross(f,up);return{f,up,right};
+}
+function relativeAngles(){
+if(!latestQ||!neutralQ)return null;
+const q=mul(inv(neutralQ),latestQ),a=axes(),v=rot(q,a.f),dot=(u,w)=>u[0]*w[0]+u[1]*w[1]+u[2]*w[2];
+return{yaw:Math.atan2(dot(v,a.right),dot(v,a.f))*180/Math.PI,pitch:Math.asin(clamp(dot(v,a.up),-1,1))*180/Math.PI};
+}
+function persist(){
+for(const key of Object.keys(settings))settings[key]=$(key).type==='checkbox'?$(key).checked:Number($(key).value);
+localStorage.setItem('mobile-camera-settings',JSON.stringify(settings));
+$('yawGainValue').textContent=settings.yawGain.toFixed(2)+'×';$('pitchGainValue').textContent=settings.pitchGain.toFixed(2)+'×';$('smoothValue').textContent=settings.smooth+'%';
+}
+function onOrientation(e){
+if(e.alpha==null||e.beta==null||e.gamma==null){$('sensorHint').textContent='Браузер прислал неполные данные датчика.';return}
+latestQ=orientationQ(e);if(!neutralQ)neutralQ=latestQ;
+$('gamma').textContent=fmt(e.gamma);$('sensorDot').classList.add('live');$('sensorStatus').textContent='Датчики работают';
+const ang=relativeAngles();if(!ang)return;
+const ty=wrap(ang.yaw)*settings.yawGain*(settings.invertYaw?-1:1),tp=ang.pitch*settings.pitchGain*(settings.invertPitch?-1:1);
+$('yaw').textContent=fmt(ty);$('pitch').textContent=fmt(tp);
+const now=performance.now(),dt=now-lastSentAt;
+if(dt>0){const s=settings.smooth/100,k=s===0?1:1-Math.pow(s,dt/16.67);smoothYaw=wrap(smoothYaw+wrap(ty-smoothYaw)*k);smoothPitch+= (tp-smoothPitch)*k}
+if(socket?.readyState===WebSocket.OPEN&&now-lastSentAt>=33){
+lastSentAt=now;socket.send(JSON.stringify({type:'orientation',yaw:Number(smoothYaw.toFixed(2)),pitch:Number(smoothPitch.toFixed(2)),roll:0,alpha:Number(e.alpha.toFixed(2)),beta:Number(e.beta.toFixed(2)),gamma:Number(e.gamma.toFixed(2)),timestamp:Date.now()}));
+if(++sentCount%15===0)$('sentStatus').textContent='Передача активна · поворот '+fmt(smoothYaw)+', наклон '+fmt(smoothPitch)+'.';
+}
+}
+async function startSensors(){
+if(!('DeviceOrientationEvent'in window)){$('sensorStatus').textContent='Датчики недоступны';$('sensorHint').textContent='Открой страницу в актуальном Chrome на Android через HTTPS.';return}
+try{if(typeof DeviceOrientationEvent.requestPermission==='function'){const p=await DeviceOrientationEvent.requestPermission();if(p!=='granted')throw Error('Браузер не разрешил доступ к датчикам.')}
+window.addEventListener('deviceorientation',onOrientation,true);sensorRunning=true;$('start').disabled=true;$('calibrate').disabled=false;$('sensorStatus').textContent='Ожидаю данные…';$('sensorHint').textContent='Доступ разрешён. Подожди первое событие датчиков.';
+}catch(e){$('sensorStatus').textContent='Ошибка запуска';$('sensorHint').textContent=e.message||String(e)}
+}
+function connection(connected,message){$('wsDot').classList.toggle('live',connected);$('wsStatus').textContent=message;$('connect').disabled=connected;$('disconnect').disabled=!connected}
+function connect(){
+const host=$('host').value.trim(),port=Number($('port').value);
+if(!host||!/^[a-zA-Z0-9.-]+$/.test(host)||!Number.isInteger(port)||port<1||port>65535){connection(false,'Проверь IP и порт.');return}
+socket?.close();connection(false,'Подключение к '+host+':'+port+'…');$('sentStatus').textContent='Открываю WebSocket…';
+const current=new WebSocket('ws://'+host+':'+port+'/camera');socket=current;
+current.addEventListener('open',()=>{connection(true,'Подключено · '+host+':'+port);$('sentStatus').textContent=sensorRunning?'Соединение установлено. Данные отправляются.':'Соединение установлено. Теперь запусти датчики.'});
+current.addEventListener('message',e=>{try{const d=JSON.parse(e.data);if(d.type==='hello')$('sentStatus').textContent=d.message||'Мод подключён.'}catch{}});
+current.addEventListener('error',()=>{connection(false,'Не удалось подключиться');$('sentStatus').textContent='Проверь IP, порт, локальную сеть и брандмауэр Ubuntu.'});
+current.addEventListener('close',()=>{if(current===socket)connection(false,'Соединение закрыто')});
+}
+$('start').addEventListener('click',startSensors);
+$('calibrate').addEventListener('click',()=>{if(!latestQ)return;neutralQ=latestQ;smoothYaw=0;smoothPitch=0;$('yaw').textContent='+0.0°';$('pitch').textContent='+0.0°';$('sensorHint').textContent='Калибровка сохранена. Держи телефон в этом положении как нейтральном.';if(socket?.readyState===WebSocket.OPEN)socket.send(JSON.stringify({type:'orientation',yaw:0,pitch:0,roll:0,timestamp:Date.now()}))});
+$('connect').addEventListener('click',connect);
+$('disconnect').addEventListener('click',()=>{socket?.close(1000,'Disconnected');socket=null;connection(false,'Не подключено');$('sentStatus').textContent='Передача остановлена.'});
+for(const key of Object.keys(settings))$(key).addEventListener('input',persist);
+$('yawGainValue').textContent=Number($('yawGain').value).toFixed(2)+'×';$('pitchGainValue').textContent=Number($('pitchGain').value).toFixed(2)+'×';$('smoothValue').textContent=$('smooth').value+'%';
+window.addEventListener('pagehide',()=>socket?.close());
 })();
-</script>
-</body>
-</html>
+</script></body></html>

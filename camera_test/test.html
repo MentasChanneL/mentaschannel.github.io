@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#10141d"><title>Mobile Camera — Phone Controller</title>
+<meta name="theme-color" content="#10141d"><title>Mobile Camera — Remote Camera Controller</title>
 <style>
 :root{color-scheme:dark;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;--bg:#0b1018;--panel:#151f2d;--line:#2c3b50;--text:#edf3ff;--muted:#9baec8;--mint:#9edfc7}
 *{box-sizing:border-box}body{margin:0;min-height:100dvh;color:var(--text);background:radial-gradient(ellipse at 50% -10%,#263650 0,var(--bg) 62%)}
@@ -36,9 +36,9 @@ input[type=range]{width:100%;margin:8px 0 0;accent-color:var(--mint);display:blo
 </style>
 </head>
 <body><main>
-<header><div class="brand">◉ &nbsp; MOBILE CAMERA</div><div class="tag">Android · local Wi-Fi · landscape</div></header>
-<h1>Телефон — игровая камера</h1>
-<p class="intro">Держи телефон горизонтально, экраном к себе, верхним краем вперёд. Управляй поворотом, наклоном, roll, zoom и высотой взгляда в Minecraft.</p>
+<header><div class="brand">◉ &nbsp; MOBILE CAMERA</div><div class="tag">Android / PC · Radmin VPN / local Wi-Fi</div></header>
+<h1>Удалённое управление камерой</h1>
+<p class="intro">Подключай телефон или второй компьютер. Можно удалённо менять zoom и высоту камеры в Minecraft, даже без датчиков.</p>
 
 <div class="layout"><div class="stack left">
 <section class="panel">
@@ -59,10 +59,10 @@ input[type=range]{width:100%;margin:8px 0 0;accent-color:var(--mint);display:blo
 
 <section class="panel">
 <div class="panel-head"><h2>2. Подключение к Minecraft</h2><div class="status"><i id="wsDot" class="dot"></i><span id="wsStatus">Не подключено</span></div></div>
-<label class="field">IP-адрес компьютера в Wi-Fi<input id="host" type="text" inputmode="decimal" autocomplete="off" placeholder="Например, 192.168.1.100"></label>
+<label class="field">IP компьютера с Minecraft (LAN или Radmin VPN)<input id="host" type="text" inputmode="decimal" autocomplete="off" placeholder="Например, 192.168.1.100"></label>
 <label class="field">Порт WebSocket<input id="port" type="number" value="8765" min="1" max="65535"></label>
 <div class="link-actions"><button id="connect">Подключиться</button><button id="disconnect" class="secondary" disabled>Отключиться</button></div>
-<div class="status-line" id="sentStatus">Сначала запусти мод в Minecraft, затем подключись к IP компьютера.</div>
+<div class="status-line" id="sentStatus">Запусти сервер в /mobilecamera. Для Radmin открой эту страницу по http://RADMIN_IP:8765/.</div>
 </section>
 </div>
 <div class="stack right">
@@ -85,10 +85,10 @@ input[type=range]{width:100%;margin:8px 0 0;accent-color:var(--mint);display:blo
 <p class="note">Инверсия и чувствительность применяются здесь до отправки в мод. В меню /mobilecamera включай/выключай управление и настраивай запасные zoom и высоту, когда телефон не подключён.</p>
 </section>
 </div></div>
-<p class="note"><b>Как запустить:</b><br>1. Запусти Minecraft с модом Mobile Camera.<br>2. Узнай LAN IPv4 компьютера и введи его выше.<br>3. Подключись, запусти датчики и откалибруй телефон в нейтральном положении.<br>4. В игре введи <b>/mobilecamera</b> и подстрой чувствительность.</p>
+<p class="note"><b>Как запустить:</b><br>1. Запусти Minecraft с модом и сервер в <b>/mobilecamera</b>.<br>2. Для Radmin открой на втором ПК <b>http://RADMIN_IP:8765/</b> — это локальная страница самого мода.<br>3. Нажми «Подключиться». На ПК датчики запускать не нужно: зум передаётся сам.<br>4. В меню Minecraft включи «Управление телефоном».</p>
 <div class="log" id="log">Mobile Camera · WebSocket /camera · port 8765 · YAW / PITCH / ROLL</div>
 </main>
-<div class="rotate-prompt" id="rotatePrompt"><div class="rotate-card"><div class="rotate-icon">↻</div><strong>Поверни телефон горизонтально</strong><p>Интерфейс рассчитан на альбомную ориентацию. Поверни экран или продолжи вручную, если браузер неправильно определяет положение.</p><button id="continueAnyway" type="button" style="width:100%;margin-top:14px">Продолжить в любом случае</button></div></div>
+<div class="rotate-prompt" id="rotatePrompt"><div class="rotate-card"><div class="rotate-icon">↻</div><strong>Поверни телефон горизонтально</strong><p>Интерфейс рассчитан на альбомную ориентацию. На ПК это окно можно закрыть кнопкой ниже.</p><button id="continueAnyway" type="button" style="width:100%;margin-top:14px">Продолжить в любом случае</button></div></div>
 <script>
 (() => {
 const $=id=>document.getElementById(id);
@@ -111,6 +111,7 @@ const defaults={invertYaw:false,invertPitch:false,invertRoll:false,yawGain:1,pit
 const settings={...defaults};
 try{Object.assign(settings,JSON.parse(localStorage.getItem('mobile-camera-settings')||'{}'))}catch{}
 for(const key of Object.keys(settings)){if($(key).type==='checkbox')$(key).checked=!!settings[key];else $(key).value=String(settings[key])}
+if(location.protocol==='http:'&&location.port==='8765'){$('host').value=location.hostname;$('port').value='8765';$('sentStatus').textContent='Локальная страница мода. Нажми «Подключиться».'}
 let latestQ=null,neutralQ=null,socket=null,sensorRunning=false,lastSentAt=0,lastSensorAt=0,smoothYaw=0,smoothPitch=0,smoothRoll=0,sentCount=0;
 const fmt=n=>(n>=0?'+':'')+n.toFixed(1)+'°';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -152,6 +153,8 @@ if(socket?.readyState!==WebSocket.OPEN)return;
 socket.send(JSON.stringify({type:'orientation',yaw:Number(smoothYaw.toFixed(2)),pitch:Number(smoothPitch.toFixed(2)),roll:Number(smoothRoll.toFixed(2)),zoom:Number(settings.zoom.toFixed(2)),cameraHeight:Number(settings.cameraHeight.toFixed(2)),timestamp:Date.now()}));
 lastSentAt=performance.now();
 }
+// Repeat the current values so desktop-only controllers keep zoom/height alive.
+setInterval(()=>{if(socket?.readyState===WebSocket.OPEN)sendPacket()},150);
 function persist(){
 for(const key of Object.keys(settings))settings[key]=$(key).type==='checkbox'?$(key).checked:Number($(key).value);
 localStorage.setItem('mobile-camera-settings',JSON.stringify(settings));
@@ -194,7 +197,7 @@ const host=$('host').value.trim(),port=Number($('port').value);
 if(!host||!/^[a-zA-Z0-9.-]+$/.test(host)||!Number.isInteger(port)||port<1||port>65535){connection(false,'Проверь IP и порт.');return}
 socket?.close();connection(false,'Подключение к '+host+':'+port+'…');$('sentStatus').textContent='Открываю WebSocket…';
 const current=new WebSocket('ws://'+host+':'+port+'/camera');socket=current;
-current.addEventListener('open',()=>{connection(true,'Подключено · '+host+':'+port);$('sentStatus').textContent=sensorRunning?'Соединение установлено. Данные отправляются.':'Соединение установлено. Теперь запусти датчики.';if(sensorRunning)sendPacket()});
+current.addEventListener('open',()=>{connection(true,'Подключено · '+host+':'+port);$('sentStatus').textContent=sensorRunning?'Соединение установлено. Данные отправляются.':'Соединение установлено. Управление зумом активно.';sendPacket()});
 current.addEventListener('message',e=>{try{const d=JSON.parse(e.data);if(d.type==='hello')$('sentStatus').textContent=d.message||'Мод подключён.'}catch{}});
 current.addEventListener('error',()=>{connection(false,'Не удалось подключиться');$('sentStatus').textContent='Проверь IP, порт, локальную сеть и брандмауэр Ubuntu.'});
 current.addEventListener('close',()=>{if(current===socket)connection(false,'Соединение закрыто')});

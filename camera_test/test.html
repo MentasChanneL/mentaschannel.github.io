@@ -83,8 +83,7 @@ const r=Math.PI/180,a=(e.alpha||0)*r,b=(e.beta||0)*r,g=(e.gamma||0)*r,screenAngl
 return mul(mul(mul(axis(0,0,1,a),axis(1,0,0,b)),axis(0,1,0,g)),axis(0,0,1,-screenAngle));
 }
 function axes(){
-const a=((screen.orientation?.angle??window.orientation??0)%360+360)%360;
-let f;if(a>=45&&a<135)f=[1,0,0];else if(a>=135&&a<225)f=[0,-1,0];else if(a>=225&&a<315)f=[-1,0,0];else f=[0,1,0];
+const f=[0,1,0];
 const cross=(u,v)=>[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
 const up=cross([0,0,1],f),right=cross(f,up);return{f,up,right};
 }

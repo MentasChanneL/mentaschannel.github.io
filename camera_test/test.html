@@ -82,7 +82,7 @@ input[type=range]{width:100%;margin:8px 0 0;accent-color:var(--mint);display:blo
 <div class="range-row"><div class="range-head"><label for="cameraHeight">Высота камеры · до уровня пола</label><output id="cameraHeightValue">0.00 блока</output></div><input id="cameraHeight" type="range" min="-1.6" max="0.6" step="0.02" value="0"></div>
 <div class="link-actions"><button id="resetHeight" class="secondary" type="button">Вернуть обычную высоту</button></div>
 <p class="note">Крайнее нижнее положение опускает камеру примерно к уровню ног. Высота меняется плавно. Это сдвиг только изображения на клиенте, тело игрока не перемещается.</p>
-<p class="note">Инверсия и чувствительность здесь применяются до отправки в мод. В меню /mobilecamera есть отдельные игровые настройки — не включай инверсию одной оси одновременно в обоих местах.</p>
+<p class="note">Инверсия и чувствительность применяются здесь до отправки в мод. В меню /mobilecamera включай/выключай управление и настраивай запасные zoom и высоту, когда телефон не подключён.</p>
 </section>
 </div></div>
 <p class="note"><b>Как запустить:</b><br>1. Запусти Minecraft с модом Mobile Camera.<br>2. Узнай LAN IPv4 компьютера и введи его выше.<br>3. Подключись, запусти датчики и откалибруй телефон в нейтральном положении.<br>4. В игре введи <b>/mobilecamera</b> и подстрой чувствительность.</p>
@@ -132,7 +132,7 @@ const up=cross([0,0,1],f),right=cross(f,up);return{f,up,right};
 }
 function relativeAngles(){
 if(!latestQ||!neutralQ)return null;
-const q=mul(inv(neutralQ),latestQ),a=axes();
+// Both quaternions describe the device orientation in the world frame.\n// Apply the delta in that same frame so each axis is measured against the calibrated pose.\nconst q=mul(latestQ,inv(neutralQ)),a=axes();
 const dot=(u,v)=>u[0]*v[0]+u[1]*v[1]+u[2]*v[2];
 const cross=(u,v)=>[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
 const norm=v=>{const n=Math.hypot(...v);return n<1e-8?null:v.map(x=>x/n)};
@@ -194,7 +194,7 @@ const host=$('host').value.trim(),port=Number($('port').value);
 if(!host||!/^[a-zA-Z0-9.-]+$/.test(host)||!Number.isInteger(port)||port<1||port>65535){connection(false,'Проверь IP и порт.');return}
 socket?.close();connection(false,'Подключение к '+host+':'+port+'…');$('sentStatus').textContent='Открываю WebSocket…';
 const current=new WebSocket('ws://'+host+':'+port+'/camera');socket=current;
-current.addEventListener('open',()=>{connection(true,'Подключено · '+host+':'+port);$('sentStatus').textContent=sensorRunning?'Соединение установлено. Данные отправляются.':'Соединение установлено. Теперь запусти датчики.'});
+current.addEventListener('open',()=>{connection(true,'Подключено · '+host+':'+port);$('sentStatus').textContent=sensorRunning?'Соединение установлено. Данные отправляются.':'Соединение установлено. Теперь запусти датчики.';if(sensorRunning)sendPacket()});
 current.addEventListener('message',e=>{try{const d=JSON.parse(e.data);if(d.type==='hello')$('sentStatus').textContent=d.message||'Мод подключён.'}catch{}});
 current.addEventListener('error',()=>{connection(false,'Не удалось подключиться');$('sentStatus').textContent='Проверь IP, порт, локальную сеть и брандмауэр Ubuntu.'});
 current.addEventListener('close',()=>{if(current===socket)connection(false,'Соединение закрыто')});

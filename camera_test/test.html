@@ -4,42 +4,54 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10141d"><title>Mobile Camera — Phone Controller</title>
 <style>
-:root{color-scheme:dark;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;--bg:#0b1018;--panel:#151f2d;--line:#2c3b50;--text:#edf3ff;--muted:#9baec8;--mint:#9edfc7}
-*{box-sizing:border-box}body{margin:0;min-height:100dvh;color:var(--text);background:radial-gradient(ellipse at 50% -10%,#263650 0,var(--bg) 60%)}
-main{width:min(100%,620px);margin:auto;padding:max(20px,env(safe-area-inset-top)) 16px max(26px,env(safe-area-inset-bottom))}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;gap:12px}.brand{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#b8c8df}
-.tag{border:1px solid var(--line);border-radius:99px;padding:7px 10px;color:var(--muted);font-size:11px}
-h1{font-size:clamp(34px,9vw,48px);line-height:.98;letter-spacing:-.05em;margin:0 0 12px}.intro{font-size:14px;line-height:1.55;color:var(--muted);margin:0 0 22px}
-.panel{background:linear-gradient(145deg,#192434f2,#121a27f2);border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:13px;box-shadow:0 16px 42px #0003}
-.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}h2{font-size:14px;margin:0}
-.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:#69788e}.dot.live{background:#4bd69a;box-shadow:0 0 0 4px #4bd69a20}
-.actions,.link-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}button{border:0;border-radius:12px;padding:13px 10px;font:inherit;font-size:13px;font-weight:750;cursor:pointer;color:#0d1820;background:var(--mint)}
+:root{color-scheme:dark;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;--bg:#0b1018;--panel:#151f2d;--line:#2c3b50;--text:#edf3ff;--muted:#9baec8;--mint:#9edfc7}
+*{box-sizing:border-box}body{margin:0;min-height:100dvh;color:var(--text);background:radial-gradient(ellipse at 50% -10%,#263650 0,var(--bg) 62%)}
+main{width:min(1220px,100%);margin:auto;padding:max(10px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:12px}.brand{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:850;color:#c4d2e7}
+.tag{border:1px solid var(--line);border-radius:99px;padding:6px 10px;color:var(--muted);font-size:10px;white-space:nowrap}
+h1{font-size:clamp(23px,3vw,34px);line-height:1;letter-spacing:-.04em;margin:8px 0}.intro{font-size:12px;line-height:1.45;color:var(--muted);margin:0 0 10px;max-width:780px}
+.layout{display:grid;grid-template-columns:1fr;gap:10px}.stack{display:grid;gap:10px;align-content:start}
+.panel{min-width:0;background:linear-gradient(145deg,#192434f2,#121a27f2);border:1px solid var(--line);border-radius:16px;padding:12px;margin:0;box-shadow:0 12px 30px #0003}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}h2{font-size:13px;margin:0}
+.status{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:11px;white-space:nowrap}.dot{width:7px;height:7px;border-radius:50%;background:#69788e;flex:none}.dot.live{background:#4bd69a;box-shadow:0 0 0 4px #4bd69a20}
+.actions,.link-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+button{border:0;border-radius:10px;padding:10px 9px;font:inherit;font-size:12px;font-weight:800;cursor:pointer;color:#0d1820;background:var(--mint)}
 button.secondary{background:#26364b;border:1px solid #40536d;color:#e7effc}button:disabled{opacity:.42;cursor:not-allowed}
-.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}.metric{min-width:0;border:1px solid #29384d;background:#101824;border-radius:13px;padding:11px 9px}
-.metric span{display:block;color:#8fa3bf;font-size:10px;margin-bottom:6px}.metric strong{display:block;font-size:clamp(20px,6vw,27px);font-variant-numeric:tabular-nums;white-space:nowrap}.metric small{display:block;color:#71839e;font-size:10px;margin-top:2px}
-.field{display:block;color:var(--muted);font-size:12px;margin-top:12px}.field input{display:block;width:100%;margin-top:6px;border:1px solid #3a4b64;border-radius:11px;background:#0d1521;color:var(--text);font:inherit;font-size:16px;padding:12px;outline:none}
-input:focus{border-color:var(--mint)!important}.link-actions{margin-top:12px}
-.setting{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #29384b;color:#dce7f7;font-size:13px}.setting:last-child{border:0;padding-bottom:2px}
-.setting small{display:block;color:#8498b4;font-size:11px;margin-top:3px}.switch{appearance:none;width:42px;height:24px;flex:0 0 42px;border-radius:99px;background:#34445b;position:relative;cursor:pointer}
-.switch:before{content:"";position:absolute;width:18px;height:18px;top:3px;left:3px;border-radius:50%;background:#d8e2f1;transition:.18s}.switch:checked{background:#4d9d83}.switch:checked:before{transform:translateX(18px);background:white}
-.range-row{padding:12px 0;border-bottom:1px solid #29384b}.range-row:last-child{border:0;padding-bottom:2px}.range-head{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#dce7f7}.range-head output{color:var(--mint);font-variant-numeric:tabular-nums}
-input[type=range]{width:100%;margin:12px 0 0;accent-color:var(--mint)}.note{color:#91a4be;font-size:11px;line-height:1.55;margin:13px 2px 0}.note b{color:#dbe8f9}
-.status-line{color:#b4c3d8;font-size:12px;line-height:1.5;margin-top:12px;overflow-wrap:anywhere}.log{color:#71849f;font-size:10px;line-height:1.5;margin-top:10px;overflow-wrap:anywhere}
-@media(max-width:380px){main{padding-left:12px;padding-right:12px}.panel{padding:13px}.tag{font-size:10px}}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:8px}.metric{min-width:0;border:1px solid #29384d;background:#101824;border-radius:11px;padding:8px}
+.metric span{display:block;color:#8fa3bf;font-size:9px;margin-bottom:4px}.metric strong{display:block;font-size:clamp(17px,2.4vw,23px);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.metric small{display:block;color:#71839e;font-size:9px;margin-top:1px}
+.field{display:block;color:var(--muted);font-size:11px;margin-top:9px}.field input{display:block;width:100%;margin-top:5px;border:1px solid #3a4b64;border-radius:10px;background:#0d1521;color:var(--text);font:inherit;font-size:14px;padding:9px;outline:none}
+input:focus{border-color:var(--mint)!important}.link-actions{margin-top:9px}
+.setting{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #29384b;color:#dce7f7;font-size:11px}
+.setting:last-child{border:0}.setting small{display:block;color:#8498b4;font-size:10px;margin-top:2px}
+.switch{appearance:none;width:38px;height:22px;flex:0 0 38px;border-radius:99px;background:#34445b;position:relative;cursor:pointer;margin:0}
+.switch:before{content:"";position:absolute;width:16px;height:16px;top:3px;left:3px;border-radius:50%;background:#d8e2f1;transition:.18s}.switch:checked{background:#4d9d83}.switch:checked:before{transform:translateX(16px);background:white}
+.range-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.range-row{min-width:0;padding:8px 0;border-bottom:1px solid #29384b}.range-head{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:#dce7f7}.range-head output{color:var(--mint);font-variant-numeric:tabular-nums;white-space:nowrap}
+input[type=range]{width:100%;margin:8px 0 0;accent-color:var(--mint);display:block}.note{color:#91a4be;font-size:10px;line-height:1.45;margin:9px 1px 0}.note b{color:#dbe8f9}
+.status-line{color:#b4c3d8;font-size:11px;line-height:1.45;margin-top:9px;overflow-wrap:anywhere;min-height:14px}.log{color:#71849f;font-size:9px;line-height:1.4;margin-top:8px;overflow-wrap:anywhere}
+.rotate-prompt{display:none}
+@media (orientation:landscape) and (min-width:650px){main{height:100dvh;overflow:auto;padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(8px,env(safe-area-inset-bottom))}.layout{grid-template-columns:1fr 1fr;gap:10px}.panel{padding:10px}.stack{gap:9px}}
+@media (orientation:portrait){.rotate-prompt{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;background:#0b1018f7}.rotate-card{max-width:310px;border:1px solid var(--line);border-radius:18px;background:#151f2d;padding:22px}.rotate-icon{font-size:36px;margin-bottom:10px}.rotate-card strong{display:block;font-size:18px;margin-bottom:8px}.rotate-card p{color:var(--muted);font-size:13px;line-height:1.5;margin:0}}
+@media(max-height:520px) and (orientation:landscape){main{padding-left:10px;padding-right:10px}.panel{padding:8px;border-radius:13px}.intro{font-size:11px;margin-bottom:7px}.metric{padding:6px}.metric strong{font-size:16px}.setting{padding:6px 0}.range-row{padding:6px 0}}
 </style>
 </head>
 <body><main>
-<header><div class="brand">◉ &nbsp; MOBILE CAMERA</div><div class="tag">Android · local Wi-Fi</div></header>
-<h1>Телефон<br>как игровая камера</h1>
-<p class="intro">Подключи Android к компьютеру и управляй обзором Minecraft движением телефона. Держи телефон горизонтально, экраном к себе, верхним краем вперёд.</p>
+<header><div class="brand">◉ &nbsp; MOBILE CAMERA</div><div class="tag">Android · local Wi-Fi · landscape</div></header>
+<h1>Телефон — игровая камера</h1>
+<p class="intro">Держи телефон горизонтально, экраном к себе, верхним краем вперёд. Управляй поворотом, наклоном, roll, zoom и высотой взгляда в Minecraft.</p>
 
+<div class="layout"><div class="stack left">
 <section class="panel">
 <div class="panel-head"><h2>1. Датчики телефона</h2><div class="status"><i id="sensorDot" class="dot"></i><span id="sensorStatus">Ожидание</span></div></div>
 <div class="actions"><button id="start">Запустить датчики</button><button id="calibrate" class="secondary" disabled>Калибровать</button></div>
 <div class="metrics">
-<div class="metric"><span>ПОВОРОТ</span><strong id="yaw">—</strong><small>влево / вправо</small></div>
-<div class="metric"><span>НАКЛОН</span><strong id="pitch">—</strong><small>вверх / вниз</small></div>
-<div class="metric"><span>СЫРОЙ γ</span><strong id="gamma">—</strong><small>диагностика</small></div>
+<div class="metric"><span>YAW · ПОВОРОТ</span><strong id="yaw">—</strong><small>влево / вправо</small></div>
+<div class="metric"><span>PITCH · НАКЛОН</span><strong id="pitch">—</strong><small>вверх / вниз</small></div>
+<div class="metric"><span>ROLL · ЗАВАЛ</span><strong id="roll">—</strong><small>вокруг оси взгляда</small></div>
+</div>
+<div class="metrics">
+<div class="metric"><span>RAW ALPHA</span><strong id="alpha">—</strong><small>ось Z</small></div>
+<div class="metric"><span>RAW BETA</span><strong id="beta">—</strong><small>ось X</small></div>
+<div class="metric"><span>RAW GAMMA</span><strong id="gamma">—</strong><small>ось Y</small></div>
 </div>
 <div class="status-line" id="sensorHint">Нажми «Запустить датчики» и разреши доступ, если Chrome спросит.</div>
 </section>
@@ -51,26 +63,38 @@ input[type=range]{width:100%;margin:12px 0 0;accent-color:var(--mint)}.note{colo
 <div class="link-actions"><button id="connect">Подключиться</button><button id="disconnect" class="secondary" disabled>Отключиться</button></div>
 <div class="status-line" id="sentStatus">Сначала запусти мод в Minecraft, затем подключись к IP компьютера.</div>
 </section>
+</div>
+<div class="stack right">
 
 <section class="panel">
-<div class="panel-head"><h2>3. Управление</h2><span class="tag">сохраняется на телефоне</span></div>
-<div class="setting"><div>Инвертировать поворот<small>Меняет направление влево / вправо</small></div><input class="switch" id="invertYaw" type="checkbox"></div>
-<div class="setting"><div>Инвертировать наклон<small>Меняет направление вверх / вниз</small></div><input class="switch" id="invertPitch" type="checkbox"></div>
-<div class="range-row"><div class="range-head"><label for="yawGain">Чувствительность поворота</label><output id="yawGainValue">1.00×</output></div><input id="yawGain" type="range" min="0.1" max="3" step="0.05" value="1"></div>
-<div class="range-row"><div class="range-head"><label for="pitchGain">Чувствительность наклона</label><output id="pitchGainValue">1.00×</output></div><input id="pitchGain" type="range" min="0.1" max="3" step="0.05" value="1"></div>
+<div class="panel-head"><h2>3. Управление и камера</h2><span class="tag">сохраняется на телефоне</span></div>
+<div class="setting"><div>Инвертировать YAW<small>Направление влево / вправо</small></div><input class="switch" id="invertYaw" type="checkbox"></div>
+<div class="setting"><div>Инвертировать PITCH<small>Направление вверх / вниз</small></div><input class="switch" id="invertPitch" type="checkbox"></div>
+<div class="setting"><div>Инвертировать ROLL<small>Направление завала камеры</small></div><input class="switch" id="invertRoll" type="checkbox"></div>
+<div class="range-grid">
+<div class="range-row"><div class="range-head"><label for="yawGain">Чувствительность YAW</label><output id="yawGainValue">1.00×</output></div><input id="yawGain" type="range" min="0.1" max="3" step="0.05" value="1"></div>
+<div class="range-row"><div class="range-head"><label for="pitchGain">Чувствительность PITCH</label><output id="pitchGainValue">1.00×</output></div><input id="pitchGain" type="range" min="0.1" max="3" step="0.05" value="1"></div>
+<div class="range-row"><div class="range-head"><label for="rollGain">Чувствительность ROLL</label><output id="rollGainValue">1.00×</output></div><input id="rollGain" type="range" min="0.1" max="3" step="0.05" value="1"></div>
 <div class="range-row"><div class="range-head"><label for="smooth">Сглаживание</label><output id="smoothValue">35%</output></div><input id="smooth" type="range" min="0" max="90" step="5" value="35"></div>
-<p class="note">После изменения хвата или поворота экрана нажми «Калибровать» ещё раз.</p>
+</div>
+<div class="range-row"><div class="range-head"><label for="zoom">Zoom камеры в игре</label><output id="zoomValue">1.0×</output></div><input id="zoom" type="range" min="1" max="4" step="0.1" value="1"></div>
+<div class="range-row"><div class="range-head"><label for="cameraHeight">Высота / подглядывание</label><output id="cameraHeightValue">0.00 блока</output></div><input id="cameraHeight" type="range" min="-0.4" max="0.6" step="0.02" value="0"></div>
+<p class="note">Высота сдвигает только изображение на клиенте, не перемещая тело игрока. При взаимодействии верни слайдер к 0.00.</p>
 </section>
+</div></div>
 <p class="note"><b>Как запустить:</b><br>1. Запусти Minecraft с модом Mobile Camera.<br>2. Узнай LAN IPv4 компьютера и введи его выше.<br>3. Подключись, запусти датчики и откалибруй телефон в нейтральном положении.<br>4. В игре введи <b>/mobilecamera</b> и подстрой чувствительность.</p>
-<div class="log" id="log">Mobile Camera · WebSocket /camera · port 8765</div>
+<div class="log" id="log">Mobile Camera · WebSocket /camera · port 8765 · YAW / PITCH / ROLL</div>
 </main>
+<div class="rotate-prompt"><div class="rotate-card"><div class="rotate-icon">↻</div><strong>Поверни телефон горизонтально</strong><p>Интерфейс контроллера рассчитан на альбомную ориентацию. После поворота запусти датчики.</p></div></div>
 <script>
 (() => {
 const $=id=>document.getElementById(id);
-const settings={invertYaw:false,invertPitch:false,yawGain:1,pitchGain:1,smooth:35};
+const defaults={invertYaw:false,invertPitch:false,invertRoll:false,yawGain:1,pitchGain:1,rollGain:1,smooth:35,zoom:1,cameraHeight:0};
+const settings={...defaults};
 try{Object.assign(settings,JSON.parse(localStorage.getItem('mobile-camera-settings')||'{}'))}catch{}
+Object.assign(settings,JSON.parse(localStorage.getItem('mobile-camera-settings')||'{}'));
 for(const key of Object.keys(settings)){if($(key).type==='checkbox')$(key).checked=!!settings[key];else $(key).value=String(settings[key])}
-let latestQ=null,neutralQ=null,socket=null,sensorRunning=false,lastSentAt=0,smoothYaw=0,smoothPitch=0,sentCount=0;
+let latestQ=null,neutralQ=null,socket=null,sensorRunning=false,lastSentAt=0,lastSensorAt=0,smoothYaw=0,smoothPitch=0,smoothRoll=0,sentCount=0;
 const fmt=n=>(n>=0?'+':'')+n.toFixed(1)+'°';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const wrap=v=>((v+180)%360+360)%360-180;
@@ -79,8 +103,10 @@ const inv=q=>[-q[0],-q[1],-q[2],q[3]];
 const rot=(q,v)=>mul(mul(q,[v[0],v[1],v[2],0]),inv(q)).slice(0,3);
 const axis=(x,y,z,a)=>{const s=Math.sin(a/2);return[x*s,y*s,z*s,Math.cos(a/2)]};
 function orientationQ(e){
-const r=Math.PI/180,a=(e.alpha||0)*r,b=(e.beta||0)*r,g=(e.gamma||0)*r,screenAngle=(screen.orientation?.angle??window.orientation??0)*r;
-return mul(mul(mul(axis(0,0,1,a),axis(1,0,0,b)),axis(0,1,0,g)),axis(0,0,1,-screenAngle));
+const r=Math.PI/180,a=(e.alpha||0)*r,b=(e.beta||0)*r,g=(e.gamma||0)*r;
+// DeviceOrientation axes stay in their standard device frame in landscape too.
+// axes() maps that frame to the chosen landscape grip; don't rotate it twice.
+return mul(mul(axis(0,0,1,a),axis(1,0,0,b)),axis(0,1,0,g));
 }
 function axes(){
 const f=[0,1,0];
@@ -89,32 +115,56 @@ const up=cross([0,0,1],f),right=cross(f,up);return{f,up,right};
 }
 function relativeAngles(){
 if(!latestQ||!neutralQ)return null;
-const q=mul(inv(neutralQ),latestQ),a=axes(),v=rot(q,a.f),dot=(u,w)=>u[0]*w[0]+u[1]*w[1]+u[2]*w[2];
-return{yaw:Math.atan2(dot(v,a.right),dot(v,a.f))*180/Math.PI,pitch:Math.asin(clamp(dot(v,a.up),-1,1))*180/Math.PI};
+const q=mul(inv(neutralQ),latestQ),a=axes();
+const norm=v=>{const n=Math.hypot(...v);return n<1e-8?null:v.map(x=>x/n)};
+const forward=norm(rot(q,a.f));if(!forward)return null;
+const yaw=Math.atan2(dot(forward,a.right),dot(forward,a.f))*180/Math.PI;
+const pitch=Math.asin(clamp(dot(forward,a.up),-1,1))*180/Math.PI;
+const rotatedUp=rot(q,a.up);
+const referenceUp=norm(a.up.map((v,i)=>v-forward[i]*dot(a.up,forward)));
+const currentUp=norm(rotatedUp.map((v,i)=>v-forward[i]*dot(rotatedUp,forward)));
+let roll=0;
+if(referenceUp&&currentUp)roll=Math.atan2(dot(forward,cross(referenceUp,currentUp)),dot(referenceUp,currentUp))*180/Math.PI;
+return{yaw:wrap(yaw),pitch,roll:wrap(roll)};
+}
+function sendPacket(){
+if(socket?.readyState!==WebSocket.OPEN)return;
+socket.send(JSON.stringify({type:'orientation',yaw:Number(smoothYaw.toFixed(2)),pitch:Number(smoothPitch.toFixed(2)),roll:Number(smoothRoll.toFixed(2)),zoom:Number(settings.zoom.toFixed(2)),cameraHeight:Number(settings.cameraHeight.toFixed(2)),timestamp:Date.now()}));
+lastSentAt=performance.now();
 }
 function persist(){
 for(const key of Object.keys(settings))settings[key]=$(key).type==='checkbox'?$(key).checked:Number($(key).value);
 localStorage.setItem('mobile-camera-settings',JSON.stringify(settings));
-$('yawGainValue').textContent=settings.yawGain.toFixed(2)+'×';$('pitchGainValue').textContent=settings.pitchGain.toFixed(2)+'×';$('smoothValue').textContent=settings.smooth+'%';
+$('yawGainValue').textContent=settings.yawGain.toFixed(2)+'×';$('pitchGainValue').textContent=settings.pitchGain.toFixed(2)+'×';$('rollGainValue').textContent=settings.rollGain.toFixed(2)+'×';$('smoothValue').textContent=settings.smooth+'%';
+$('zoomValue').textContent=settings.zoom.toFixed(1)+'×';$('cameraHeightValue').textContent=(settings.cameraHeight>=0?'+':'')+settings.cameraHeight.toFixed(2)+' блока';
+sendPacket();
 }
 function onOrientation(e){
 if(e.alpha==null||e.beta==null||e.gamma==null){$('sensorHint').textContent='Браузер прислал неполные данные датчика.';return}
 latestQ=orientationQ(e);if(!neutralQ)neutralQ=latestQ;
-$('gamma').textContent=fmt(e.gamma);$('sensorDot').classList.add('live');$('sensorStatus').textContent='Датчики работают';
+$('alpha').textContent=fmt(e.alpha);$('beta').textContent=fmt(e.beta);$('gamma').textContent=fmt(e.gamma);
+$('sensorDot').classList.add('live');$('sensorStatus').textContent='Датчики работают';
 const ang=relativeAngles();if(!ang)return;
-const ty=wrap(ang.yaw)*settings.yawGain*(settings.invertYaw?-1:1),tp=ang.pitch*settings.pitchGain*(settings.invertPitch?-1:1);
-$('yaw').textContent=fmt(ty);$('pitch').textContent=fmt(tp);
-const now=performance.now(),dt=now-lastSentAt;
-if(dt>0){const s=settings.smooth/100,k=s===0?1:1-Math.pow(s,dt/16.67);smoothYaw=wrap(smoothYaw+wrap(ty-smoothYaw)*k);smoothPitch+= (tp-smoothPitch)*k}
-if(socket?.readyState===WebSocket.OPEN&&now-lastSentAt>=33){
-lastSentAt=now;socket.send(JSON.stringify({type:'orientation',yaw:Number(smoothYaw.toFixed(2)),pitch:Number(smoothPitch.toFixed(2)),roll:0,alpha:Number(e.alpha.toFixed(2)),beta:Number(e.beta.toFixed(2)),gamma:Number(e.gamma.toFixed(2)),timestamp:Date.now()}));
-if(++sentCount%15===0)$('sentStatus').textContent='Передача активна · поворот '+fmt(smoothYaw)+', наклон '+fmt(smoothPitch)+'.';
+const values={
+yaw:wrap(ang.yaw)*settings.yawGain*(settings.invertYaw?-1:1),
+pitch:wrap(ang.pitch)*settings.pitchGain*(settings.invertPitch?-1:1),
+roll:wrap(ang.roll)*settings.rollGain*(settings.invertRoll?-1:1)
+};
+$('yaw').textContent=fmt(values.yaw);$('pitch').textContent=fmt(values.pitch);$('roll').textContent=fmt(values.roll);
+const now=performance.now(),dt=lastSensorAt?Math.min(100,now-lastSensorAt):16.67;lastSensorAt=now;
+const s=settings.smooth/100,k=s===0?1:1-Math.pow(s,dt/16.67);
+smoothYaw=wrap(smoothYaw+wrap(values.yaw-smoothYaw)*k);
+smoothPitch=wrap(smoothPitch+wrap(values.pitch-smoothPitch)*k);
+smoothRoll=wrap(smoothRoll+wrap(values.roll-smoothRoll)*k);
+if(socket?.readyState===WebSocket.OPEN&&now-lastSentAt>=30){
+sendPacket();
+if(++sentCount%30===0)$('sentStatus').textContent='Передача активна · YAW '+fmt(smoothYaw)+', PITCH '+fmt(smoothPitch)+', ROLL '+fmt(smoothRoll)+'.';
 }
 }
 async function startSensors(){
 if(!('DeviceOrientationEvent'in window)){$('sensorStatus').textContent='Датчики недоступны';$('sensorHint').textContent='Открой страницу в актуальном Chrome на Android через HTTPS.';return}
 try{if(typeof DeviceOrientationEvent.requestPermission==='function'){const p=await DeviceOrientationEvent.requestPermission();if(p!=='granted')throw Error('Браузер не разрешил доступ к датчикам.')}
-window.addEventListener('deviceorientation',onOrientation,true);sensorRunning=true;$('start').disabled=true;$('calibrate').disabled=false;$('sensorStatus').textContent='Ожидаю данные…';$('sensorHint').textContent='Доступ разрешён. Подожди первое событие датчиков.';
+try{await screen.orientation?.lock?.('landscape')}catch{}\nwindow.addEventListener('deviceorientation',onOrientation,true);sensorRunning=true;$('start').disabled=true;$('calibrate').disabled=false;$('sensorStatus').textContent='Ожидаю данные…';$('sensorHint').textContent='Доступ разрешён. Подожди первое событие датчиков.';
 }catch(e){$('sensorStatus').textContent='Ошибка запуска';$('sensorHint').textContent=e.message||String(e)}
 }
 function connection(connected,message){$('wsDot').classList.toggle('live',connected);$('wsStatus').textContent=message;$('connect').disabled=connected;$('disconnect').disabled=!connected}
@@ -129,11 +179,11 @@ current.addEventListener('error',()=>{connection(false,'Не удалось по
 current.addEventListener('close',()=>{if(current===socket)connection(false,'Соединение закрыто')});
 }
 $('start').addEventListener('click',startSensors);
-$('calibrate').addEventListener('click',()=>{if(!latestQ)return;neutralQ=latestQ;smoothYaw=0;smoothPitch=0;$('yaw').textContent='+0.0°';$('pitch').textContent='+0.0°';$('sensorHint').textContent='Калибровка сохранена. Держи телефон в этом положении как нейтральном.';if(socket?.readyState===WebSocket.OPEN)socket.send(JSON.stringify({type:'orientation',yaw:0,pitch:0,roll:0,timestamp:Date.now()}))});
+$('calibrate').addEventListener('click',()=>{if(!latestQ)return;neutralQ=latestQ;smoothYaw=0;smoothPitch=0;smoothRoll=0;lastSensorAt=0;$('yaw').textContent='+0.0°';$('pitch').textContent='+0.0°';$('roll').textContent='+0.0°';$('sensorHint').textContent='Центр сохранён. Поворачивай телефон относительно этого положения.';sendPacket()});
 $('connect').addEventListener('click',connect);
 $('disconnect').addEventListener('click',()=>{socket?.close(1000,'Disconnected');socket=null;connection(false,'Не подключено');$('sentStatus').textContent='Передача остановлена.'});
 for(const key of Object.keys(settings))$(key).addEventListener('input',persist);
-$('yawGainValue').textContent=Number($('yawGain').value).toFixed(2)+'×';$('pitchGainValue').textContent=Number($('pitchGain').value).toFixed(2)+'×';$('smoothValue').textContent=$('smooth').value+'%';
+persist();
 window.addEventListener('pagehide',()=>socket?.close());
 })();
 </script></body></html>

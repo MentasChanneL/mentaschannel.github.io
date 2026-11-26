@@ -143,7 +143,8 @@ const referenceUp=norm(a.up.map((v,i)=>v-forward[i]*dot(a.up,forward)));
 const currentUp=norm(rotatedUp.map((v,i)=>v-forward[i]*dot(rotatedUp,forward)));
 let roll=0;
 if(referenceUp&&currentUp)roll=Math.atan2(dot(forward,cross(referenceUp,currentUp)),dot(referenceUp,currentUp))*180/Math.PI;
-return{yaw:wrap(yaw),pitch,roll:wrap(roll)};
+// Landscape grip correction: the device tilt and camera roll axes are exchanged.
+return{yaw:wrap(yaw),pitch:wrap(roll),roll:wrap(pitch)};
 }
 function sendPacket(){
 if(socket?.readyState!==WebSocket.OPEN)return;

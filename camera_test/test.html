@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#10141d">
-  <title>Shiver Camera — Sensor Test</title>
+  <title>Shiver Camera — Phone Link</title>
   <style>
     :root { color-scheme: dark; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
     * { box-sizing: border-box; }
@@ -34,16 +34,23 @@
     .bar-head { display:flex; justify-content:space-between; gap:12px; color:#aab8cf; font-size:12px; margin-bottom:9px; }
     input[type=range] { width:100%; accent-color:#9edfc7; }
     .log { margin-top:16px; color:#8394ad; font-size:11px; line-height:1.5; min-height:16px; overflow-wrap:anywhere; }
+    .link-panel { margin-top:14px; }
+    .field { display:block; margin-top:12px; color:#9fb0cb; font-size:12px; }
+    .field input { display:block; width:100%; margin-top:6px; border:1px solid #40516b; border-radius:11px; background:#101723; color:#eef3ff; font:inherit; font-size:16px; padding:12px; outline:none; }
+    .field input:focus { border-color:#9edfc7; }
+    .link-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+    .status-line { margin-top:12px; color:#b8c5d9; font-size:12px; overflow-wrap:anywhere; }
+    .status-line b { color:#9edfc7; }
   </style>
 </head>
 <body>
 <main>
   <div class="top">
     <div class="brand">Shiver Tools / Camera</div>
-    <div class="pill">Android sensor check</div>
+    <div class="pill">Android · Wi-Fi link</div>
   </div>
-  <h1>Проверка<br>гироскопа</h1>
-  <p class="sub">Подержи телефон горизонтально, как небольшую видеокамеру. Запусти датчики и медленно поверни телефон в разные стороны.</p>
+  <h1>Телефон<br>как камера</h1>
+  <p class="sub">Запусти датчики, подключись к компьютеру по Wi-Fi и двигай телефоном. Пока проверяем передачу ориентации; управление Minecraft подключим следующим шагом.</p>
 
   <section class="panel">
     <div class="status"><i id="dot" class="dot"></i><span id="status">Датчики не запущены</span></div>
@@ -63,7 +70,23 @@
     <div class="log" id="log">Ожидаю разрешения браузера и события deviceorientation.</div>
   </section>
 
-  <p class="help"><b>Как проверить:</b><br>1. Нажми «Запустить датчики» и разреши доступ, если Chrome спросит.<br>2. Поверни телефон влево/вправо, затем наклони вверх/вниз.<br>3. Нажми «Калибровать», чтобы принять текущее положение за ноль. Значения ниже будут показывать отклонение от него.</p>
+  <section class="panel link-panel">
+    <div class="status"><i id="wsDot" class="dot"></i><span id="wsStatus">Компьютер не подключён</span></div>
+    <label class="field">IP-адрес компьютера в Wi-Fi
+      <input id="host" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="Например, 192.168.1.100" value="">
+    </label>
+    <label class="field">Порт
+      <input id="port" inputmode="numeric" autocomplete="off" value="8765">
+    </label>
+    <div class="link-actions">
+      <button id="connect">Подключиться</button>
+      <button id="disconnect" class="secondary" disabled>Отключиться</button>
+    </div>
+    <div class="status-line" id="sentStatus">Данные ещё не отправляются.</div>
+    <p class="help">Сначала запусти Shiver Camera Bridge на компьютере. Chrome может отдельно спросить разрешение на доступ сайта к локальной сети — разреши его.</p>
+  </section>
+
+  <p class="help"><b>Как проверить:</b><br>1. Запусти Bridge на компьютере и узнай его IPv4-адрес Wi-Fi.<br>2. Введи этот адрес выше и нажми «Подключиться».<br>3. Запусти датчики, откалибруй телефон и двигай им. На компьютере должны появляться значения углов.</p>
 </main>
 <script>
 (() => {
@@ -75,33 +98,80 @@
   const calibrate = $('calibrate');
   const gain = $('gain');
   const gainLabel = $('gainLabel');
+  const wsDot = $('wsDot');
+  const wsStatus = $('wsStatus');
+  const sentStatus = $('sentStatus');
+  const connectButton = $('connect');
+  const disconnectButton = $('disconnect');
   let running = false;
   let latest = null;
   let neutral = null;
+  let socket = null;
+  let lastSentAt = 0;
+  let sentCount = 0;
 
   const wrap = (value) => ((value + 180) % 360 + 360) % 360 - 180;
   const fmt = (value) => Number.isFinite(value) ? `${value >= 0 ? '+' : ''}${value.toFixed(1)}°` : '—';
+  const relative = () => {
+    if (!latest || !neutral) return null;
+    const multiplier = Number(gain.value);
+    return {
+      yaw: wrap(latest.alpha - neutral.alpha) * multiplier,
+      pitch: wrap(latest.beta - neutral.beta) * multiplier,
+      roll: wrap(latest.gamma - neutral.gamma) * multiplier
+    };
+  };
+
+  function updateConnectionUi(connected, message) {
+    wsDot.classList.toggle('live', connected);
+    wsStatus.textContent = message;
+    connectButton.disabled = connected;
+    disconnectButton.disabled = !connected;
+  }
 
   function onOrientation(event) {
     if (event.alpha == null || event.beta == null || event.gamma == null) {
-      log.textContent = 'Браузер прислал неполные данные датчика. Попробуй повернуть/разблокировать экран или другой режим удержания.';
+      log.textContent = 'Браузер прислал неполные данные датчика. Попробуй изменить положение телефона.';
       return;
     }
     latest = { alpha: event.alpha, beta: event.beta, gamma: event.gamma };
     if (!neutral) neutral = { ...latest };
-    const multiplier = Number(gain.value);
-    $('alpha').textContent = fmt(wrap(latest.alpha - neutral.alpha) * multiplier);
-    $('beta').textContent = fmt(wrap(latest.beta - neutral.beta) * multiplier);
-    $('gamma').textContent = fmt(wrap(latest.gamma - neutral.gamma) * multiplier);
+    const delta = relative();
+    $('alpha').textContent = fmt(delta.yaw);
+    $('beta').textContent = fmt(delta.pitch);
+    $('gamma').textContent = fmt(delta.roll);
     dot.classList.add('live');
     status.textContent = event.absolute ? 'Датчики работают · абсолютная ориентация' : 'Датчики работают';
     log.textContent = `Последнее событие: ${new Date().toLocaleTimeString()} · absolute=${event.absolute}`;
+
+    const now = performance.now();
+    if (socket?.readyState === WebSocket.OPEN && delta && now - lastSentAt >= 33) {
+      lastSentAt = now;
+      const payload = {
+        type: 'orientation',
+        yaw: Number(delta.yaw.toFixed(2)),
+        pitch: Number(delta.pitch.toFixed(2)),
+        roll: Number(delta.roll.toFixed(2)),
+        alpha: Number(latest.alpha.toFixed(2)),
+        beta: Number(latest.beta.toFixed(2)),
+        gamma: Number(latest.gamma.toFixed(2)),
+        absolute: Boolean(event.absolute),
+        timestamp: Date.now()
+      };
+      try {
+        socket.send(JSON.stringify(payload));
+        sentCount++;
+        if (sentCount % 10 === 0) sentStatus.textContent = `Отправляются углы: yaw ${fmt(delta.yaw)}, pitch ${fmt(delta.pitch)}, roll ${fmt(delta.roll)}.`;
+      } catch (error) {
+        sentStatus.textContent = `Ошибка отправки: ${error.message || error}`;
+      }
+    }
   }
 
   async function begin() {
     if (!('DeviceOrientationEvent' in window)) {
       status.textContent = 'DeviceOrientation API недоступен';
-      log.textContent = 'Открой страницу в актуальном Chrome на Android и убедись, что она загружена через HTTPS.';
+      log.textContent = 'Открой страницу в актуальном Chrome на Android через HTTPS.';
       return;
     }
     try {
@@ -111,7 +181,7 @@
       }
       window.addEventListener('deviceorientation', onOrientation, true);
       running = true;
-      neutral = null;
+      neutral = latest ? { ...latest } : null;
       start.disabled = true;
       calibrate.disabled = false;
       status.textContent = 'Ожидаю данные датчиков…';
@@ -122,6 +192,48 @@
     }
   }
 
+  function connect() {
+    const host = $('host').value.trim();
+    const portText = $('port').value.trim();
+    const port = Number(portText);
+    if (!host || !/^[a-zA-Z0-9.-]+$/.test(host) || !Number.isInteger(port) || port < 1 || port > 65535) {
+      updateConnectionUi(false, 'Проверь IP-адрес и порт.');
+      return;
+    }
+    if (socket) socket.close();
+    updateConnectionUi(false, `Подключаюсь к ${host}:${port}…`);
+    sentStatus.textContent = 'Ожидаю соединение…';
+    const currentSocket = new WebSocket(`ws://${host}:${port}/camera`);
+    socket = currentSocket;
+    let connectionFailed = false;
+    currentSocket.addEventListener('open', () => {
+      updateConnectionUi(true, `Подключено к ${host}:${port}`);
+      sentStatus.textContent = running ? 'Соединение готово. Двигаай телефоном.' : 'Соединение готово. Теперь запусти датчики.';
+    });
+    currentSocket.addEventListener('message', (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === 'hello') sentStatus.textContent = data.message || 'Компьютер принял подключение.';
+      } catch { /* Ignore non-JSON bridge messages. */ }
+    });
+    currentSocket.addEventListener('error', () => {
+      connectionFailed = true;
+      updateConnectionUi(false, 'Не удалось подключиться. Проверь IP, порт и брандмауэр.');
+      sentStatus.textContent = 'Chrome также мог заблокировать доступ к локальной сети.';
+    });
+    currentSocket.addEventListener('close', () => {
+      if (currentSocket !== socket) return;
+      if (!connectionFailed) updateConnectionUi(false, 'Соединение закрыто');
+    });
+  }
+
+  function disconnect() {
+    if (socket) socket.close(1000, 'Disconnected by user');
+    socket = null;
+    updateConnectionUi(false, 'Компьютер не подключён');
+    sentStatus.textContent = 'Передача остановлена.';
+  }
+
   start.addEventListener('click', begin);
   calibrate.addEventListener('click', () => {
     if (!latest) return;
@@ -129,12 +241,16 @@
     $('alpha').textContent = '+0.0°';
     $('beta').textContent = '+0.0°';
     $('gamma').textContent = '+0.0°';
+    sentStatus.textContent = 'Калибровка сохранена. Данные идут относительно текущего положения.';
     log.textContent = 'Нейтральное положение сохранено.';
   });
   gain.addEventListener('input', () => {
     gainLabel.textContent = `${Number(gain.value).toFixed(2).replace(/0+$/, '').replace(/\.$/, '')}×`;
     if (latest && neutral) onOrientation({ ...latest, absolute: false });
   });
+  connectButton.addEventListener('click', connect);
+  disconnectButton.addEventListener('click', disconnect);
+  window.addEventListener('pagehide', () => socket?.close());
 })();
 </script>
 </body>

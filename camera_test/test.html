@@ -29,6 +29,7 @@ input:focus{border-color:var(--mint)!important}.link-actions{margin-top:9px}
 input[type=range]{width:100%;margin:8px 0 0;accent-color:var(--mint);display:block}.note{color:#91a4be;font-size:10px;line-height:1.45;margin:9px 1px 0}.note b{color:#dbe8f9}
 .status-line{color:#b4c3d8;font-size:11px;line-height:1.45;margin-top:9px;overflow-wrap:anywhere;min-height:14px}.log{color:#71849f;font-size:9px;line-height:1.4;margin-top:8px;overflow-wrap:anywhere}
 .rotate-prompt{display:none}
+.rotate-prompt.dismissed{display:none!important}
 @media (orientation:landscape) and (min-width:650px){main{height:100dvh;overflow:auto;padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(8px,env(safe-area-inset-bottom))}.layout{grid-template-columns:1fr 1fr;gap:10px}.panel{padding:10px}.stack{gap:9px}}
 @media (orientation:portrait){.rotate-prompt{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;background:#0b1018f7}.rotate-card{max-width:310px;border:1px solid var(--line);border-radius:18px;background:#151f2d;padding:22px}.rotate-icon{font-size:36px;margin-bottom:10px}.rotate-card strong{display:block;font-size:18px;margin-bottom:8px}.rotate-card p{color:var(--muted);font-size:13px;line-height:1.5;margin:0}}
 @media(max-height:520px) and (orientation:landscape){main{padding-left:10px;padding-right:10px}.panel{padding:8px;border-radius:13px}.intro{font-size:11px;margin-bottom:7px}.metric{padding:6px}.metric strong{font-size:16px}.setting{padding:6px 0}.range-row{padding:6px 0}}
@@ -86,10 +87,25 @@ input[type=range]{width:100%;margin:8px 0 0;accent-color:var(--mint);display:blo
 <p class="note"><b>Как запустить:</b><br>1. Запусти Minecraft с модом Mobile Camera.<br>2. Узнай LAN IPv4 компьютера и введи его выше.<br>3. Подключись, запусти датчики и откалибруй телефон в нейтральном положении.<br>4. В игре введи <b>/mobilecamera</b> и подстрой чувствительность.</p>
 <div class="log" id="log">Mobile Camera · WebSocket /camera · port 8765 · YAW / PITCH / ROLL</div>
 </main>
-<div class="rotate-prompt"><div class="rotate-card"><div class="rotate-icon">↻</div><strong>Поверни телефон горизонтально</strong><p>Интерфейс контроллера рассчитан на альбомную ориентацию. После поворота запусти датчики.</p></div></div>
+<div class="rotate-prompt" id="rotatePrompt"><div class="rotate-card"><div class="rotate-icon">↻</div><strong>Поверни телефон горизонтально</strong><p>Интерфейс рассчитан на альбомную ориентацию. Поверни экран или продолжи вручную, если браузер неправильно определяет положение.</p><button id="continueAnyway" type="button" style="width:100%;margin-top:14px">Продолжить в любом случае</button></div></div>
 <script>
 (() => {
 const $=id=>document.getElementById(id);
+const rotatePrompt=$('rotatePrompt');
+let promptDismissed=false;
+function syncOrientationPrompt(){
+ const landscape=window.matchMedia('(orientation: landscape)').matches || window.innerWidth>window.innerHeight;
+ if(landscape) rotatePrompt.classList.add('dismissed');
+ else if(!promptDismissed) rotatePrompt.classList.remove('dismissed');
+}
+$('continueAnyway').addEventListener('click',()=>{
+ promptDismissed=true;
+ rotatePrompt.classList.add('dismissed');
+});
+window.addEventListener('resize',syncOrientationPrompt);
+window.addEventListener('orientationchange',syncOrientationPrompt);
+if(screen.orientation?.addEventListener)screen.orientation.addEventListener('change',syncOrientationPrompt);
+syncOrientationPrompt();
 const defaults={invertYaw:false,invertPitch:false,invertRoll:false,yawGain:1,pitchGain:1,rollGain:1,smooth:35,zoom:1,cameraHeight:0};
 const settings={...defaults};
 try{Object.assign(settings,JSON.parse(localStorage.getItem('mobile-camera-settings')||'{}'))}catch{}

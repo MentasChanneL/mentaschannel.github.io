@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#10141d">
+  <title>Shiver Camera — Sensor Test</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100dvh; background: radial-gradient(ellipse at top, #202b40 0, #10141d 58%); color: #eef3ff; }
+    main { width: min(100%, 560px); margin: 0 auto; padding: max(22px, env(safe-area-inset-top)) 18px max(24px, env(safe-area-inset-bottom)); }
+    .top { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:22px; }
+    .brand { font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#9fb0cb; font-weight:700; }
+    .pill { border:1px solid #35445c; border-radius:999px; padding:6px 10px; font-size:12px; color:#b9c9e2; }
+    h1 { font-size: clamp(29px, 8vw, 42px); line-height:1.04; margin:0 0 10px; letter-spacing:-.04em; }
+    .sub { margin:0 0 24px; color:#aab8cf; line-height:1.5; font-size:14px; }
+    .panel { background:rgba(25,33,47,.88); border:1px solid #2c394e; border-radius:20px; padding:16px; box-shadow:0 14px 40px #0003; }
+    .status { display:flex; align-items:center; gap:9px; font-size:13px; color:#b8c5d9; margin-bottom:14px; }
+    .dot { width:9px; height:9px; border-radius:50%; background:#67758c; box-shadow:0 0 0 4px #67758c22; }
+    .dot.live { background:#49d69a; box-shadow:0 0 0 4px #49d69a22; }
+    .actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    button { border:0; border-radius:13px; padding:14px 12px; font:inherit; font-weight:700; cursor:pointer; color:#0d1820; background:#9edfc7; }
+    button.secondary { background:#29384d; color:#e4edfc; border:1px solid #40516b; }
+    button:disabled { opacity:.45; cursor:not-allowed; }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-top:14px; }
+    .metric { min-width:0; border-radius:14px; background:#131b28; border:1px solid #28364b; padding:13px 10px; }
+    .metric span { display:block; font-size:11px; color:#92a4bf; margin-bottom:7px; }
+    .metric strong { display:block; font-size:clamp(21px, 6vw, 28px); font-variant-numeric:tabular-nums; letter-spacing:-.04em; }
+    .metric small { font-size:10px; color:#71839e; }
+    .help { margin:18px 2px 0; color:#9eacc2; font-size:12px; line-height:1.55; }
+    .help b { color:#dce7f8; }
+    .bar-wrap { margin-top:16px; }
+    .bar-head { display:flex; justify-content:space-between; gap:12px; color:#aab8cf; font-size:12px; margin-bottom:9px; }
+    input[type=range] { width:100%; accent-color:#9edfc7; }
+    .log { margin-top:16px; color:#8394ad; font-size:11px; line-height:1.5; min-height:16px; overflow-wrap:anywhere; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div class="brand">Shiver Tools / Camera</div>
+    <div class="pill">Android sensor check</div>
+  </div>
+  <h1>Проверка<br>гироскопа</h1>
+  <p class="sub">Подержи телефон горизонтально, как небольшую видеокамеру. Запусти датчики и медленно поверни телефон в разные стороны.</p>
+
+  <section class="panel">
+    <div class="status"><i id="dot" class="dot"></i><span id="status">Датчики не запущены</span></div>
+    <div class="actions">
+      <button id="start">Запустить датчики</button>
+      <button id="calibrate" class="secondary" disabled>Калибровать</button>
+    </div>
+    <div class="grid">
+      <div class="metric"><span>ALPHA · поворот</span><strong id="alpha">—</strong><small>градусы</small></div>
+      <div class="metric"><span>BETA · наклон</span><strong id="beta">—</strong><small>градусы</small></div>
+      <div class="metric"><span>GAMMA · крен</span><strong id="gamma">—</strong><small>градусы</small></div>
+    </div>
+    <div class="bar-wrap">
+      <div class="bar-head"><span>Чувствительность (только для отображения)</span><b id="gainLabel">1.0×</b></div>
+      <input id="gain" type="range" min="0.25" max="3" step="0.05" value="1">
+    </div>
+    <div class="log" id="log">Ожидаю разрешения браузера и события deviceorientation.</div>
+  </section>
+
+  <p class="help"><b>Как проверить:</b><br>1. Нажми «Запустить датчики» и разреши доступ, если Chrome спросит.<br>2. Поверни телефон влево/вправо, затем наклони вверх/вниз.<br>3. Нажми «Калибровать», чтобы принять текущее положение за ноль. Значения ниже будут показывать отклонение от него.</p>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const dot = $('dot');
+  const status = $('status');
+  const log = $('log');
+  const start = $('start');
+  const calibrate = $('calibrate');
+  const gain = $('gain');
+  const gainLabel = $('gainLabel');
+  let running = false;
+  let latest = null;
+  let neutral = null;
+
+  const wrap = (value) => ((value + 180) % 360 + 360) % 360 - 180;
+  const fmt = (value) => Number.isFinite(value) ? `${value >= 0 ? '+' : ''}${value.toFixed(1)}°` : '—';
+
+  function onOrientation(event) {
+    if (event.alpha == null || event.beta == null || event.gamma == null) {
+      log.textContent = 'Браузер прислал неполные данные датчика. Попробуй повернуть/разблокировать экран или другой режим удержания.';
+      return;
+    }
+    latest = { alpha: event.alpha, beta: event.beta, gamma: event.gamma };
+    if (!neutral) neutral = { ...latest };
+    const multiplier = Number(gain.value);
+    $('alpha').textContent = fmt(wrap(latest.alpha - neutral.alpha) * multiplier);
+    $('beta').textContent = fmt(wrap(latest.beta - neutral.beta) * multiplier);
+    $('gamma').textContent = fmt(wrap(latest.gamma - neutral.gamma) * multiplier);
+    dot.classList.add('live');
+    status.textContent = event.absolute ? 'Датчики работают · абсолютная ориентация' : 'Датчики работают';
+    log.textContent = `Последнее событие: ${new Date().toLocaleTimeString()} · absolute=${event.absolute}`;
+  }
+
+  async function begin() {
+    if (!('DeviceOrientationEvent' in window)) {
+      status.textContent = 'DeviceOrientation API недоступен';
+      log.textContent = 'Открой страницу в актуальном Chrome на Android и убедись, что она загружена через HTTPS.';
+      return;
+    }
+    try {
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        const permission = await DeviceOrientationEvent.requestPermission();
+        if (permission !== 'granted') throw new Error('Браузер не разрешил доступ к датчикам.');
+      }
+      window.addEventListener('deviceorientation', onOrientation, true);
+      running = true;
+      neutral = null;
+      start.disabled = true;
+      calibrate.disabled = false;
+      status.textContent = 'Ожидаю данные датчиков…';
+      log.textContent = 'Разрешение получено. Теперь медленно поверни телефон.';
+    } catch (error) {
+      status.textContent = 'Не удалось запустить датчики';
+      log.textContent = error?.message || String(error);
+    }
+  }
+
+  start.addEventListener('click', begin);
+  calibrate.addEventListener('click', () => {
+    if (!latest) return;
+    neutral = { ...latest };
+    $('alpha').textContent = '+0.0°';
+    $('beta').textContent = '+0.0°';
+    $('gamma').textContent = '+0.0°';
+    log.textContent = 'Нейтральное положение сохранено.';
+  });
+  gain.addEventListener('input', () => {
+    gainLabel.textContent = `${Number(gain.value).toFixed(2).replace(/0+$/, '').replace(/\.$/, '')}×`;
+    if (latest && neutral) onOrientation({ ...latest, absolute: false });
+  });
+})();
+</script>
+</body>
+</html>

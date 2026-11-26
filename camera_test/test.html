@@ -133,7 +133,9 @@ const up=cross([0,0,1],f),right=cross(f,up);return{f,up,right};
 }
 function relativeAngles(){
 if(!latestQ||!neutralQ)return null;
-// Both quaternions describe the device orientation in the world frame.\n// Apply the delta in that same frame so each axis is measured against the calibrated pose.\nconst q=mul(latestQ,inv(neutralQ)),a=axes();
+// Both quaternions describe the device orientation in the world frame.
+// Apply the delta in that same frame so each axis is measured against the calibrated pose.
+const q=mul(latestQ,inv(neutralQ)),a=axes();
 const dot=(u,v)=>u[0]*v[0]+u[1]*v[1]+u[2]*v[2];
 const cross=(u,v)=>[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
 const norm=v=>{const n=Math.hypot(...v);return n<1e-8?null:v.map(x=>x/n)};
